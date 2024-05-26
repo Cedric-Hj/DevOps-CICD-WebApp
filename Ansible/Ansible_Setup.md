@@ -12,6 +12,7 @@
 Due to limitations, copy to /home/ubuntu and then using the terminal
  ```sh
  mv /home/ubuntu/Devops_Project_Key_1.pem /opt/
+ chmod 400 /opt/Devops_Project_Key_1.pem
  ```
 
 3. Add Jenkins master and slave as hosts 
@@ -28,12 +29,12 @@ vim /opt/hosts
  Paste the following and change the private ip's before saving
 ```
 [Jenkins_Master]
-10.0.1.9
+10.0.1.176
 [Jenkins_Master:vars]
 ansible_user=ubuntu
 ansible_ssh_private_key_file=/opt/Devops_Project_Key_1.pem
 [Jenkins_Slave]
-10.0.1.73
+10.0.1.190
 [Jenkins_Slave:vars]
 ansible_user=ubuntu
 ansible_ssh_private_key_file=/opt/Devops_Project_Key_1.pem

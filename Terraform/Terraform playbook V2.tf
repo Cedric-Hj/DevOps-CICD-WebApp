@@ -63,6 +63,13 @@ resource "aws_security_group" "DCHJ_SG" {
     protocol    = "udp"                     # Protocol type
     cidr_blocks = ["0.0.0.0/0"]             # Allow traffic to any IP address
   }
+
+   egress {
+    from_port   = 22                        # Starting port
+    to_port     = 22                        # Ending port
+    protocol    = "tcp"                     # Protocol type
+    cidr_blocks = ["0.0.0.0/0"]             # Allow traffic to any IP address
+  }
 }
 
 # Define the AWS EC2 instance for the Jenkins server

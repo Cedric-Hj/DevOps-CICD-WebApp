@@ -13,15 +13,15 @@ provider "aws" {
 }
 
 # Use a data source to fetch the current public IP address of the machine running Terraform
-data "http" "my_ip" {
+data "http" "myip" {
   url = "http://ipinfo.io/ip" # This URL returns the public IP address
 }
 
 
 # Define a security group for the Jenkins server
-resource "aws_security_group" "jenkins_sg" {
-  name        = "jenkins_sg"                # Name of the security group
-  description = "Security group for Jenkins server allowing SSH and HTTP access" # Description of the security group
+resource "aws_security_group" "DCHJ_SG" {
+  name        = "DCHJ_SG"                # Name of the security group
+  description = "Security group for server allowing SSH and HTTP access" # Description of the security group
   vpc_id = aws_vpc.DCHJ_VPC_Fullstack_CICD.id
 
   # Ingress rule to allow SSH access (port 22) from your IP address
@@ -29,7 +29,7 @@ resource "aws_security_group" "jenkins_sg" {
     from_port   = 22                        # Starting port
     to_port     = 22                        # Ending port
     protocol    = "tcp"                     # Protocol type
-    cidr_blocks = ["${chomp(data.http.my_ip.body)}/32"] # CIDR block for your IP address
+    cidr_blocks = ["${chomp(data.http.myip.response_body)}/32"] # CIDR block for your IP address
   }
 
   # Ingress rule to allow HTTP access (port 8080) from your IP address
@@ -37,7 +37,7 @@ resource "aws_security_group" "jenkins_sg" {
     from_port   = 8080                      # Starting port
     to_port     = 8080                      # Ending port
     protocol    = "tcp"                     # Protocol type
-    cidr_blocks = ["${chomp(data.http.my_ip.body)}/32"] # CIDR block for your IP address
+    cidr_blocks = ["${chomp(data.http.myip.response_body)}/32"] # CIDR block for your IP address
   }
 
   # Egress rule to allow outbound HTTP traffic (port 80)
@@ -66,28 +66,30 @@ resource "aws_security_group" "jenkins_sg" {
 }
 
 # Define the AWS EC2 instance for the Jenkins server
-resource "aws_instance" "jenkins_server" {
-  ami           = "ami-0bb84b8ffd87024d8"   # Amazon Linux 2 AMI ID (update as needed)
+resource "aws_instance" "Servers" {
+  ami           = "ami-04b70fa74e45c3917"   # Amazon Linux 2 AMI ID (update as needed)
   instance_type = "t2.micro"                # Instance type eligible for free tier
   key_name      = "Devops_Project_Key_1"  # Key pair name for SSH access
-  
+  vpc_security_group_ids = [aws_security_group.DCHJ_SG.id] # Attach the security group to the instance
+  subnet_id = aws_subnet.DCHJ_Public_Subnet_01.id
+  for_each = toset(["Jenkins_Master", "Jenkins_Slave", "Ansible"])
+
   tags = {
-    Name = "Jenkins_Server_Via_Terraform"   # Tag to identify the instance
+    Name = "${each.key}"
   }
 
-  vpc_security_group_ids = [aws_security_group.jenkins_sg.id] # Attach the security group to the instance
-  
-  subnet_id = aws_subnet.DCHJ_Public_Subnet_01.id
-
-
 }
-
+/*
 # Output the public IP address of the EC2 instance
 output "instance_public_ip" {
   description = "The public IP of the Jenkins server" # Description of the output
-  value       = aws_instance.jenkins_server.public_ip # Value to output (the public IP address)
+  value       = aws_instance.${each.key}.public_ip # Value to output (the public IP address)
+}*/
+# Output the public IP address of each EC2 instance
+output "instance_public_ip" {
+  description = "The public IP addresses of the Jenkins servers" # Description of the output
+  value       = { for server_name, server in aws_instance.Servers : server_name => server.public_ip }
 }
-
 
 
 #############################################################

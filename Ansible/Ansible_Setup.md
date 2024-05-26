@@ -24,7 +24,7 @@ in this case, we are using /opt is our working directory for Ansible.
     ansible_ssh_private_key_file=/opt/dpo.pem
    ```
 
-333Test the connection  
+3. Test the connection  
    ```sh
    ansible -i hosts all -m ping 
    ```

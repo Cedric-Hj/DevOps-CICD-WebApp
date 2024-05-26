@@ -63,7 +63,7 @@ resource "aws_security_group" "DCHJ_SG" {
     protocol    = "udp"                     # Protocol type
     cidr_blocks = ["0.0.0.0/0"]             # Allow traffic to any IP address
   }
-
+# Egress rule to allow outbound ssh traffic 
    egress {
     from_port   = 22                        # Starting port
     to_port     = 22                        # Ending port

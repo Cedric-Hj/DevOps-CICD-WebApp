@@ -29,7 +29,7 @@ resource "aws_security_group" "DCHJ_SG" {
     from_port   = 22                        # Starting port
     to_port     = 22                        # Ending port
     protocol    = "tcp"                     # Protocol type
-    cidr_blocks = ["${chomp(data.http.myip.response_body)}/32"] # CIDR block for your IP address
+    cidr_blocks = ["0.0.0.0/0"]  # CIDR block for your IP address
   }
 
   # Ingress rule to allow HTTP access (port 8080) from your IP address

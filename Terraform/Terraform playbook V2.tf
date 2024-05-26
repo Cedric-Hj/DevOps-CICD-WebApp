@@ -87,10 +87,15 @@ output "instance_public_ip" {
 }*/
 # Output the public IP address of each EC2 instance
 output "instance_public_ip" {
-  description = "The public IP addresses of the Jenkins servers" # Description of the output
+  description = "The public IP addresses of the  servers" # Description of the output
   value       = { for server_name, server in aws_instance.Servers : server_name => server.public_ip }
 }
 
+# Output the private IP address of each EC2 instance
+output "instance_private_ip" {
+  description = "The private IP addresses of the servers" # Description of the output
+  value       = { for server_name, server in aws_instance.Servers : server_name => server.private_ip }
+}
 
 #############################################################
 #                                                           #

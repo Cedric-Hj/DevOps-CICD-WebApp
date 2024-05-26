@@ -1,0 +1,13 @@
+# Ignore specific files in the Devops Project directory
+CedAdmin_accessKeys.csv
+Devops_Project_Key_1.pem
+MobaXterm_Portable_v24.1.zip
+Terrafrome location for git.txt
+
+# Ignore all files and subfolders in .terraform
+Terraform/.terraform/
+Terraform4/.terraform.lock.hcl
+Terraform/LICENSE.txt
+Terraform/terraform.exe
+Terraform/terraform.tfstate
+Terraform/terraform.tfstate.backup

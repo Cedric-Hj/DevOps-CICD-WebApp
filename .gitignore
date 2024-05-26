@@ -6,7 +6,7 @@ Terrafrome location for git.txt
 
 # Ignore all files and subfolders in .terraform
 Terraform/.terraform/
-Terraform4/.terraform.lock.hcl
+Terraform/.terraform.lock.hcl
 Terraform/LICENSE.txt
 Terraform/terraform.exe
 Terraform/terraform.tfstate

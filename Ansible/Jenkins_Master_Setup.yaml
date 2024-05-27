@@ -1,0 +1,39 @@
+---
+- name: Install Jenkins Master on Ubuntu
+  hosts: Jenkins_Master
+  become: yes
+
+  tasks:
+    - name: Add Jenkins repository key
+      ansible.builtin.apt_key:
+        url: https://pkg.jenkins.io/debian-stable/jenkins.io-2023.key
+        state: present
+        keyring: /usr/share/keyrings/jenkins-keyring.asc
+
+    - name: Add Jenkins apt repository
+      ansible.builtin.apt_repository:
+        repo: "deb [signed-by=/usr/share/keyrings/jenkins-keyring.asc] https://pkg.jenkins.io/debian-stable binary/"
+        state: present
+        filename: Jenkins
+
+    - name: Update apt cache
+      ansible.builtin.apt:
+        update_cache: yes
+
+    - name: Install dependencies
+      ansible.builtin.apt:
+        name:
+          - fontconfig
+          - openjdk-17-jre
+        state: present
+
+    - name: Install Jenkins
+      ansible.builtin.apt:
+        name: jenkins
+        state: present
+
+    - name: Ensure Jenkins is started and enabled at boot time
+      ansible.builtin.systemd:
+        name: jenkins
+        enabled: yes
+        state: started

@@ -1,0 +1,10 @@
+[Jenkins_Master]
+10.0.1.176
+[Jenkins_Master:vars]
+ansible_user=ubuntu
+ansible_ssh_private_key_file=/opt/Devops_Project_Key_1.pem
+[Jenkins_Slave]
+10.0.1.190
+[Jenkins_Slave:vars]
+ansible_user=ubuntu
+ansible_ssh_private_key_file=/opt/Devops_Project_Key_1.pem

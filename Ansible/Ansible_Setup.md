@@ -15,7 +15,7 @@ Due to limitations, copy to /home/ubuntu and then using the terminal
    chmod 400 /opt/Devops_Project_Key_1.pem
    ```
 
-3. Add Jenkins master and slave as hosts 
+3. Add Jenkins as hosts 
 Add jenkins master and slave private IPs in the inventory file 
 in this case, we are using /opt as our working directory for Ansible. 
 File name hosts
@@ -26,16 +26,16 @@ File name hosts
    vim /opt/hosts
    ```
 
- Paste the following (1 IP at the time) and change the private ip's before saving
+ Paste the following and change the private ip's before saving
    ```
    [Jenkins]
-   10.0.1.238
+   10.0.1.198
    [Jenkins:vars]
    ansible_user=ubuntu
    ansible_ssh_private_key_file=/opt/Devops_Project_Key_1.pem
    ```
 
-4. Test the connection (for one IP, then add the second and redo)
+4. Test the connection 
    ```sh
    ansible -i hosts all -m ping 
    ```

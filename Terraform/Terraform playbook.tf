@@ -79,7 +79,7 @@ resource "aws_instance" "Servers" {
   key_name      = "Devops_Project_Key_1"  # Key pair name for SSH access
   vpc_security_group_ids = [aws_security_group.DCHJ_SG.id] # Attach the security group to the instance
   subnet_id = aws_subnet.DCHJ_Public_Subnet_01.id
-  for_each = toset(["Jenkins_Master", "Jenkins_Slave", "Ansible"])
+  for_each = toset(["Jenkins", "Ansible"])
 
   tags = {
     Name = "${each.key}"

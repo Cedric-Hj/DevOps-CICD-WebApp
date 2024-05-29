@@ -1,5 +1,9 @@
 pipeline {
-    agent any
+    agent {
+        node{
+            label 'maven-slave'
+        }
+    }
 
     environment {
         MAVEN_HOME = '/opt/apache-maven-3.9.7'

@@ -26,11 +26,16 @@ File name hosts
    vim /opt/hosts
    ```
 
- Paste the following and change the private ip's before saving
+ Paste the following (one ip at the time, do check and add the other)and change the private ip's before saving
    ```
    [Jenkins]
    10.0.1.198
    [Jenkins:vars]
+   ansible_user=ubuntu
+   ansible_ssh_private_key_file=/opt/Devops_Project_Key_1.pem
+   [Maven]
+   10.0.1.198
+   [Maven:vars]
    ansible_user=ubuntu
    ansible_ssh_private_key_file=/opt/Devops_Project_Key_1.pem
    ```
@@ -41,16 +46,20 @@ File name hosts
    ```
 5. Create the Jenkins master playbook at opt and paste the Jenkins master playbook in it
    ```sh
-   touch /opt/jenkins-setup.yaml 
+   touch /opt/jenkins-setup.yaml
+   touch /opt/maven-setup.yaml 
    vim /opt/jenkins-setup.yaml
+   vim /opt/maven-setup.yaml
    ```
 
 6. Do a dry run of the playbook
    ```sh
    ansible-playbook -i /opt/hosts jenkins-setup.yaml --check 
+   ansible-playbook -i /opt/hosts Maven-setup.yaml --check
    ```
    thre will be an error because no package where found to install jenkins, it is normal, since it is a dry run, the package was not downloaded.
    Run the playbook:
       ```sh
    ansible-playbook -i /opt/hosts jenkins-setup.yaml
+   ansible-playbook -i /opt/hosts maven-setup.yaml
    ```

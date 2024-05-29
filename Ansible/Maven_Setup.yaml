@@ -1,0 +1,33 @@
+---
+- name: Install Maven 
+  hosts: Maven
+  become: yes
+  vars:
+    maven_version: 3.9.7
+    maven_home: /opt/apache-maven-{{ maven_version }}
+    maven_binary_url: https://dlcdn.apache.org/maven/maven-3/{{ maven_version }}/binaries/apache-maven-{{ maven_version }}-bin.tar.gz
+
+  tasks:
+  - name: Update apt cache
+    ansible.builtin.apt:
+      update_cache: yes
+      force_apt_get: yes
+      cache_valid_time: 3600
+
+  - name: Install dependencies
+    ansible.builtin.apt:
+      name:
+        - fontconfig
+        - openjdk-11-jre
+      state: present
+      
+  - name: Download Maven
+    ansible.builtin.get_url:
+      url: "{{ maven_binary_url }}"
+      dest: /tmp/apache-maven-{{ maven_version }}-bin.tar.gz
+
+  - name: Extract Maven
+    ansible.builtin.unarchive:
+      src: /tmp/apache-maven-{{ maven_version }}-bin.tar.gz
+      dest: /opt
+      remote_src: yes

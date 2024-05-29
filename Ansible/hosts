@@ -1,5 +1,10 @@
 [Jenkins]
-10.0.1.198
+10.0.1.163
 [Jenkins:vars]
+ansible_user=ubuntu
+ansible_ssh_private_key_file=/opt/Devops_Project_Key_1.pem
+[Maven]
+10.0.1.239
+[Maven:vars]
 ansible_user=ubuntu
 ansible_ssh_private_key_file=/opt/Devops_Project_Key_1.pem

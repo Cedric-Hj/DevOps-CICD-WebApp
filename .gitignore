@@ -11,3 +11,6 @@ Terraform/LICENSE.txt
 Terraform/terraform.exe
 Terraform/terraform.tfstate
 Terraform/terraform.tfstate.backup
+
+Bash/Start_EC2.sh
+Bash/Stop_EC2.sh

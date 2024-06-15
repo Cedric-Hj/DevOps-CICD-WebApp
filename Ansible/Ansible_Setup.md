@@ -29,12 +29,12 @@ File name hosts
  Paste the following (one ip at the time, do check and add the other)and change the private ip's before saving
    ```
    [Jenkins]
-   10.0.1.198
+   10.0.1.169
    [Jenkins:vars]
    ansible_user=ubuntu
    ansible_ssh_private_key_file=/opt/Devops_Project_Key_1.pem
    [Maven]
-   10.0.1.198
+   10.0.1.123
    [Maven:vars]
    ansible_user=ubuntu
    ansible_ssh_private_key_file=/opt/Devops_Project_Key_1.pem

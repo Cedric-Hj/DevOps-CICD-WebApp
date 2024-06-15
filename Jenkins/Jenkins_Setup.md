@@ -104,3 +104,41 @@ Copy code
 ssh -T git@github.com
 Ensure that your Jenkins instance is configured correctly with the right plugins and permissions.
 
+Webhook (to do)
+get the IP adresses of github and allow them in the inbound rule of jenkins:
+curl https://api.github.com/meta | jq -r '.hooks[]'
+
+IPV4
+192.30.252.0/22
+185.199.108.0/22
+140.82.112.0/20
+143.55.64.0/20
+
+IPV6
+2a0a:a440::/29
+2606:50c0::/32
+
+
+Example Security Group Configuration:
+For each GitHub IP range, your security group rules should look something like this:
+
+Type	Protocol	Port Range	Source
+HTTP	TCP	80	192.30.252.0/22
+HTTPS	TCP	443	192.30.252.0/22
+HTTP	TCP	80	185.199.108.0/22
+HTTPS	TCP	443	185.199.108.0/22
+HTTP	TCP	80	140.82.112.0/20
+HTTPS	TCP	443	140.82.112.0/20
+HTTP	TCP	80	143.55.64.0/20
+HTTPS	TCP	443	143.55.64.0/20
+HTTP	TCP	80	2a0a:a440::/29
+HTTPS	TCP	443	2a0a:a440::/29
+HTTP	TCP	80	2606:50c0::/32
+HTTPS	TCP	443	2606:50c0::/32
+
+install in jenkins the pluggin: GitHub Integration Plugin
+
+
+
+
+

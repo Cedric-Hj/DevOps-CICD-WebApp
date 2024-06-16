@@ -9,7 +9,7 @@ pipeline {
         MAVEN_HOME = '/opt/apache-maven-3.9.7'
         PATH = "${MAVEN_HOME}/bin:${env.PATH}"
         JAVA_HOME = '/usr/lib/jvm/java-11-openjdk-amd64'
-        PATH = "${JAVA_HOME}/bin:$PATH" // Append to existing PATH variable
+        PATH_TO_ADD = "${JAVA_HOME}/bin"
     }
 
     stages {

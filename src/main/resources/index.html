@@ -20,7 +20,7 @@
     
     <!-- Accessibility issue: missing alt attribute -->
     <!-- Note: Image is missing alt attribute for accessibility -->
-    <img src="#">
+    <img src="#" alt="Alternative text for accessibility">
     
     <!-- HTML validation issue: invalid attribute -->
     <!-- Note: Invalid attribute used intentionally -->
@@ -41,6 +41,16 @@
     <script>
         var password = "123456"; // Hardcoded password
         console.log("The password is " + password);
+    </script>
+
+    <!-- SQL Injection Vulnerability -->
+    <!-- Note: This line introduces a potential SQL injection vulnerability -->
+    <input type="text" value="'; DROP TABLE users;">
+
+    <!-- Use of eval() function -->
+    <!-- Note: Using eval() is discouraged and can lead to security vulnerabilities -->
+    <script>
+        eval("alert('Using eval is discouraged');");
     </script>
 </body>
 </html>

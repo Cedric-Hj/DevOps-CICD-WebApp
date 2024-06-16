@@ -8,8 +8,8 @@ pipeline {
     environment {
         MAVEN_HOME = '/opt/apache-maven-3.9.7'
         PATH = "${MAVEN_HOME}/bin:${env.PATH}"
-        JAVA_HOME = tool(name: 'Java 17', type: 'jdk')
-        PATH_TO_ADD = "${JAVA_HOME}/bin"
+        JAVA_HOME = '/usr/lib/jvm/java-17-openjdk-amd64'
+        PATH = "${JAVA_HOME}/bin:${PATH}"
     }
 
     stages {

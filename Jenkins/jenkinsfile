@@ -22,6 +22,20 @@ pipeline {
                 sh 'mvn clean install'
             }
         }
+
+        stage ("Sonar Analysis") {
+            environment {
+               scannerHome = tool 'sonar-scanner' //name configured in sonar scanner in the tools
+            }
+            steps {
+                echo '<--------------- Sonar Analysis started  --------------->'
+                withSonarQubeEnv('sonar-server') {    //server name configured in the system 
+                    sh "${scannerHome}/bin/sonar-scanner"
+                echo '<--------------- Sonar Analysis stopped  --------------->'
+                }    
+               
+            }   
+        }
     }
 
     post {

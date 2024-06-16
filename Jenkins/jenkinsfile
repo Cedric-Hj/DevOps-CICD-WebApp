@@ -1,6 +1,6 @@
 pipeline {
     agent {
-        node{
+        node {
             label 'maven-slave'
         }
     }
@@ -8,6 +8,8 @@ pipeline {
     environment {
         MAVEN_HOME = '/opt/apache-maven-3.9.7'
         PATH = "${MAVEN_HOME}/bin:${env.PATH}"
+        JAVA_HOME = '/usr/lib/jvm/java-11-openjdk-amd64'
+        PATH = "${JAVA_HOME}/bin:${PATH}"
     }
 
     stages {
@@ -23,18 +25,17 @@ pipeline {
             }
         }
 
-        stage ("Sonar Analysis") {
+        stage("Sonar Analysis") {
             environment {
-               scannerHome = tool 'sonar-scanner' //name configured in sonar scanner in the tools
+                scannerHome = tool 'sonar-scanner' // Name configured in SonarQube Scanner tools section
             }
             steps {
-                echo '<--------------- Sonar Analysis started  --------------->'
-                withSonarQubeEnv('sonar-server') {    //server name configured in the system 
+                echo '<--------------- Sonar Analysiss started  --------------->'
+                withSonarQubeEnv('sonar-server') { // Server name configured in Jenkins SonarQube server configuration
                     sh "${scannerHome}/bin/sonar-scanner"
+                }
                 echo '<--------------- Sonar Analysis stopped  --------------->'
-                }    
-               
-            }   
+            }
         }
     }
 
@@ -47,4 +48,3 @@ pipeline {
         }
     }
 }
-

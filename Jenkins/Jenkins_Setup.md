@@ -46,7 +46,7 @@ cat /var/lib/jenkins/secrets/initialAdminPassword
 First, you'll need to generate an SSH key on your Jenkins machine.
 
 sh
-Copy code
+
 ssh-keygen -t ed25519 -C "your_email@example.com"
 
 Save the key in the default location (usually ~/.ssh/id_ed25519 or ~/.ssh/id_rsa).
@@ -54,7 +54,7 @@ Save the key in the default location (usually ~/.ssh/id_ed25519 or ~/.ssh/id_rsa
 Copy the Public Key to the Clipboard:
 
 sh
-Copy code
+
 cat ~/.ssh/id_ed25519.pub  # or ~/.ssh/id_rsa.pub if using RSA
 Add the SSH Key to Your GitHub Account:
 
@@ -67,6 +67,16 @@ Paste the public key into the "Key" field.
 Click Add SSH key.
 If prompted, confirm your GitHub password.
 Configure SSH Key in Jenkins:
+
+Ensure that the SSH key has the correct permissions. The private key should be readable only by the user running Jenkins.
+sh
+
+chmod 600 ~/.ssh/id_ed25519
+Make sure the Jenkins server can connect to GitHub. You can test this by logging into the Jenkins server and running:
+sh
+
+ssh -T git@github.com
+Ensure that your Jenkins instance is configured correctly with the right plugins and permissions.
 
 Go to your Jenkins dashboard.
 Click on Manage Jenkins in the sidebar.
@@ -84,59 +94,13 @@ Make sure to change the settings in  'Manage Jenkins' -> 'Security' -> 'Git Host
 
 Create/Configure Your Jenkins Job:
 
-Create a new job or configure an existing one.
-Under Source Code Management, select Git.
-In the Repository URL field, enter your SSH GitHub repository URL, e.g., git@github.com:username/repository.git.
-Under Credentials, select the credentials you added earlier.
-Configure the rest of your job as needed.
-Test the Configuration:
+Create a new Multibranch pipeline 
 
-Save your Jenkins job configuration.
-Run the job to test if Jenkins can clone the repository from GitHub using the SSH key.
-Troubleshooting Tips:
-Ensure that the SSH key has the correct permissions. The private key should be readable only by the user running Jenkins.
-sh
-Copy code
-chmod 600 ~/.ssh/id_ed25519
-Make sure the Jenkins server can connect to GitHub. You can test this by logging into the Jenkins server and running:
-sh
-Copy code
-ssh -T git@github.com
-Ensure that your Jenkins instance is configured correctly with the right plugins and permissions.
+Instal the pluggin: Multibranch Scan Webhook Trigger
 
-Webhook (to do)
-get the IP adresses of github and allow them in the inbound rule of jenkins:
-curl https://api.github.com/meta | jq -r '.hooks[]'
+Add webhook, token name: Ced_Token
 
-IPV4
-192.30.252.0/22
-185.199.108.0/22
-140.82.112.0/20
-143.55.64.0/20
-
-IPV6
-2a0a:a440::/29
-2606:50c0::/32
-
-
-Example Security Group Configuration:
-For each GitHub IP range, your security group rules should look something like this:
-
-Type	Protocol	Port Range	Source
-HTTP	TCP	80	192.30.252.0/22
-HTTPS	TCP	443	192.30.252.0/22
-HTTP	TCP	80	185.199.108.0/22
-HTTPS	TCP	443	185.199.108.0/22
-HTTP	TCP	80	140.82.112.0/20
-HTTPS	TCP	443	140.82.112.0/20
-HTTP	TCP	80	143.55.64.0/20
-HTTPS	TCP	443	143.55.64.0/20
-HTTP	TCP	80	2a0a:a440::/29
-HTTPS	TCP	443	2a0a:a440::/29
-HTTP	TCP	80	2606:50c0::/32
-HTTPS	TCP	443	2606:50c0::/32
-
-install in jenkins the pluggin: GitHub Integration Plugin
+Webhook: http://52.90.143.81:8080/multibranch-webhook-trigger/invoke?token=Ced_Token
 
 
 

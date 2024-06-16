@@ -100,7 +100,10 @@ Instal the pluggin: Multibranch Scan Webhook Trigger
 
 Add webhook, token name: Ced_Token
 
-Webhook: http://52.90.143.81:8080/multibranch-webhook-trigger/invoke?token=Ced_Token
+Webhook: http://<Public IP Adress of EC2 jenkins master instance>:8080/multibranch-webhook-trigger/invoke?token=Ced_Token
+
+Note: disable the webhook while developing the entire CICD pipeline since a lot of push event will happen that are not related to the webapp so that the AWS data transfer dont exceed the monthly limit
+
 
 
 

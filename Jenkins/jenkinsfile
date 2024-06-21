@@ -52,7 +52,7 @@ stage('Cleanup') {
             steps {
                 echo '<--------------- SonarQube Analysis started  --------------->'
                 withSonarQubeEnv('sonar-server') {
-                    sh "${scannerHome}/bin/sonar-scanner -Dsonar.jvmOptions='-Xmx512m'" // Example of setting JVM options
+                    sh "${scannerHome}/bin/sonar-scanner -Dsonar.jvmOptions='-Xmx128m'" // Example of setting JVM options
     
                 }
                 echo '<--------------- SonarQube Analysis completed  --------------->'

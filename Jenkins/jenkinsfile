@@ -12,24 +12,26 @@ pipeline {
     }
 
     stages {
+
+stage('Cleanup') {
+        steps {
+            deleteDir()
+        }
+    }
         stage('Checkout') {
             steps {
                 git branch: 'main', url: 'https://github.com/Cedric-Hj/DevOps-FullStack-CICD.git'
             }
         }
     
-    stage('Cleanup') {
-        steps {
-            deleteDir()
-        }
-    }
+    
 
         stage('Build and Test') {
             parallel {
                 stage('Build') {
                     steps {
                         echo "----------- Build started ----------"
-                        sh 'mvn clean deploy -Dmaven.test.skip=true'
+                        sh 'mvnw clean install -DskipTests'
                         echo "----------- Build completed ----------"
                     }
                 }

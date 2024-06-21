@@ -12,13 +12,32 @@
     
      <!-- Bug 1: Missing alt attribute in img tag -->
     <img src="image.jpg"> <!-- Bug 1 ends here -->
-    dfsd
-    a
-    <!-- Bug 2: Unused CSS class in the h1 tag -->
-    <h1 class="unused-class">Hello again!</h1> <!-- Bug 2 ends here -->
     
-    <!-- Bug 2: Script tag with inline JavaScript (considered a security vulnerability) -->
-    <script>alert('Hello, World!');</script> <!-- Bug 2 ends here -->
+
+
+    
+  <!-- Accessibility issue: missing alt attribute -->
+    <!-- Note: Image is missing alt attribute for accessibility -->
+    <img src="#">
+    <img src="#" alt="Alternative text for accessibility">
+    
+    <!-- HTML validation issue: invalid attribute -->
+    <!-- Note: Invalid attribute used intentionally -->
+
+@@ -42,5 +42,15 @@
+        var password = "123456"; // Hardcoded password
+        console.log("The password is " + password);
+    </script>
+
+    <!-- SQL Injection Vulnerability -->
+    <!-- Note: This line introduces a potential SQL injection vulnerability -->
+    <input type="text" value="'; DROP TABLE users;">
+
+    <!-- Use of eval() function -->
+    <!-- Note: Using eval() is discouraged and can lead to security vulnerabilities -->
+    <script>
+        eval("alert('Using eval is discouraged');");
+    </script>
     
 </body>
 </html>

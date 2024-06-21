@@ -19,11 +19,9 @@ pipeline {
             }
         }
 
-        stage("test"){
-            steps{
-                echo "----------- unit test started ----------"
-                sh 'mvn surefire-report:report'
-                 echo "----------- unit test Complted ----------"
+        stage('Build') {
+            steps {
+                sh 'mvn clean install'
             }
         }
 
@@ -42,14 +40,11 @@ pipeline {
     }
 
     post {
-        always {
-            junit '**/target/surefire-reports/*.xml'
-            jacoco execPattern: '**/target/jacoco.exec', classPattern: '**/target/classes', sourcePattern: '**/src/main/java', exclusionPattern: '**/src/test*', changeBuildStatus: true
-            cleanWs()
+        success {
+            echo 'Build completed successfully'
+        }
+        failure {
+            echo 'Build failed'
         }
     }
 }
-
-
-
-

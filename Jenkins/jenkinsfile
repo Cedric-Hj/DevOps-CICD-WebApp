@@ -13,17 +13,33 @@ pipeline {
     }
 
     stages {
+        stage('Clean Workspace') {
+              steps {
+                cleanWs()
+              }
+            }
         stage('Checkout') {
             steps {
                 git branch: 'main', url: 'https://github.com/Cedric-Hj/DevOps-FullStack-CICD.git'
             }
         }
-
-        stage('Build') {
+        stage("build"){
             steps {
+                 echo "----------- Clean Install started ----------"
                 sh 'mvn clean install'
+                 echo "----------- Clean Install complted ----------"
             }
         }
+        stage('Test') {
+              steps {
+                sh 'mvn test'
+              }
+              post {
+                always {
+                  junit 'target/surefire-reports/*.xml' // Adjust the path if needed
+                }
+              }
+            }
 
         stage("Sonar Analysis") {
             environment {
@@ -32,14 +48,16 @@ pipeline {
             steps {
                 echo '<--------------- Sonar Analysiss started  --------------->'
                 withSonarQubeEnv('sonar-server') { // Server name configured in Jenkins SonarQube server configuration
-                    sh "${scannerHome}/bin/sonar-scanner"
+                    //sh "${scannerHome}/bin/sonar-scanner"
+                     sh 'mvn sonar:sonar -Dsonar.projectKey=Cedric-Hj_DevOps-FullStack-CICD -Dsonar.organization=cedric-hj -Dsonar.host.url=https://sonarcloud.io'
+        
                 }
                 echo '<--------------- Sonar Analysis stopped  --------------->'
             }
         }
     }
 
-    post {
+post {
         success {
             echo 'Build completed successfully'
         }

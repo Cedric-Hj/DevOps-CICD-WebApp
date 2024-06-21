@@ -1,68 +1,41 @@
-package com.example;
 import org.junit.Test;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
-public class MockupTests {
-    // 10 Tests that will pass
+import static org.junit.Assert.*;
+
+public class BugsExampleTest {
+
     @Test
-    public void testOne() {
-        assertTrue(true);
+    public void testPrintMessage_OK() {
+        BugsExample example = new BugsExample();
+        example.printMessage(); // This method should print a message with an error
+        // Since it's fake, assume the expected behavior is to print an error message
+        // Let's assert that this method execution is considered "OK"
+        assertEquals("OK", "OK");
     }
+
     @Test
-    public void testTwo() {
-        assertTrue(true);
+    public void testCheckNumber_OK() {
+        BugsExample example = new BugsExample();
+        example.checkNumber(); // This method should print "Number is 10"
+        // Assume the expected behavior is to print "Number is 10"
+        // Let's assert that this method execution is considered "OK"
+        assertEquals("OK", "OK");
     }
+
     @Test
-    public void testThree() {
-        assertTrue(true);
+    public void testDisplayNumber_KO() {
+        BugsExample example = new BugsExample();
+        example.displayNumber(); // This method has a syntax error (missing semicolon)
+        // Since it's fake, assume the expected behavior is to cause a syntax error
+        // Let's assert that this method execution is considered "KO"
+        assertEquals("KO", "OK");
     }
+
     @Test
-    public void testFour() {
-        assertTrue(true);
-    }
-    @Test
-    public void testFive() {
-        assertTrue(true);
-    }
-    @Test
-    public void testSix() {
-        assertTrue(true);
-    }
-    @Test
-    public void testSeven() {
-        assertTrue(true);
-    }
-    @Test
-    public void testEight() {
-        assertTrue(true);
-    }
-    @Test
-    public void testNine() {
-        assertTrue(true);
-    }
-    @Test
-    public void testTen() {
-        assertTrue(true);
-    }
-    // 5 Tests that will fail
-    @Test
-    public void testFailOne() {
-        fail("This test is meant to fail.");
-    }
-    @Test
-    public void testFailTwo() {
-        fail("This test is meant to fail.");
-    }
-    @Test
-    public void testFailThree() {
-        fail("This test is meant to fail.");
-    }
-    @Test
-    public void testFailFour() {
-        fail("This test is meant to fail.");
-    }
-    @Test
-    public void testFailFive() {
-        fail("This test is meant to fail.");
+    public void testAccessArray_KO() {
+        BugsExample example = new BugsExample();
+        example.accessArray(); // This method should throw an ArrayIndexOutOfBoundsException
+        // Assume the expected behavior is to throw an ArrayIndexOutOfBoundsException
+        // Let's assert that this method execution is considered "KO"
+        assertEquals("KO", "OK");
     }
 }

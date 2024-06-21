@@ -4,53 +4,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
-    <!-- Intentionally unused CSS class -->
-    <style>
-        .unused-class {
-            font-size: 16px;
-            color: #333;
-        }
-    </style>
-    
     <title>Simple CICD Webpage</title>
 </head>
 <body>
     <h1>Hello, World!</h1>
     <p>This is a simple CICD demo.</p>
     
-    <!-- Accessibility issue: missing alt attribute -->
-    <!-- Note: Image is missing alt attribute for accessibility -->
-    <img src="#" alt="Alternative text for accessibility">
+    <!-- Bug 1: Missing alt attribute in img tag -->
+    <img src="image.jpg"> <!-- Bug 1 ends here -->
     
-    <!-- HTML validation issue: invalid attribute -->
-    <!-- Note: Invalid attribute used intentionally -->
-    <div class="content" invalid-attribute="true">
-        <p>Content goes here.</p>
-    </div>
+    <!-- Bug 2: Unused anchor tag without href attribute -->
+    <a>Unused Link</a> <!-- Bug 2 ends here -->
     
-    <!-- JavaScript Code Injection Vulnerability -->
-    <script>
-        var userInput = "<script>alert('XSS');</script>";
-        document.write(userInput); // This is a potential XSS vulnerability
-    </script>
-
-    <!-- Inline Event Handler -->
-    <button onclick="alert('Inline event handler')">Click me</button>
-
-    <!-- Hardcoded Sensitive Data -->
-    <script>
-        var password = "123456"; // Hardcoded password
-        console.log("The password is " + password);
-    </script>
-
-    <!-- SQL Injection Vulnerability -->
-    <!-- Note: This line introduces a potential SQL injection vulnerability -->
-    <input type="text" value="'; DROP TABLE users;">
-
-    <!-- Use of eval() function -->
-    <!-- Note: Using eval() is discouraged and can lead to security vulnerabilities -->
-    <script>
-        eval("alert('Using eval is discouraged');");
-    </script>
+    <!-- Bug 3: Inline style should be avoided -->
+    <p style="color:red;">Red text using inline style</p> <!-- Bug 3 ends here -->
+    
 </body>
 </html>
+

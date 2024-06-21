@@ -10,15 +10,14 @@
     <h1>Hello, World!</h1>
     <p>This is a simple CICD demo.</p>
     
-    <!-- Bug 1: Missing alt attribute in img tag -->
+     <!-- Bug 1: Missing alt attribute in img tag -->
     <img src="image.jpg"> <!-- Bug 1 ends here -->
     
-    <!-- Bug 2: Unused anchor tag without href attribute -->
-    <a>Unused Link</a> <!-- Bug 2 ends here -->
+    <!-- Bug 2: Unused CSS class in the h1 tag -->
+    <h1 class="unused-class">Hello again!</h1> <!-- Bug 2 ends here -->
     
-    <!-- Bug 3: Inline style should be avoided -->
-    <p style="color:red;">Red text using inline style</p> <!-- Bug 3 ends here -->
+    <!-- Bug 2: Script tag with inline JavaScript (considered a security vulnerability) -->
+    <script>alert('Hello, World!');</script> <!-- Bug 2 ends here -->
     
 </body>
 </html>
-

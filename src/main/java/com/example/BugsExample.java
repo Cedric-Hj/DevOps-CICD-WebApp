@@ -18,16 +18,7 @@ public class BugsExample {
         }
     }
 
-    // Bug 4: Unmatched curly braces
-    public void displayMessage() {
-        System.out.println("This is a message with unmatched curly brace";
-    }
 
-    // Bug 5: Missing semicolon
-    public void displayNumber() {
-        int x = 5
-        System.out.println(x);
-    }
 
     // Bug 6: Undefined variable used
     public void calculate() {

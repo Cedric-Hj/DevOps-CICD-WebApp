@@ -29,7 +29,7 @@ pipeline {
                 stage('Build') {
                     steps {
                         echo "----------- Build started ----------"
-                        sh 'mvn clean install -DskipTests 
+                        sh 'mvn clean install -DskipTests'
                         echo "----------- Build completed ----------"
                     }
                 }

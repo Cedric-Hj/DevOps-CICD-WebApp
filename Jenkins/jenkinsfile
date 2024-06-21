@@ -17,6 +17,12 @@ pipeline {
                 git branch: 'main', url: 'https://github.com/Cedric-Hj/DevOps-FullStack-CICD.git'
             }
         }
+    
+    stage('Cleanup') {
+        steps {
+            deleteDir()
+        }
+    }
 
         stage('Build and Test') {
             parallel {

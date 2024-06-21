@@ -8,7 +8,7 @@ pipeline {
     environment {
         MAVEN_HOME = '/opt/apache-maven-3.9.7'
         PATH = "${MAVEN_HOME}/bin:${env.PATH}"
-        NODE_OPTIONS = '--max_old_space_size=512'
+        
     }
 
     stages {
@@ -52,7 +52,7 @@ stage('Cleanup') {
             steps {
                 echo '<--------------- SonarQube Analysis started  --------------->'
                 withSonarQubeEnv('sonar-server') {
-                    sh "${scannerHome}/bin/sonar-scanner -Dsonar.jvmOptions='-Xmx128m'" // Example of setting JVM options
+                    sh "${scannerHome}/bin/sonar-scanner 
     
                 }
                 echo '<--------------- SonarQube Analysis completed  --------------->'

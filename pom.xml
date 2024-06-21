@@ -67,13 +67,10 @@
           </execution>
           <execution>
             <id>report</id>
-            <phase>verify</phase>
+            <phase>prepare-package</phase>
             <goals>
               <goal>report</goal>
             </goals>
-            <configuration>
-              <outputDirectory>${project.build.directory}/jacoco</outputDirectory>
-            </configuration>
           </execution>
         </executions>
       </plugin>

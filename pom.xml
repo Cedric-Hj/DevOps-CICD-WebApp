@@ -60,6 +60,12 @@
                                         <include>**/*</include>
                                     </includes>
                                 </resource>
+                                <resource>
+                                    <directory>src/main/resources</directory>
+                                    <includes>
+                                        <include>index.html</include> <!-- Include index.html specifically -->
+                                    </includes>
+                                </resource>
                             </resources>
                         </configuration>
                     </execution>

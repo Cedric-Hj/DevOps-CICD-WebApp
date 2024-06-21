@@ -13,51 +13,40 @@ pipeline {
     }
 
     stages {
-        stage('Clean Workspace') {
-              steps {
-                cleanWs()
-              }
-            }
         stage('Checkout') {
             steps {
                 git branch: 'main', url: 'https://github.com/Cedric-Hj/DevOps-FullStack-CICD.git'
             }
         }
-        stage("build"){
+
+        stage('Build') {
             steps {
-                 echo "----------- Clean Install started ----------"
                 sh 'mvn clean install'
-                 echo "----------- Clean Install complted ----------"
             }
         }
-        stage('Test') {
-              steps {
-                sh 'mvn test'
-              }
-              post {
-                always {
-                  junit 'target/surefire-reports/*.xml' // Adjust the path if needed
-                }
-              }
-            }
 
         stage("Sonar Analysis") {
             environment {
-                scannerHome = tool 'sonar-scanner' // Name configured in SonarQube Scanner tools section
+                scannerHome = tool 'sonar-scanner'
             }
             steps {
-                echo '<--------------- Sonar Analysiss started  --------------->'
-                withSonarQubeEnv('sonar-server') { // Server name configured in Jenkins SonarQube server configuration
-                    //sh "${scannerHome}/bin/sonar-scanner"
-                     sh 'mvn sonar:sonar -Dsonar.projectKey=Cedric-Hj_DevOps-FullStack-CICD -Dsonar.organization=cedric-hj -Dsonar.host.url=https://sonarcloud.io'
-        
+                echo '<--------------- Sonar Analysis started  --------------->'
+                script {
+                    def scannerArgs = [
+                        "-Dsonar.projectKey=Cedric-Hj_DevOps-FullStack-CICD",
+                        "-Dsonar.sources=src",
+                        "-Dsonar.junit.reportPaths=target/surefire-reports"  
+                    ]
+                    withSonarQubeEnv('sonar-server') {
+                        sh "${scannerHome}/bin/sonar-scanner ${scannerArgs.join(' ')}"
+                    }
                 }
                 echo '<--------------- Sonar Analysis stopped  --------------->'
             }
         }
     }
 
-post {
+    post {
         success {
             echo 'Build completed successfully'
         }

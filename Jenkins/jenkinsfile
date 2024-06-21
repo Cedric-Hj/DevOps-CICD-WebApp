@@ -31,14 +31,14 @@ stage('Cleanup') {
                 stage('Build') {
                     steps {
                         echo "----------- Build started ----------"
-                        sh './mvnw clean install -DskipTests'
+                        sh 'mvn clean install -DskipTests'
                         echo "----------- Build completed ----------"
                     }
                 }
                 stage('Unit Test') {
                     steps {
                         echo "----------- Unit test started ----------"
-                        sh './mvnw surefire-report:report'
+                        sh 'mvn surefire-report:report'
                         echo "----------- Unit test completed ----------"
                     }
                 }

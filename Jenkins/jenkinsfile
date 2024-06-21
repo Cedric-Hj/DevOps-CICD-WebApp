@@ -9,7 +9,6 @@ pipeline {
         MAVEN_HOME = '/opt/apache-maven-3.9.7'
         PATH = "${MAVEN_HOME}/bin:${env.PATH}"
         NODE_OPTIONS = '--max_old_space_size=512'
-
     }
 
     stages {
@@ -19,40 +18,45 @@ pipeline {
             }
         }
 
-        stage("build"){
-            steps {
-                 echo "----------- build started ----------"
-                sh 'mvn clean deploy -Dmaven.test.skip=true'
-                 echo "----------- build complted ----------"
+        stage('Build and Test') {
+            parallel {
+                stage('Build') {
+                    steps {
+                        echo "----------- Build started ----------"
+                        sh './mvnw clean install -DskipTests'
+                        echo "----------- Build completed ----------"
+                    }
+                }
+                stage('Unit Test') {
+                    steps {
+                        echo "----------- Unit test started ----------"
+                        sh './mvnw surefire-report:report'
+                        echo "----------- Unit test completed ----------"
+                    }
+                }
             }
         }
-        stage("test"){
-            steps{
-                echo "----------- unit test started ----------"
-                sh 'mvn surefire-report:report'
-                 echo "----------- unit test Complted ----------"
-            }
-        }
-        stage("Sonar Analysis") {
+
+        stage('SonarQube Analysis') {
             environment {
-                scannerHome = tool 'sonar-scanner' // Name configured in SonarQube Scanner tools section
+                scannerHome = tool 'sonar-scanner'
             }
             steps {
-                echo '<--------------- Sonar Analysiss started  --------------->'
-                withSonarQubeEnv('sonar-server') { // Server name configured in Jenkins SonarQube server configuration
+                echo '<--------------- SonarQube Analysis started  --------------->'
+                withSonarQubeEnv('sonar-server') {
                     sh "${scannerHome}/bin/sonar-scanner"
                 }
-                echo '<--------------- Sonar Analysis stopped  --------------->'
+                echo '<--------------- SonarQube Analysis completed  --------------->'
             }
         }
     }
 
     post {
         success {
-            echo 'Build completed successfully'
+            echo 'Pipeline completed successfully'
         }
         failure {
-            echo 'Build failed'
+            echo 'Pipeline failed'
         }
     }
 }

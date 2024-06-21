@@ -33,6 +33,7 @@ pipeline {
                 echo '<--------------- Sonar Analysiss started  --------------->'
                 withSonarQubeEnv('sonar-server') { // Server name configured in Jenkins SonarQube server configuration
                     sh "${scannerHome}/bin/sonar-scanner"
+                    sh 'mvn sonar:sonar'
                 }
                 echo '<--------------- Sonar Analysis stopped  --------------->'
             }
@@ -40,11 +41,10 @@ pipeline {
     }
 
     post {
-        success {
-            echo 'Build completed successfully'
-        }
-        failure {
-            echo 'Build failed'
+        always {
+            junit '**/target/surefire-reports/*.xml'
+            jacoco execPattern: '**/target/jacoco.exec', classPattern: '**/target/classes', sourcePattern: '**/src/main/java', exclusionPattern: '**/src/test*', changeBuildStatus: true
+            cleanWs()
         }
     }
 }

@@ -4,38 +4,40 @@ import static org.junit.Assert.*;
 public class BugsExampleTest {
 
     @Test
-    public void testPrintMessage_OK() {
+    public void testPrintMessage() {
         BugsExample example = new BugsExample();
-        example.printMessage(); // This method should print a message with an error
-        // Since it's fake, assume the expected behavior is to print an error message
-        // Let's assert that this method execution is considered "OK"
-        assertEquals("OK", "OK");
+        example.printMessage();
+        // Assuming the printMessage method only prints and doesn't return anything, no assertions needed
     }
 
     @Test
-    public void testCheckNumber_OK() {
+    public void testCalculate() {
         BugsExample example = new BugsExample();
-        example.checkNumber(); // This method should print "Number is 10"
-        // Assume the expected behavior is to print "Number is 10"
-        // Let's assert that this method execution is considered "OK"
-        assertEquals("OK", "OK");
+        example.calculate();
+        // Assuming the calculate method only prints and doesn't return anything, no assertions needed
     }
 
     @Test
-    public void testDisplayNumber_KO() {
+    public void testBugMethod1() {
         BugsExample example = new BugsExample();
-        example.displayNumber(); // This method has a syntax error (missing semicolon)
-        // Since it's fake, assume the expected behavior is to cause a syntax error
-        // Let's assert that this method execution is considered "KO"
-        assertEquals("KO", "OK");
+        // Call to a non-existent method, demonstrating an intentional "KO" case
+        // example.checkNumber(); // Uncomment to simulate a failed test
+        fail("Intentional failure to demonstrate KO test");
     }
 
     @Test
-    public void testAccessArray_KO() {
+    public void testBugMethod2() {
         BugsExample example = new BugsExample();
-        example.accessArray(); // This method should throw an ArrayIndexOutOfBoundsException
-        // Assume the expected behavior is to throw an ArrayIndexOutOfBoundsException
-        // Let's assert that this method execution is considered "KO"
-        assertEquals("KO", "OK");
+        // Call to a non-existent method, demonstrating an intentional "KO" case
+        // example.displayNumber(); // Uncomment to simulate a failed test
+        fail("Intentional failure to demonstrate KO test");
+    }
+
+    @Test
+    public void testBugMethod3() {
+        BugsExample example = new BugsExample();
+        // Call to a non-existent method, demonstrating an intentional "KO" case
+        // example.accessArray(); // Uncomment to simulate a failed test
+        fail("Intentional failure to demonstrate KO test");
     }
 }

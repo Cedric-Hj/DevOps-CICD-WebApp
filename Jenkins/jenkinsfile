@@ -31,7 +31,7 @@ stage('Cleanup') {
                 stage('Build') {
                     steps {
                         echo "----------- Build started ----------"
-                        sh 'mvn clean install -DskipTests'
+                        sh 'mvn clean install -Dmaven.test.skip=true'
                         echo "----------- Build completed ----------"
                     }
                 }

@@ -1,9 +1,11 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://www.maven.org/xsd/maven-4.0.0.xsd">
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://www.w3.org/2001/XMLSchema-instance.xsd">
   <modelVersion>4.0.0</modelVersion>
+  
   <groupId>com.example</groupId>
-  <artifactId>DevOps-FullStack-CICD</artifactId>
+  <artifactId>simple-cicd-webpage</artifactId>
   <version>1.0-SNAPSHOT</version>
+
   <dependencies>
     <dependency>
       <groupId>junit</groupId>
@@ -12,9 +14,10 @@
       <scope>test</scope>
     </dependency>
   </dependencies>
+
   <build>
     <plugins>
-      <!-- Surefire Plugin -->
+      <!-- Maven Surefire Plugin for running tests -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-plugin</artifactId>
@@ -24,7 +27,7 @@
         </configuration>
       </plugin>
 
-      <!-- Resources Plugin -->
+      <!-- Maven Resources Plugin for copying resources -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-resources-plugin</artifactId>
@@ -40,7 +43,7 @@
               <outputDirectory>${project.build.directory}/public</outputDirectory>
               <resources>
                 <resource>
-                  <directory>src</directory>
+                  <directory>src/main/resources</directory>
                   <includes>
                     <include>**/*</include>
                   </includes>
@@ -51,14 +54,13 @@
         </executions>
       </plugin>
 
-      <!-- JaCoCo Plugin -->
+      <!-- JaCoCo Maven Plugin for code coverage -->
       <plugin>
         <groupId>org.jacoco</groupId>
         <artifactId>jacoco-maven-plugin</artifactId>
-        <version>0.8.7</version>
+        <version>0.8.8</version>
         <executions>
           <execution>
-            <id>prepare-agent</id>
             <goals>
               <goal>prepare-agent</goal>
             </goals>
@@ -69,24 +71,26 @@
             <goals>
               <goal>report</goal>
             </goals>
+            <configuration>
+              <outputDirectory>${project.build.directory}/jacoco</outputDirectory>
+            </configuration>
           </execution>
         </executions>
       </plugin>
 
-      <!-- SonarQube Plugin -->
+      <!-- SonarQube Scanner Plugin for analysis -->
       <plugin>
         <groupId>org.sonarsource.scanner.maven</groupId>
         <artifactId>sonar-maven-plugin</artifactId>
-        <version>3.9.1.2184</version> <!-- Use the latest version -->
+        <version>3.9.1.2184</version>
+        <executions>
+          <execution>
+            <goals>
+              <goal>sonar</goal>
+            </goals>
+          </execution>
+        </executions>
       </plugin>
-
     </plugins>
   </build>
-
-  <distributionManagement>
-    <repository>
-      <id>dev</id>
-      <url>file://jarstaging</url>
-    </repository>
-  </distributionManagement>
 </project>

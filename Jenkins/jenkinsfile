@@ -1,3 +1,24 @@
+pipeline {
+    agent {
+        node {
+            label 'maven-slave'
+        }
+    }
+
+    environment {
+        MAVEN_HOME = '/opt/apache-maven-3.9.7'
+        PATH = "${MAVEN_HOME}/bin:${env.PATH}"
+        NODE_OPTIONS = '--max_old_space_size=512'
+
+    }
+
+    stages {
+        stage('Checkout') {
+            steps {
+                git branch: 'main', url: 'https://github.com/Cedric-Hj/DevOps-FullStack-CICD.git'
+            }
+        }
+
         stage("test"){
             steps{
                 echo "----------- unit test started ----------"
@@ -18,3 +39,17 @@
                 echo '<--------------- Sonar Analysis stopped  --------------->'
             }
         }
+    }
+
+    post {
+        always {
+            junit '**/target/surefire-reports/*.xml'
+            jacoco execPattern: '**/target/jacoco.exec', classPattern: '**/target/classes', sourcePattern: '**/src/main/java', exclusionPattern: '**/src/test*', changeBuildStatus: true
+            cleanWs()
+        }
+    }
+}
+
+
+
+

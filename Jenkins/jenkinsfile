@@ -64,7 +64,18 @@ stage('Cleanup') {
                     def qg = waitForQualityGate()
                     if (qg.status != 'OK') {
                         error "Pipeline aborted due to Quality Gate failure: ${qg.status}"
-                        sendFailureEmail(qg.status, qg.description)
+                        emailext (
+                            to: 'devops.cedric.hj@gmail.com',
+                            subject: "Build ${env.JOB_NAME} - ${env.BUILD_NUMBER} Quality Gate Failed",
+                            body: """
+                            The build ${env.JOB_NAME} - ${env.BUILD_NUMBER} has failed the Quality Gate in SonarCloud.
+
+                            Quality Gate Status: ${status}
+                            Reason: ${description}
+
+                            Please check the SonarCloud report for more details: ${SONARCLOUD_URL}/dashboard?id=${env.JOB_NAME}
+                            """
+                        )
                     }
                 }
             }
@@ -72,21 +83,6 @@ stage('Cleanup') {
         
     }
 
-def sendFailureEmail(status, description) {
-        emailext (
-            to: 'devops.cedric.hj@gmail.com',
-            subject: "Build ${env.JOB_NAME} - ${env.BUILD_NUMBER} Quality Gate Failed",
-            body: """
-            The build ${env.JOB_NAME} - ${env.BUILD_NUMBER} has failed the Quality Gate in SonarCloud.
-
-            Quality Gate Status: ${status}
-            Reason: ${description}
-
-            Please check the SonarCloud report for more details: ${SONARCLOUD_URL}/dashboard?id=${env.JOB_NAME}
-            """
-        )
-    }
-}
 
     post {
         success {

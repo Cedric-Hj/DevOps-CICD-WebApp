@@ -4,6 +4,9 @@ pipeline {
     environment {
         MAVEN_HOME = '/opt/apache-maven-3.9.7'
         PATH = "${MAVEN_HOME}/bin:${env.PATH}"
+        SONARQUBE_URL = 'https://sonarcloud.io'  // Replace with your SonarQube server URL
+        SONARCLOUD_TOKEN = credentials('sonarcloud token')
+    
         
     }
 
@@ -52,6 +55,32 @@ stage('Cleanup') {
     
                 }
                 echo '<--------------- SonarQube Analysis completed  --------------->'
+            }
+        }
+
+        stage('Quality Gate') {
+            steps {
+                script {
+                    timeout(time: 1, unit: 'MINUTES') {  // Adjust the timeout as needed
+                        def qualityGate = waitForQualityGate()
+                        if (qualityGate.status != 'OK') {
+                            currentBuild.result = 'FAILURE'
+                            emailext (
+                                to: 'devops.cedric.hj@gmail.com',
+                                subject: "Build ${env.JOB_NAME} - ${env.BUILD_NUMBER} Quality Gate Failed",
+                                body: """
+                                The build ${env.JOB_NAME} - ${env.BUILD_NUMBER} has failed the Quality Gate in SonarQube.
+
+                                Quality Gate Status: ${qualityGate.status}
+
+                                Reason: ${qualityGate.status} - ${qualityGate.description}
+
+                                Please check the SonarQube report for more details: ${SONARQUBE_URL}/dashboard?id=${env.JOB_NAME}
+                                """
+                            )
+                        }
+                    }
+                }
             }
         }
     }

@@ -48,7 +48,7 @@ stage('Cleanup') {
             steps {
                 echo '<--------------- SonarQube Analysis started  --------------->'
                 withSonarQubeEnv('sonar-server') {
-                    sh "${scannerHome}/bin/sonar-scanner" 
+                    sh "${scannerHome}/bin/sonar-scanner -Dsonar.sources=src -Dsonar.junit.reportPaths=target/surefire-reports"  
     
                 }
                 echo '<--------------- SonarQube Analysis completed  --------------->'

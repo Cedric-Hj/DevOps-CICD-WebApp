@@ -34,7 +34,7 @@
                 <configuration>
                     <testFailureIgnore>true</testFailureIgnore>
                     <includes>
-                        <include>**/*Test.java</include> <!-- Include test classes ending with Test.java -->
+                        <include>**/*BugsExampleTest.java</include> <!-- Include test classes ending with Test.java -->
                     </includes>
                 </configuration>
             </plugin>

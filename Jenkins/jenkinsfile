@@ -61,28 +61,14 @@ stage('Cleanup') {
         stage('Quality Gate') {
             steps {
                 script {
-                    timeout(time: 1, unit: 'MINUTES') {  // Adjust the timeout as needed
-                        def qualityGate = waitForQualityGate()
-                        if (qualityGate.status != 'OK') {
-                            currentBuild.result = 'FAILURE'
-                            emailext (
-                                to: 'devops.cedric.hj@gmail.com',
-                                subject: "Build ${env.JOB_NAME} - ${env.BUILD_NUMBER} Quality Gate Failed",
-                                body: """
-                                The build ${env.JOB_NAME} - ${env.BUILD_NUMBER} has failed the Quality Gate in SonarQube.
-
-                                Quality Gate Status: ${qualityGate.status}
-
-                                Reason: ${qualityGate.status} - ${qualityGate.description}
-
-                                Please check the SonarQube report for more details: ${SONARQUBE_URL}/dashboard?id=${env.JOB_NAME}
-                                """
-                            )
-                        }
+                    def qg = waitForQualityGate()
+                    if (qg.status != 'OK') {
+                        error "Pipeline aborted due to Quality Gate failure: ${qg.status}"
                     }
                 }
             }
         }
+        
     }
 
     post {

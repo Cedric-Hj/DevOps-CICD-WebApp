@@ -9,7 +9,8 @@ pipeline {
         dockerImageTag = "latest"  // You should change this to a valid tag name
         dockerRepo = "cedrichj/devops_cicd"
         dockerHubCredentials = 'DockerCredencials' // ID of your Jenkins credentials
-        dockerContainerName = "${dockerRepo}:${dockerImageTag}"
+        dockerFullContainerName = "${dockerRepo}:${dockerImageTag}"
+        dockerContainerName = "devops_cicd"
     }
 
     stages {
@@ -86,8 +87,8 @@ pipeline {
                 script {
                     // Stop and remove the current Docker container
                     sh "docker stop ${dockerContainerName} || true"
-                    sh "docker rm ${dockerRepo} || true"
-                    sh "docker rmi ${dockerContainerName} || true"
+                    sh "docker rm ${dockerContainerName} || true"
+                    sh "docker rmi ${dockerFullContainerName} || true"
                 }
             }
         }
@@ -117,7 +118,7 @@ pipeline {
             steps {
                 // Run the new Docker container from the newly built image
                 script {
-                    sh "docker run -p 8081:80 --name ${dockerRepo} ${dockerContainerName}"
+                    sh "docker run -p 8081:80 --name ${dockerContainerName} ${dockerFullContainerName}"
                 }
             }
         }

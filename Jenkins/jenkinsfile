@@ -4,30 +4,26 @@ pipeline {
     environment {
         MAVEN_HOME = '/opt/apache-maven-3.9.7'
         PATH = "${MAVEN_HOME}/bin:${env.PATH}"
-        SONARQUBE_URL = 'https://sonarcloud.io'  // Replace with your SonarQube server URL
+        SONARQUBE_URL = 'https://sonarcloud.io'
         SONARCLOUD_TOKEN = credentials('sonarcloud token')
-        dockerImageTag = "latest"
+        dockerImageTag = "latest"  // You should change this to a valid tag name
         dockerRepo = "cedrichj/devops_cicd"
         dockerHubCredentials = 'DockerCredencials' // ID of your Jenkins credentials
-    
-    
-        
     }
 
     stages {
 
-stage('Cleanup') {
-        steps {
-            deleteDir()
+        stage('Cleanup') {
+            steps {
+                deleteDir()
+            }
         }
-    }
+
         stage('Checkout') {
             steps {
                 git branch: 'main', url: 'https://github.com/Cedric-Hj/DevOps-FullStack-CICD.git'
             }
         }
-    
-    
 
         stage('Build and Test') {
             parallel {
@@ -56,7 +52,6 @@ stage('Cleanup') {
                 echo '<--------------- SonarQube Analysis started  --------------->'
                 withSonarQubeEnv('sonar-server') {
                     sh "${scannerHome}/bin/sonar-scanner"  
-    
                 }
                 echo '<--------------- SonarQube Analysis completed  --------------->'
             }
@@ -94,20 +89,19 @@ stage('Cleanup') {
                 }
             }
         }
-    
+
         stage('Push Docker Image') {
             steps {
                 // Push Docker image to Docker Hub
                 script {
-                     docker.withRegistry('https://hub.docker.com', dockerHubCredentials) {
-                    docker.image("${dockerRepo}:${dockerImageTag}").push()
+                    docker.withRegistry('https://hub.docker.com', dockerHubCredentials) {
+                        docker.image("${dockerRepo}:${dockerImageTag}").push()
                     }
                 }
             }
         }
         
     }
-
 
     post {
         success {

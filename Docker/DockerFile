@@ -7,19 +7,11 @@ FROM openjdk:17-jdk-slim
 COPY /var/lib/jenkins/workspace/MultibranchPipeline_main/jarstaging/com/example/simple-cicd-webpage/1.0-SNAPSHOT/simple-cicd-webpage-1.0-20240629.215043-1.jar MyHtmlApp.jar
 
 
-# Stage 2: Extract HTML file and set up Nginx
-FROM nginx:alpine
-WORKDIR /usr/share/nginx/html
-COPY --from=java-app /MyHtmlApp.jar /tmp/myapp.jar
-RUN jar xf /tmp/myapp.jar index.html && \
-    mv index.html . && \
-    rm /tmp/myapp.jar
-
 # Expose port 80 for the web server
 EXPOSE 8081
 
-# Start Nginx
-CMD ["nginx", "-g", "daemon off;"]
+# Command to run your application
+CMD ["java", "-jar", "your-app.jar"]
 
 
 

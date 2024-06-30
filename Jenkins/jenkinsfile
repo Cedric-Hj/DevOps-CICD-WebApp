@@ -97,8 +97,9 @@ pipeline {
                 script {
                     // Login to Docker Hub
                     docker.withRegistry('https://hub.docker.com', 'DockerCredencials') {
-                        def dockerImage = docker.image("${dockerRepo}:${dockerImageTag}")
-                        dockerImage.push()
+                        /*def dockerImage = docker.image("${dockerRepo}:${dockerImageTag}")
+                        dockerImage.push()*/
+                       sh "docker push ${dockerRepo}:${dockerImageTag}" 
                     }
                 }
             }

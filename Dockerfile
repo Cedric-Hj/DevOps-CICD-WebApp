@@ -21,7 +21,7 @@ RUN rm -rf /usr/share/nginx/html/*
 COPY --from=build /extracted/index.html /usr/share/nginx/html/
 
 # Expose port 80 to outside the container
-EXPOSE 8081
+EXPOSE 80
 
 # Command to run nginx in the foreground
 CMD ["nginx", "-g", "daemon off;"]

@@ -9,6 +9,7 @@ pipeline {
         dockerImageTag = "latest"  // You should change this to a valid tag name
         dockerRepo = "cedrichj/devops_cicd"
         dockerHubCredentials = 'DockerCredencials' // ID of your Jenkins credentials
+        dockerContainerName = "${dockerRepo}-container"
     }
 
     stages {
@@ -80,13 +81,22 @@ pipeline {
             }
         }
 
+        stage('Stop and Remove Docker Container') {
+            steps {
+                script {
+                    // Stop and remove the current Docker container
+                    sh "docker stop ${dockerContainerName} || true"
+                    sh "docker rm ${dockerContainerName} || true"
+                }
+            }
+        }
+
         stage('Build Docker Image') {
             steps {
                 // Build Docker image from Dockerfile in Dockerfiles directory
                 script {
                     echo "Building Docker image with tag: ${dockerRepo}:${dockerImageTag}"
                     docker.build("${dockerRepo}:${dockerImageTag}")
-
                 }
             }
         }
@@ -95,17 +105,22 @@ pipeline {
             steps {
                 // Push Docker image to Docker Hub
                 script {
-                    
                     docker.withRegistry('', 'DockerCredencials') {
-                        //def dockerImage = docker.image("${dockerRepo}:${dockerImageTag}")
-                        //dockerImage.push()
-                       sh "docker push ${dockerRepo}:${dockerImageTag}" 
+                        sh "docker push ${dockerRepo}:${dockerImageTag}" 
                     }
                 }
             }
         }
 
-        
+        stage('Deploy Docker Image') {
+            steps {
+                // Run the new Docker container from the newly built image
+                script {
+                    sh "docker run -d --name ${dockerContainerName} ${dockerRepo}:${dockerImageTag}"
+                }
+            }
+        }
+
     }
 
     post {

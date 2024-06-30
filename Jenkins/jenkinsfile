@@ -9,7 +9,7 @@ pipeline {
         dockerImageTag = "latest"  // You should change this to a valid tag name
         dockerRepo = "cedrichj/devops_cicd"
         dockerHubCredentials = 'DockerCredencials' // ID of your Jenkins credentials
-        dockerContainerName = "${dockerRepo}-container"
+        dockerContainerName = "${dockerRepo}:${dockerImageTag}"
     }
 
     stages {

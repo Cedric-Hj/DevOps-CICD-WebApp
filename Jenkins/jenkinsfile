@@ -95,7 +95,7 @@ pipeline {
                 // Push Docker image to Docker Hub
                 script {
                     docker.withRegistry('https://hub.docker.com', dockerHubCredentials) {
-                        docker.image("${dockerRepo}:${dockerImageTag}").push()
+                        docker.image("${dockerRepo}:latest").push()
                     }
                 }
             }

@@ -1,0 +1,119 @@
+pipeline {
+    agent any
+
+    environment {
+        MAVEN_HOME = '/opt/apache-maven-3.9.7'
+        PATH = "${MAVEN_HOME}/bin:${env.PATH}"
+        SONARQUBE_URL = 'https://sonarcloud.io'
+        SONARCLOUD_TOKEN = credentials('sonarcloud token')
+        dockerImageTag = "latest"  // You should change this to a valid tag name
+        dockerRepo = "cedrichj/devops_cicd"
+        dockerHubCredentials = 'DockerCredencials' // ID of your Jenkins credentials
+    }
+
+    stages {
+
+        stage('Cleanup') {
+            steps {
+                deleteDir()
+            }
+        }
+
+        stage('Checkout') {
+            steps {
+                git branch: 'main', url: 'https://github.com/Cedric-Hj/DevOps-FullStack-CICD.git'
+            }
+        }
+
+        stage('Build and Test') {
+            parallel {
+                stage('Build') {
+                    steps {
+                        echo "----------- Build started ----------"
+                        sh 'mvn clean deploy -Dmaven.test.skip=true'
+                        echo "----------- Build completed ----------"
+                    }
+                }
+                stage('Unit Test') {
+                    steps {
+                        echo "----------- Unit test started ----------"
+                        sh 'mvn surefire-report:report'
+                        echo "----------- Unit test completed ----------"
+                    }
+                }
+            }
+        }
+
+        stage('SonarQube Analysis') {
+            environment {
+                scannerHome = tool 'sonar-scanner'
+            }
+            steps {
+                echo '<--------------- SonarQube Analysis started  --------------->'
+                withSonarQubeEnv('sonar-server') {
+                    sh "${scannerHome}/bin/sonar-scanner"  
+                }
+                echo '<--------------- SonarQube Analysis completed  --------------->'
+            }
+        }
+
+        stage('Quality Gate') {
+            steps {
+                script {
+                    def qg = waitForQualityGate()
+                    if (qg.status != 'OK') {
+                        error "Pipeline aborted due to Quality Gate failure: ${qg.status}"
+                        emailext (
+                            to: 'devops.cedric.hj@gmail.com',
+                            subject: "Build ${env.JOB_NAME} - ${env.BUILD_NUMBER} Quality Gate Failed",
+                            body: """
+                            The build ${env.JOB_NAME} - ${env.BUILD_NUMBER} has failed the Quality Gate in SonarCloud.
+
+                            Quality Gate Status: ${status}
+                            Reason: ${description}
+
+                            Please check the SonarCloud report for more details: ${SONARCLOUD_URL}/dashboard?id=${env.JOB_NAME}
+                            """
+                        )
+                    }
+                }
+            }
+        }
+
+        stage('Build Docker Image') {
+            steps {
+                // Build Docker image from Dockerfile in Dockerfiles directory
+                script {
+                    echo "Building Docker image with tag: ${dockerRepo}:${dockerImageTag}"
+                    docker.build("${dockerRepo}:${dockerImageTag}")
+
+                }
+            }
+        }
+
+        stage('Push Docker Image') {
+            steps {
+                // Push Docker image to Docker Hub
+                script {
+                    
+                    docker.withRegistry('', 'DockerCredencials') {
+                        //def dockerImage = docker.image("${dockerRepo}:${dockerImageTag}")
+                        //dockerImage.push()
+                       sh "docker push ${dockerRepo}:${dockerImageTag}" 
+                    }
+                }
+            }
+        }
+
+        
+    }
+
+    post {
+        success {
+            echo 'Pipeline completed successfully'
+        }
+        failure {
+            echo 'Pipeline failed'
+        }
+    }
+}

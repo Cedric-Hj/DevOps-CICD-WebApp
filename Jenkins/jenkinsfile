@@ -86,7 +86,7 @@ pipeline {
                 script {
                     // Stop and remove the current Docker container
                     sh "docker stop ${dockerContainerName} || true"
-                    sh "docker rm ${dockerContainerName} || true"
+                    sh "docker rm ${dockerRepo} || true"
                     sh "docker rmi ${dockerContainerName} || true"
                 }
             }
@@ -117,7 +117,7 @@ pipeline {
             steps {
                 // Run the new Docker container from the newly built image
                 script {
-                    sh "docker run -p 8081:80 --name ${dockerContainerName} ${dockerContainerName}"
+                    sh "docker run -p 8081:80 --name ${dockerRepo} ${dockerContainerName}"
                 }
             }
         }

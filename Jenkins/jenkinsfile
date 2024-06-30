@@ -85,7 +85,8 @@ pipeline {
                 // Build Docker image from Dockerfile in Dockerfiles directory
                 script {
                     echo "Building Docker image with tag: ${dockerRepo}:${dockerImageTag}"
-                    docker.build("-f Dockerfile -t cedrichj/devops_cicd:latest .")
+                    docker.build("cedrichj/devops_cicd:latest")
+
                 }
             }
         }

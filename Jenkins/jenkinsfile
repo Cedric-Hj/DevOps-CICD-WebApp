@@ -80,7 +80,7 @@ pipeline {
             }
         }
 
-        /*stage('Build Docker Image') {
+        stage('Build Docker Image') {
             steps {
                 // Build Docker image from Dockerfile in Dockerfiles directory
                 script {
@@ -90,7 +90,7 @@ pipeline {
             }
         }
 
-        stage('Push Docker Image') {
+        /*stage('Push Docker Image') {
             steps {
                 // Push Docker image to Docker Hub
                 script {

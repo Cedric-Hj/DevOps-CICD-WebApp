@@ -89,6 +89,7 @@ stage('Cleanup') {
             steps {
                 // Build Docker image from Dockerfile in Dockerfiles directory
                 script {
+                    echo "Building Docker image with tag: ${dockerRepo}:${dockerImageTag}"
                     docker.build("-f Dockerfile -t ${dockerRepo}:${dockerImageTag} .")
                 }
             }

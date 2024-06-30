@@ -91,16 +91,16 @@ pipeline {
             }
         }
 
-        /*stage('Push Docker Image') {
+        stage('Push Docker Image') {
             steps {
                 // Push Docker image to Docker Hub
                 script {
                     docker.withRegistry('https://hub.docker.com', dockerHubCredentials) {
-                        docker.image("${dockerRepo}:latest").push()
+                        docker.image("${dockerRepo}:${dockerImageTag}").push()
                     }
                 }
             }
-        }*/
+        }
         
     }
 

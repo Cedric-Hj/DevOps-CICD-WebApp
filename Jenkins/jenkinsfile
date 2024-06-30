@@ -118,7 +118,7 @@ pipeline {
             steps {
                 // Run the new Docker container from the newly built image
                 script {
-                    sh "docker run -p 8081:80 --name ${dockerContainerName} ${dockerFullContainerName}"
+                    sh "docker run -d -p 8081:80 --name ${dockerContainerName} ${dockerFullContainerName}"
                 }
             }
         }

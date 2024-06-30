@@ -98,8 +98,8 @@ pipeline {
                     
                     docker.withRegistry('', 'DockerCredencials') {
                         //def dockerImage = docker.image("${dockerRepo}:${dockerImageTag}")
-                        dockerImage.push()
-                       //sh "docker push ${dockerRepo}:${dockerImageTag}" 
+                        //dockerImage.push()
+                       sh "docker push ${dockerRepo}:${dockerImageTag}" 
                     }
                 }
             }

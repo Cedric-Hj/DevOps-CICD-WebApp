@@ -123,6 +123,16 @@ If master node>
 kubeadm init
 ```
 
+7. Alternatively, if you are the root user, you can run:
+```sh
+export KUBECONFIG=/etc/kubernetes/admin.conf
+```
+
+We will install the Addon Weave Net 2.8.1, running the command:
+```sh
+kubectl apply -f https://github.com/weaveworks/weave/releases/download/v2.8.1/weave-daemonset-k8s.yaml
+```
+
 ```sh
 kubectl create -f https://raw.githubusercontent.com/projectcalico/calico/v3.27.0/manifests/tigera-operator.yaml
 ```
@@ -131,29 +141,16 @@ wget https://raw.githubusercontent.com/projectcalico/calico/v3.27.0/manifests/cu
 ```
 
 
-6. To make kubectl work for your non-root user, run these commands:
-
-7. Alternatively, if you are the root user, you can run:
-```sh
-export KUBECONFIG=/etc/kubernetes/admin.conf
-```
 8. You can test kubectl with a simple command:
 ```sh
 # Running to get information about the attached nodes in the cluster
 kubectl get nodes
 ```
 
-How to add the Addon networking
-We must deploy a Container Network Interface (CNI) based Pod network add-on so that your Pods can communicate with each other.
-
-Cluster DNS (CoreDNS) will not start up before a network is installed.
-
-We will install the Addon Weave Net 2.8.1, running the command:
-```sh
-kubectl apply -f https://github.com/weaveworks/weave/releases/download/v2.8.1/weave-daemonset-k8s.yaml
-```
 
 To see all namespaces in your cluster, run the command:
 ```sh
 kubectl get namespaces
 ```
+
+

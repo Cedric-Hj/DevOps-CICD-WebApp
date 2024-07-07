@@ -108,6 +108,14 @@ sudo apt update
 sudo apt-get install -y kubelet=1.28.4-1.1 kubeadm=1.28.4-1.1 kubectl=1.28.4-1.1
 sudo apt-mark hold kubelet kubeadm kubectl
 ```
+
+IF ON WORKER NODES>
+```sh
+kubeadm join 10.0.2.15:6443 --token hgqxm0.j1pe5lv6ow47vx2f \
+	--discovery-token-ca-cert-hash sha256:b4d0e8cbcd9e03bf80ba65fd6616746f5732eade5d9789ac941388408be7b37f 
+```
+
+
 ```sh
 kubectl create -f https://raw.githubusercontent.com/projectcalico/calico/v3.27.0/manifests/tigera-operator.yaml
 ```

@@ -122,6 +122,8 @@ kubeadm join 192.168.0.29:6443 --token z40v30.aktcl8z1kahpbty4 \
 If master node>
 ```sh
 kubeadm init
+
+sudo kubeadm init --control-plane-endpoint cka-cluster:6443 --pod-network-cidr 10.1.0.0/22
 ```
 
 7. Alternatively, if you are the root user, you can run:

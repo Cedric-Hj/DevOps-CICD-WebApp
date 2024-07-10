@@ -112,8 +112,8 @@ sudo apt-mark hold kubelet kubeadm kubectl
 
 IF ON WORKER NODES>
 ```sh
-kubeadm join 192.168.0.29:6443 --token z40v30.aktcl8z1kahpbty4 \
-	--discovery-token-ca-cert-hash sha256:d7bf1c3ce333d459b9b00ac434d2cc7abf591ac7264d97949df1bb9346a22c91 
+kubeadm join 192.168.0.29:6443 --token d9oxnf.s3kfj4tbudvz8dcs \
+	--discovery-token-ca-cert-hash sha256:ea40c1fde7bd9a5e3ba9dd5105186185507de7c6a01ecde6bed18670e8254bd2
   
 
 

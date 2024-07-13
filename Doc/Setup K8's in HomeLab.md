@@ -8,8 +8,16 @@
 k8s-control   192.168.15.93
 k8-worker1    192.168.15.94
 ```
+While installing UBUNTU SERVER, manual IPV4 config
+- Subnet: 192.168.15.0/24
+- Adress 192.168.15.93 (for control node)
+- Adress 192.168.15.94 (for worker node 1)
+- Gateway 192.168.15.1
+- Name servers 192.168.15.1
+- done
 
-
+- No proxy
+-Install OpenSSH server
 
 ### Sofwtares and Versions:
 UBUNTU SERVER LTS 22.04.3 - https://ubuntu.com/download/server

@@ -2,7 +2,7 @@
 FROM openjdk:17-jdk-slim AS build
 
 # Copy your Java application JAR to the image
-COPY jarstaging/com/example/simple-cicd-webpage/1.0-SNAPSHOT/*.jar app.jar
+COPY jarstaging/com/example/ced-webpage/1.0-SNAPSHOT/*.jar app.jar
 
 # Create a temporary directory for extraction
 RUN mkdir /extracted

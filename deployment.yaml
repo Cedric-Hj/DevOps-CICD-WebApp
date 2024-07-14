@@ -1,21 +1,21 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: simple-cicd-webpage
+  name: ced-webpage
   labels:
-    app: simple-cicd-webpage
+    app: ced-webpage
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: simple-cicd-webpage
+      app: ced-webpage
   template:
     metadata:
       labels:
-        app: simple-cicd-webpage
+        app: ced-webpage
     spec:
       containers:
-        - name: simple-cicd-webpage
+        - name: ced-webpage
           image: cedrichj/devops_cicd:latest
           ports:
             - containerPort: 80
@@ -25,10 +25,10 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: simple-cicd-webpage
+  name: ced-webpage
 spec:
   selector:
-    app: simple-cicd-webpage
+    app: ced-webpage
   ports:
     - protocol: TCP
       port: 80

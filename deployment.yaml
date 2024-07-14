@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: simple-cicd-webpage
+  labels:
+    app: simple-cicd-webpage
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: simple-cicd-webpage
+  template:
+    metadata:
+      labels:
+        app: simple-cicd-webpage
+    spec:
+      containers:
+        - name: simple-cicd-webpage
+          image: cedrichj/devops_cicd:latest
+          ports:
+            - containerPort: 80
+          env:
+            # Add environment variables if needed
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: simple-cicd-webpage
+spec:
+  selector:
+    app: simple-cicd-webpage
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+  type: NodePort

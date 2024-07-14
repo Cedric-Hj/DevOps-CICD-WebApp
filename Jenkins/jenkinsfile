@@ -82,7 +82,7 @@ pipeline {
             }
         }
 
-        stage('Stop and Remove Docker Container') {
+        /*stage('Stop and Remove Docker Container') {
             steps {
                 script {
                     // Stop and remove the current Docker container
@@ -91,7 +91,7 @@ pipeline {
                     sh "docker rmi ${dockerFullContainerName} || true"
                 }
             }
-        }
+        }*/
 
         stage('Build Docker Image') {
             steps {
@@ -114,14 +114,14 @@ pipeline {
             }
         }
 
-        stage('Deploy Docker Image') {
+        /*stage('Deploy Docker Image') {
             steps {
                 // Run the new Docker container from the newly built image
                 script {
                     sh "docker run -d -p 8081:80 --name ${dockerContainerName} ${dockerFullContainerName}"
                 }
             }
-        }
+        }*/
 
     }
 

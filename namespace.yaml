@@ -1,4 +1,4 @@
-apiVersion: v1.0
+apiVersion: ${AppVersion}
 kind: Namespace
 metadata:
   name: ced-devops-cicd

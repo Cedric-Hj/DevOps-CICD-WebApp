@@ -11,7 +11,7 @@ pipeline {
         dockerHubCredentials = 'DockerCredencials' // ID of your Jenkins credentials
         dockerContainerName = "devops_cicd"
         Version = readYaml file: 'parameters.yaml'
-        appVersion = v1.0
+        appVersion = "v1.0"
         dockerFullContainerName = "${dockerRepo}:${appVersion}"
     }
 

@@ -10,10 +10,9 @@ pipeline {
         dockerRepo = "cedrichj/devops_cicd"
         dockerHubCredentials = 'DockerCredencials' // ID of your Jenkins credentials
         dockerContainerName = "devops_cicd"
-        APP_VERSION = ""
-        
-                    
-        
+        Version = readYaml file: 'parameters.yaml'
+        appVersion = v1.0
+        dockerFullContainerName = "${dockerRepo}:${appVersion}"
     }
 
     stages {
@@ -24,26 +23,9 @@ pipeline {
             }
         }
 
-        stage('Checkout and Read Parameters') {
+        stage('Checkout') {
             steps {
-                script {
-                    // Checkout the repository
-                    git branch: 'main', url: 'https://github.com/Cedric-Hj/DevOps-CICD-WebApp.git'
-                    
-                    // List files to check if parameters.yaml is present
-                    sh 'ls -la'
-                    
-                    // Output the content of parameters.yaml for debugging
-                    sh 'cat parameters.yaml'
-                    
-                    // Read the parameters.yaml file
-                    $APP_VERSION = readYaml(file: 'parameters.yaml')
-                    
-                    // Output the parsed YAML content for debugging
-                    echo "Parsed parameters.yaml content: ${APP_VERSION}"
-
-                   
-                }
+                git branch: 'main', url: 'https://github.com/Cedric-Hj/DevOps-CICD-WebApp.git'
             }
         }
 
@@ -106,8 +88,8 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 script {
-                    echo "Building Docker image with tag: ${dockerRepo}:${env.APP_VERSION}"
-                    docker.build("${dockerRepo}:${env.APP_VERSION}")
+                    echo "Building Docker image with tag: ${dockerRepo}:${appVersion}"
+                    docker.build("${dockerRepo}:${appVersion}")
                 }
             }
         }
@@ -116,7 +98,7 @@ pipeline {
             steps {
                 script {
                     docker.withRegistry('', 'DockerCredencials') {
-                        sh "docker push ${dockerRepo}:${env.APP_VERSION}" 
+                        sh "docker push ${dockerRepo}:${appVersion}" 
                     }
                 }
             }
@@ -127,9 +109,9 @@ pipeline {
                 script {
                     // Replace placeholders in Kubernetes manifests
                     sh """
-                    sed -i 's/{{APP_VERSION}}/${env.APP_VERSION}/g' /opt/kubernetes/deployment.yaml
-                    sed -i 's/{{APP_VERSION}}/${env.APP_VERSION}/g' /opt/kubernetes/service.yaml
-                    sed -i 's/{{APP_VERSION}}/${env.APP_VERSION}/g' /opt/kubernetes/namespace.yaml
+                    sed -i 's/{{APP_VERSION}}/${appVersion}/g' /opt/kubernetes/deployment.yaml
+                    sed -i 's/{{APP_VERSION}}/${appVersion}/g' /opt/kubernetes/service.yaml
+                    sed -i 's/{{APP_VERSION}}/${appVersion}/g' /opt/kubernetes/namespace.yaml
                     """
 
                     // Apply the Kubernetes manifests

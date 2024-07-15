@@ -19,7 +19,7 @@ pipeline {
             }
         }
 
-        stage('Checkout and Read Parameters') {
+                stage('Checkout and Read Parameters') {
             steps {
                 script {
                     // Checkout the repository
@@ -28,11 +28,14 @@ pipeline {
                     // List files to check if parameters.yaml is present
                     sh 'ls -la'
                     
+                    // Output the content of parameters.yaml for debugging
+                    sh 'cat parameters.yaml'
+                    
                     // Read the parameters.yaml file
                     def params = readYaml(file: 'parameters.yaml')
                     
-                    // Output the content of parameters.yaml for debugging
-                    echo "parameters.yaml content: ${params}"
+                    // Output the parsed YAML content for debugging
+                    echo "Parsed parameters.yaml content: ${params}"
 
                     // Set environment variables based on the parameters.yaml
                     env.APP_VERSION = params.AppVersion

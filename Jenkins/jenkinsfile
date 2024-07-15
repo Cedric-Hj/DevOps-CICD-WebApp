@@ -10,6 +10,10 @@ pipeline {
         dockerRepo = "cedrichj/devops_cicd"
         dockerHubCredentials = 'DockerCredencials' // ID of your Jenkins credentials
         dockerContainerName = "devops_cicd"
+        APP_VERSION = ""
+        
+                    
+        
     }
 
     stages {
@@ -33,18 +37,12 @@ pipeline {
                     sh 'cat parameters.yaml'
                     
                     // Read the parameters.yaml file
-                    def params = readYaml(file: 'parameters.yaml')
+                    ${APP_VERSION}  = readYaml(file: 'parameters.yaml')
                     
                     // Output the parsed YAML content for debugging
-                    echo "Parsed parameters.yaml content: ${params}"
+                    echo "Parsed parameters.yaml content: ${APP_VERSION}"
 
-                    // Set environment variables based on the parameters.yaml
-                    env.APP_VERSION = params.AppVersion
-                    env.DOCKER_FULL_CONTAINER_NAME = "${dockerRepo}:${env.APP_VERSION}"
-                    
-                    // Debugging output for environment variables
-                    echo "APP_VERSION: ${env.APP_VERSION}"
-                    echo "DOCKER_FULL_CONTAINER_NAME: ${env.DOCKER_FULL_CONTAINER_NAME}"
+                   
                 }
             }
         }

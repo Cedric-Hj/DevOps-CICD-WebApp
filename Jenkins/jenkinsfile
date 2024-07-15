@@ -114,13 +114,13 @@ pipeline {
                 script {
                     // Replace placeholders in Kubernetes manifests
                     sh """
-                    sed -i 's/{{APP_VERSION}}/${env.APP_VERSION}/g' /root/.kube/config/deployment.yaml
-                    sed -i 's/{{APP_VERSION}}/${env.APP_VERSION}/g' /root/.kube/config/service.yaml
-                    sed -i 's/{{APP_VERSION}}/${env.APP_VERSION}/g' /root/.kube/config/namespace.yaml
+                    sed -i 's/{{APP_VERSION}}/${env.APP_VERSION}/g' /opt/kubernetes/deployment.yaml
+                    sed -i 's/{{APP_VERSION}}/${env.APP_VERSION}/g' /opt/kubernetes/service.yaml
+                    sed -i 's/{{APP_VERSION}}/${env.APP_VERSION}/g' /opt/kubernetes/namespace.yaml
                     """
 
                     // Apply the Kubernetes manifests
-                    sh "kubectl apply -f /root/.kube/config/"
+                    sh "kubectl apply -f /opt/kubernetes/"
                 }
             }
         }

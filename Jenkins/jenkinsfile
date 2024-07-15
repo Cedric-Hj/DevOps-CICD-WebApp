@@ -9,8 +9,10 @@ pipeline {
         dockerImageTag = "latest"  // You should change this to a valid tag name
         dockerRepo = "cedrichj/devops_cicd"
         dockerHubCredentials = 'DockerCredencials' // ID of your Jenkins credentials
-        dockerFullContainerName = "${dockerRepo}:${dockerImageTag}"
         dockerContainerName = "devops_cicd"
+        Version = readYaml file: 'parameters.yaml'
+        appVersion = params.AppVersion
+        dockerFullContainerName = "${dockerRepo}:${appVersion}"
     }
 
     stages {
@@ -97,8 +99,8 @@ pipeline {
             steps {
                 // Build Docker image from Dockerfile in Dockerfiles directory
                 script {
-                    echo "Building Docker image with tag: ${dockerRepo}:${dockerImageTag}"
-                    docker.build("${dockerRepo}:${dockerImageTag}")
+                    echo "Building Docker image with tag: ${dockerRepo}:${appVersion}"
+                    docker.build("${dockerRepo}:${appVersion}")
                 }
             }
         }
@@ -108,7 +110,7 @@ pipeline {
                 // Push Docker image to Docker Hub
                 script {
                     docker.withRegistry('', 'DockerCredencials') {
-                        sh "docker push ${dockerRepo}:${dockerImageTag}" 
+                        sh "docker push ${dockerRepo}:${appVersion}" 
                     }
                 }
             }

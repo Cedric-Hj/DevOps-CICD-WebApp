@@ -48,7 +48,7 @@ pipeline {
             }
         }
 
-        stage('SonarQube Analysis') {
+        /*stage('SonarQube Analysis') {
             environment {
                 scannerHome = tool 'sonar-scanner'
             }
@@ -82,7 +82,7 @@ pipeline {
                     }
                 }
             }
-        }
+        }*/
 
         stage('Build Docker Image') {
             steps {

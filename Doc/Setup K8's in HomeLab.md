@@ -164,6 +164,6 @@ kubectl label node worker-node-1 node-role.kubernetes.io/worker=worker
 # ON Worker NODE
 Run the command from the token create output above
 ```sh
-kubeadm join 192.168.0.27:6443 --token yrk6r1.yxgssonh05xi6pdw --discovery-token-ca-cert-hash sha256:33da70046c2b6972731c6d33dc83036f3f8a50dfa51137743a4cf8f816ad899e
+kubeadm join 192.168.0.27:6443 --token 0g7xsc.50d3lv4aps645ub5 --discovery-token-ca-cert-hash sha256:33da70046c2b6972731c6d33dc83036f3f8a50dfa51137743a4cf8f816ad899e
 ```
 If everything is running smoothly, take a snapshot of the master node while running. You can turn off the master's VM and turn it on again with the k8's still running by reloading from that snapshot.

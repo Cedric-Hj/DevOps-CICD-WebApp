@@ -37,7 +37,7 @@ pipeline {
                     sh 'cat parameters.yaml'
                     
                     // Read the parameters.yaml file
-                    ${APP_VERSION}  = readYaml(file: 'parameters.yaml')
+                    $APP_VERSION = readYaml(file: 'parameters.yaml')
                     
                     // Output the parsed YAML content for debugging
                     echo "Parsed parameters.yaml content: ${APP_VERSION}"

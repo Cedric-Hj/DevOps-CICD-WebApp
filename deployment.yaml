@@ -1,4 +1,4 @@
-apiVersion: apps/v1
+apiVersion: ${AppVersion}
 kind: Deployment
 metadata:
   name: ced-webpage
@@ -22,7 +22,7 @@ spec:
           env:
             # Add environment variables if needed
 ---
-apiVersion: v1
+apiVersion: ${AppVersion}
 kind: Service
 metadata:
   name: ced-webpage

@@ -6,13 +6,9 @@ pipeline {
         PATH = "${MAVEN_HOME}/bin:${env.PATH}"
         SONARQUBE_URL = 'https://sonarcloud.io'
         SONARCLOUD_TOKEN = credentials('sonarcloud token')
-        dockerImageTag = "latest"  // You should change this to a valid tag name
         dockerRepo = "cedrichj/devops_cicd"
         dockerHubCredentials = 'DockerCredencials' // ID of your Jenkins credentials
         dockerContainerName = "devops_cicd"
-        Version = readYaml file: 'parameters.yaml'
-        appVersion = params.AppVersion
-        dockerFullContainerName = "${dockerRepo}:${appVersion}"
     }
 
     stages {
@@ -23,9 +19,19 @@ pipeline {
             }
         }
 
-        stage('Checkout') {
+        stage('Checkout and Read Parameters') {
             steps {
-                git branch: 'main', url: 'https://github.com/Cedric-Hj/DevOps-CICD-WebApp.git'
+                script {
+                    // Checkout the repository
+                    git branch: 'main', url: 'https://github.com/Cedric-Hj/DevOps-CICD-WebApp.git'
+                    
+                    // Read the parameters.yaml file
+                    def params = readYaml(file: 'parameters.yaml')
+                    
+                    // Set environment variables based on the parameters.yaml
+                    env.APP_VERSION = params.AppVersion
+                    env.DOCKER_FULL_CONTAINER_NAME = "${dockerRepo}:${env.APP_VERSION}"
+                }
             }
         }
 
@@ -55,7 +61,7 @@ pipeline {
             steps {
                 echo '<--------------- SonarQube Analysis started  --------------->'
                 withSonarQubeEnv('sonar-server') {
-                    sh "${scannerHome}/bin/sonar-scanner"  
+                    sh "${scannerHome}/bin/sonar-scanner"
                 }
                 echo '<--------------- SonarQube Analysis completed  --------------->'
             }
@@ -84,47 +90,40 @@ pipeline {
             }
         }
 
-        /*stage('Stop and Remove Docker Container') {
-            steps {
-                script {
-                    // Stop and remove the current Docker container
-                    sh "docker stop ${dockerContainerName} || true"
-                    sh "docker rm ${dockerContainerName} || true"
-                    sh "docker rmi ${dockerFullContainerName} || true"
-                }
-            }
-        }*/
-
         stage('Build Docker Image') {
             steps {
-                // Build Docker image from Dockerfile in Dockerfiles directory
                 script {
-                    echo "Building Docker image with tag: ${dockerRepo}:${appVersion}"
-                    docker.build("${dockerRepo}:${appVersion}")
+                    echo "Building Docker image with tag: ${dockerRepo}:${env.APP_VERSION}"
+                    docker.build("${dockerRepo}:${env.APP_VERSION}")
                 }
             }
         }
 
         stage('Push Docker Image') {
             steps {
-                // Push Docker image to Docker Hub
                 script {
                     docker.withRegistry('', 'DockerCredencials') {
-                        sh "docker push ${dockerRepo}:${appVersion}" 
+                        sh "docker push ${dockerRepo}:${env.APP_VERSION}" 
                     }
                 }
             }
         }
 
-        /*stage('Deploy Docker Image') {
+        stage('Deploy to Kubernetes') {
             steps {
-                // Run the new Docker container from the newly built image
                 script {
-                    sh "docker run -d -p 8081:80 --name ${dockerContainerName} ${dockerFullContainerName}"
+                    // Replace placeholders in Kubernetes manifests
+                    sh """
+                    sed -i 's/{{APP_VERSION}}/${env.APP_VERSION}/g' /root/.kube/config/deployment.yaml
+                    sed -i 's/{{APP_VERSION}}/${env.APP_VERSION}/g' /root/.kube/config/service.yaml
+                    sed -i 's/{{APP_VERSION}}/${env.APP_VERSION}/g' /root/.kube/config/namespace.yaml
+                    """
+
+                    // Apply the Kubernetes manifests
+                    sh "kubectl apply -f /root/.kube/config/"
                 }
             }
-        }*/
-
+        }
     }
 
     post {

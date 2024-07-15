@@ -25,12 +25,22 @@ pipeline {
                     // Checkout the repository
                     git branch: 'main', url: 'https://github.com/Cedric-Hj/DevOps-CICD-WebApp.git'
                     
+                    // List files to check if parameters.yaml is present
+                    sh 'ls -la'
+                    
                     // Read the parameters.yaml file
                     def params = readYaml(file: 'parameters.yaml')
                     
+                    // Output the content of parameters.yaml for debugging
+                    echo "parameters.yaml content: ${params}"
+
                     // Set environment variables based on the parameters.yaml
                     env.APP_VERSION = params.AppVersion
                     env.DOCKER_FULL_CONTAINER_NAME = "${dockerRepo}:${env.APP_VERSION}"
+                    
+                    // Debugging output for environment variables
+                    echo "APP_VERSION: ${env.APP_VERSION}"
+                    echo "DOCKER_FULL_CONTAINER_NAME: ${env.DOCKER_FULL_CONTAINER_NAME}"
                 }
             }
         }

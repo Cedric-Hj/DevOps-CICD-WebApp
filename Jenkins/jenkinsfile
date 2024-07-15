@@ -6,6 +6,7 @@ pipeline {
         PATH = "${MAVEN_HOME}/bin:${env.PATH}"
         SONARQUBE_URL = 'https://sonarcloud.io'
         SONARCLOUD_TOKEN = credentials('sonarcloud token')
+        dockerImageTag = "latest"  // You should change this to a valid tag name
         dockerRepo = "cedrichj/devops_cicd"
         dockerHubCredentials = 'DockerCredencials' // ID of your Jenkins credentials
         dockerContainerName = "devops_cicd"
@@ -19,7 +20,7 @@ pipeline {
             }
         }
 
-                stage('Checkout and Read Parameters') {
+        stage('Checkout and Read Parameters') {
             steps {
                 script {
                     // Checkout the repository
@@ -47,6 +48,7 @@ pipeline {
                 }
             }
         }
+
 
         stage('Build and Test') {
             parallel {

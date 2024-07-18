@@ -108,9 +108,9 @@ pipeline {
             steps {
                 script {
                    // Replace placeholders in Kubernetes manifests
-                        /*sh "sed -i 's/\${AppVersion}/${appVersion}/g' /opt/kubernetes/deployment.yaml"
+                        sh "sed -i 's/\${AppVersion}/${appVersion}/g' /opt/kubernetes/deployment.yaml"
                         sh "sed -i 's/\${AppVersion}/${appVersion}/g' /opt/kubernetes/service.yaml"
-                        sh "sed -i 's/\${AppVersion}/${appVersion}/g' /opt/kubernetes/namespace.yaml"*/
+                        sh "sed -i 's/\${AppVersion}/${appVersion}/g' /opt/kubernetes/namespace.yaml"
 
                     // Apply the Kubernetes manifests
                     sh "kubectl apply -f /opt/kubernetes/"

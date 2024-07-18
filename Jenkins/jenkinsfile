@@ -108,7 +108,7 @@ pipeline {
             steps {
                 script {
                     // Apply the Kubernetes manifests
-                    sh "kubectl -kubeconfig=$KUBECONFIG apply -f /opt/kubernetes/"
+                    sh "kubectl -kubeconfig=$KUBECONFIG apply -k /opt/kubernetes/"
                 }
             }
         }

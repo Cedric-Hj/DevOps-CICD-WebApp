@@ -12,7 +12,7 @@ pipeline {
         dockerContainerName = "devops_cicd"
         appVersion = "v1.0"
         dockerFullContainerName = "${dockerRepo}:${appVersion}"
-        KUBECONFIG = /root/.kube/config/kubeconfig
+        KUBECONFIG = '/root/.kube/config/kubeconfig'
     }
 
     stages {

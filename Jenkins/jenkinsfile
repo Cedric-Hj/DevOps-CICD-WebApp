@@ -12,7 +12,7 @@ pipeline {
         dockerContainerName = "devops_cicd"
         appVersion = "v1.0"
         dockerFullContainerName = "${dockerRepo}:${appVersion}"
-        KUBECONFIG = '/root/.kube/config/kubeconfig'
+        KUBECONFIG = '/var/lib/jenkins/.kube/kubeconfig'
     }
 
     stages {
@@ -107,11 +107,6 @@ pipeline {
         stage('Deploy to Kubernetes') {
             steps {
                 script {
-                   // Replace placeholders in Kubernetes manifests
-                        /*sh "sed -i 's/\${AppVersion}/${appVersion}/g' /opt/kubernetes/deployment.yaml"
-                        sh "sed -i 's/\${AppVersion}/${appVersion}/g' /opt/kubernetes/service.yaml"
-                        sh "sed -i 's/\${AppVersion}/${appVersion}/g' /opt/kubernetes/namespace.yaml"*/
-
                     // Apply the Kubernetes manifests
                     sh "kubectl -kubeconfig=$KUBECONFIG apply -f /opt/kubernetes/"
                 }

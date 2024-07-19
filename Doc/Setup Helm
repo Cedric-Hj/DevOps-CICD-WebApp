@@ -21,7 +21,7 @@ helm search repo stable
 
 1. To create a helm chart template 
    ```sh 
-   helm create ttrend
+   helm create Ced_Devops_Webapp
    ```
 
     by default, it contains 

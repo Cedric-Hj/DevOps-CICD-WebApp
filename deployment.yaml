@@ -1,7 +1,8 @@
-apiVersion: ${AppVersion}
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: ced-webpage
+  namespace: ced-devops-cicd
   labels:
     app: ced-webpage
 spec:
@@ -15,17 +16,19 @@ spec:
         app: ced-webpage
     spec:
       containers:
-        - name: ced-webpage
-          image: cedrichj/devops_cicd:${AppVersion}
+        - name: ced-webpages
+          image: cedrichj/devops_cicd:v2.3
+          imagePullPolicy: Always
           ports:
             - containerPort: 80
           env:
             # Add environment variables if needed
 ---
-apiVersion: ${AppVersion}
+apiVersion: v1
 kind: Service
 metadata:
   name: ced-webpage
+  namespace: ced-devops-cicd
 spec:
   selector:
     app: ced-webpage

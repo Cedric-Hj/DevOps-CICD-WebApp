@@ -1,7 +1,8 @@
-apiVersion: ${AppVersion}
+apiVersion: v1
 kind: Service
 metadata:
   name: ced-webpage
+  namespace: ced-devops-cicd
 spec:
   selector:
     app: ced-webpage
@@ -9,4 +10,5 @@ spec:
     - protocol: TCP
       port: 80
       targetPort: 80
-  type: NodePort 
+  type: NodePort
+

@@ -52,7 +52,7 @@ kubectl annotate namespace ced-devops-cicd meta.helm.sh/release-namespace=ced-de
 
 3. Change the version number in the 
    ```sh 
-   helm install ced-devops-webapp-v1 Ced_Devops_Webapp --namespace ced-devops-cicd
+   helm install ced-devops-webapp-v1 <place o file > --namespace ced-devops-cicd
    ```
 
 4. Create a jenkins job for the deployment 

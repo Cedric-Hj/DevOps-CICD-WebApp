@@ -42,22 +42,25 @@ delete all file in /templates folder:
 
 1. Add Labels and Annotations
 
+create the namespace:
+kubectl create namespace ced-devops-cicd
+
 Run the following commands to add the required labels and annotations to the namespace:
 
 bash
 
 # Add the label for Helm management
-kubectl label namespace ced-devops-cicd-v1 app.kubernetes.io/managed-by=Helm
+kubectl label namespace ced-devops-cicd app.kubernetes.io/managed-by=Helm
 
 # Add the annotations for Helm release tracking
-kubectl annotate namespace ced-devops-cicd-v1 meta.helm.sh/release-name=ced-webpage-v1
-kubectl annotate namespace ced-devops-cicd meta.helm.sh/release-namespace=ced-devops-cicd-v1
+kubectl annotate namespace ced-devops-cicd meta.helm.sh/release-name=ced-devops-webapp
+kubectl annotate namespace ced-devops-cicd meta.helm.sh/release-namespace=ced-devops-cicd
 
 
 
 3. Change the version number in the 
    ```sh 
-   helm install ced-devops-webapp-v1 <place o file > --namespace ced-devops-cicd
+   helm install ced-devops-webapp Ced_Devops_Webapp-0.1.0.tgz --namespace ced-devops-cicd
    ```
 
 4. Create a jenkins job for the deployment 

@@ -36,7 +36,7 @@ helm search repo stable
    ```
 3. Change the version number in the 
    ```sh 
-   helm install ttrend ttrend-0.1.0.tgz
+   helm install ced-devops-webapp-v1 Ced_Devops_Webapp --namespace ced-devops-cicd
    ```
 
 4. Create a jenkins job for the deployment 

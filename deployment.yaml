@@ -23,18 +23,3 @@ spec:
             - containerPort: 80
           env:
             # Add environment variables if needed
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: ced-webpage
-  namespace: ced-devops-cicd
-spec:
-  selector:
-    app: ced-webpage
-  ports:
-    - protocol: TCP
-      port: 80
-      targetPort: 80
-      nodePort: 31804
-  type: NodePort

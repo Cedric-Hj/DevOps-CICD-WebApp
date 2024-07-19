@@ -12,7 +12,7 @@ pipeline {
         dockerContainerName = "devops_cicd"
         appVersion = "v2.4"
         dockerFullContainerName = "${dockerRepo}:${appVersion}"
-        /*KUBECONFIG = '/var/lib/jenkins/.kube/kubeconfig'*/
+        KUBECONFIG = '/var/lib/jenkins/.kube/kubeconfig'
     }
 
     stages {
@@ -120,12 +120,12 @@ pipeline {
             script {
                echo '<--------------- Helm remove all version and Deploy new one --------------->'
                sh '''
-                    kubectl delete namespace ced-devops-cicd
+                    kubectl --kubeconfig=$KUBECONFIG delete namespace ced-devops-cicd
                     helm uninstall ced-devops-webapp --namespace ced-devops-cicd
-                    kubectl create namespace ced-devops-cicd
-                    kubectl label namespace ced-devops-cicd app.kubernetes.io/managed-by=Helm
-                    kubectl annotate namespace ced-devops-cicd meta.helm.sh/release-name=ced-devops-webapp
-                    kubectl annotate namespace ced-devops-cicd meta.helm.sh/release-namespace=ced-devops-cicd
+                    kubectl --kubeconfig=$KUBECONFIG create namespace ced-devops-cicd
+                    kubectl --kubeconfig=$KUBECONFIG label namespace ced-devops-cicd app.kubernetes.io/managed-by=Helm
+                    kubectl --kubeconfig=$KUBECONFIG annotate namespace ced-devops-cicd meta.helm.sh/release-name=ced-devops-webapp
+                    kubectl --kubeconfig=$KUBECONFIG annotate namespace ced-devops-cicd meta.helm.sh/release-namespace=ced-devops-cicd
                     helm install ced-devops-webapp /root/Ced_Devops_Webapp --namespace ced-devops-cicd
                 '''
                echo '<--------------- Helm deploy Ends --------------->'

@@ -121,7 +121,7 @@ pipeline {
                echo '<--------------- Helm remove all version and Deploy new one --------------->'
                sh '''
                     
-                    helm uninstall ced-devops-webapp --namespace ced-devops-cicd
+                    helm uninstall ced-devops-webapp --namespace ced-devops-cicd || true
                     kubectl --kubeconfig=$KUBECONFIG create namespace ced-devops-cicd
                     kubectl --kubeconfig=$KUBECONFIG label namespace ced-devops-cicd app.kubernetes.io/managed-by=Helm
                     kubectl --kubeconfig=$KUBECONFIG annotate namespace ced-devops-cicd meta.helm.sh/release-name=ced-devops-webapp

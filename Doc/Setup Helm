@@ -32,7 +32,7 @@ helm search repo stable
 
 2. Replace the template directory with the manifest files and package it
    ```sh
-   helm package ttrend
+   helm package Ced_Devops_Webapp
    ```
 
 1. Add Labels and Annotations

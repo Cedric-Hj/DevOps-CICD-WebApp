@@ -127,7 +127,7 @@ pipeline {
                     kubectl --kubeconfig=$KUBECONFIG label namespace ced-devops-cicd app.kubernetes.io/managed-by=Helm
                     kubectl --kubeconfig=$KUBECONFIG annotate namespace ced-devops-cicd meta.helm.sh/release-name=ced-devops-webapp
                     kubectl --kubeconfig=$KUBECONFIG annotate namespace ced-devops-cicd meta.helm.sh/release-namespace=ced-devops-cicd
-                    helm install ced-devops-webapp /root/Ced_Devops_Webapp --namespace ced-devops-cicd
+                    helm install ced-devops-webapp /var/lib/jenkins/helm/Ced_Devops_Webapp --namespace ced-devops-cicd
                 '''
                echo '<--------------- Helm deploy Ends --------------->'
             }

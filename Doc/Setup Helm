@@ -34,6 +34,22 @@ helm search repo stable
    ```sh
    helm package ttrend
    ```
+
+1. Add Labels and Annotations
+
+Run the following commands to add the required labels and annotations to the namespace:
+
+bash
+
+# Add the label for Helm management
+kubectl label namespace ced-devops-cicd app.kubernetes.io/managed-by=Helm
+
+# Add the annotations for Helm release tracking
+kubectl annotate namespace ced-devops-cicd meta.helm.sh/release-name=ced-devops-webapp-v1
+kubectl annotate namespace ced-devops-cicd meta.helm.sh/release-namespace=ced-devops-cicd
+
+
+
 3. Change the version number in the 
    ```sh 
    helm install ced-devops-webapp-v1 Ced_Devops_Webapp --namespace ced-devops-cicd

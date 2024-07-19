@@ -120,7 +120,7 @@ pipeline {
             script {
                echo '<--------------- Helm remove all version and Deploy new one --------------->'
                sh '''
-                    kubectl --kubeconfig=$KUBECONFIG delete namespace ced-devops-cicd
+                    
                     helm uninstall ced-devops-webapp --namespace ced-devops-cicd
                     kubectl --kubeconfig=$KUBECONFIG create namespace ced-devops-cicd
                     kubectl --kubeconfig=$KUBECONFIG label namespace ced-devops-cicd app.kubernetes.io/managed-by=Helm

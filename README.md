@@ -2,6 +2,62 @@
 
 ![CI/CD Pipeline](https://miro.medium.com/max/1400/1*F9gQvs4vGM0vRA_e5x8Eww.gif)
 
+<div class="logo-container">
+    <div class="logo"><img src="https://www.jenkins.io/images/logos/jenkins/jenkins.svg" alt="Jenkins Logo"></div>
+    <div class="logo"><img src="https://maven.apache.org/images/maven-logo-black-on-white.png" alt="Maven Logo"></div>
+    <div class="logo center"><img src="https://www.sonarqube.org/logos/index/sonarqube-logo.png" alt="SonarQube Logo"></div>
+    <div class="logo"><img src="https://www.docker.com/sites/default/files/d8/2019-07/vertical-logo-monochromatic.png" alt="Docker Logo"></div>
+    <div class="logo"><img src="https://kubernetes.io/images/kubernetes-horizontal-color.png" alt="Kubernetes Logo"></div>
+    <div class="logo"><img src="https://helm.sh/img/helm.svg" alt="Helm Logo"></div>
+    <div class="logo"><img src="https://prometheus.io/assets/prometheus_logo_grey.svg" alt="Prometheus Logo"></div>
+    <div class="logo"><img src="https://grafana.com/static/img/press/grafana_logo_transparent_400x192.png" alt="Grafana Logo"></div>
+</div>
+
+<style>
+.logo-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  width: 100%;
+  height: 150px;
+  position: relative;
+}
+
+.logo {
+  width: 150px;
+  height: 150px;
+  position: absolute;
+  opacity: 0;
+  transition: opacity 1s;
+}
+
+.logo img {
+  width: 100%;
+  height: auto;
+}
+
+.center {
+  opacity: 1;
+}
+
+@keyframes rotateLogos {
+  0% { transform: rotateY(0deg); }
+  12.5% { opacity: 1; }
+  25% { transform: rotateY(45deg); opacity: 0; }
+  37.5% { transform: rotateY(90deg); opacity: 0; }
+  50% { transform: rotateY(135deg); opacity: 1; }
+  62.5% { transform: rotateY(180deg); opacity: 1; }
+  75% { transform: rotateY(225deg); opacity: 1; }
+  87.5% { transform: rotateY(270deg); opacity: 0; }
+  100% { transform: rotateY(315deg); opacity: 0; }
+}
+
+.logo-container {
+  animation: rotateLogos 10s infinite linear;
+}
+</style>
+
 ## Overview
 
 This repository contains the configuration for a robust CI/CD pipeline utilizing the following technologies:

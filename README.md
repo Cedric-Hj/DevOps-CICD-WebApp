@@ -96,3 +96,64 @@ Prometheus and Grafana are deployed as Helm charts in K8s. They monitor the clus
    git clone https://github.com/your-repo/ci-cd-pipeline.git
    cd ci-cd-pipeline
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rotating Logos Animation</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #fff;
+        }
+        .carousel {
+            position: relative;
+            width: 300px;
+            height: 300px;
+            perspective: 1000px;
+        }
+        .carousel .spinner {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            transform-style: preserve-3d;
+            animation: rotate 10s infinite linear;
+        }
+        .carousel .spinner .logo {
+            width: 100px;
+            height: 100px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        .carousel .spinner .logo:nth-child(1) { transform: rotateY(0deg) translateZ(150px); }
+        .carousel .spinner .logo:nth-child(2) { transform: rotateY(72deg) translateZ(150px); }
+        .carousel .spinner .logo:nth-child(3) { transform: rotateY(144deg) translateZ(150px); }
+        .carousel .spinner .logo:nth-child(4) { transform: rotateY(216deg) translateZ(150px); }
+        .carousel .spinner .logo:nth-child(5) { transform: rotateY(288deg) translateZ(150px); }
+        
+        @keyframes rotate {
+            from { transform: rotateY(0deg); }
+            to { transform: rotateY(-360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="carousel">
+        <div class="spinner">
+            <div class="logo"><img src="https://www.jenkins.io/images/logos/jenkins/jenkins.png" alt="Jenkins Logo" style="width: 100px; height: 100px;"></div>
+            <div class="logo"><img src="https://maven.apache.org/images/maven-logo-black-on-white.png" alt="Maven Logo" style="width: 100px; height: 100px;"></div>
+            <div class="logo"><img src="https://www.sonarqube.org/logos/index/sonarqube-logo.png" alt="SonarQube Logo" style="width: 100px; height: 100px;"></div>
+            <div class="logo"><img src="https://www.docker.com/sites/default/files/d8/2019-07/vertical-logo-monochromatic.png" alt="Docker Logo" style="width: 100px; height: 100px;"></div>
+            <div class="logo"><img src="https://kubernetes.io/images/kubernetes-horizontal-color.png" alt="Kubernetes Logo" style="width: 100px; height: 100px;"></div>
+        </div>
+    </div>
+</body>
+</html>
+
+

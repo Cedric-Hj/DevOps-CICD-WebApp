@@ -2,67 +2,9 @@
 
 ![CI/CD Pipeline](https://miro.medium.com/max/1400/1*F9gQvs4vGM0vRA_e5x8Eww.gif)
 
-## Overview
+## Technologies and Tools Used
+<img src="https://icon.icepanel.io/Technology/svg/Jenkins.svg"  width="50" height="50" alt="Jenkins"/> </a> <img src="https://icon.icepanel.io/Technology/svg/Apache-Maven.svg" width="50" height="50" alt="Apache Maven"/> </a> <img src="https://icon.icepanel.io/Technology/svg/SonarQube.svg" width="50" height="50" alt="SonarQube"/> </a> <img src="https://icon.icepanel.io/Technology/svg/Docker.svg" width="50" height="50" alt="Docker"/> </a> <img src="https://icon.icepanel.io/Technology/svg/Kubernetes.svg" width="50" height="50" alt="Kubernetes"/> </a> <img src="https://icon.icepanel.io/Technology/svg/Helm.svg" width="50" height="50" alt="Helm"/> </a> <img src="https://icon.icepanel.io/Technology/svg/Grafana.svg" width="50" height="50" alt="Grafana"/> </a> <img src="https://icon.icepanel.io/Technology/svg/Prometheus.svg" width="50" height="50" alt="Prometheus"/> </a> <img src="https://icon.icepanel.io/Technology/svg/Git.svg" width="50" height="50" alt="Git"/> 
 
-This repository contains the configuration for a robust CI/CD pipeline utilizing the following technologies:
-
-- **Jenkins**
-- **Maven**
-- **SonarQube**
-- **Docker**
-- **Kubernetes (K8s)**
-- **Helm**
-- **Prometheus**
-- **Grafana**
-
-### Pipeline Workflow
-
-1. **Code Modification**
-   - A modification in the source code is made.
-2. **Webhook Trigger**
-   - This triggers a webhook that activates the Jenkins pipeline.
-3. **Build and Test**
-   - The code is built and tested using Maven.
-4. **Code Analysis**
-   - The code is analyzed by SonarQube. If it passes the quality gate, a Docker image is created.
-5. **Deployment**
-   - Helm updates the version of the image and the Kubernetes manifest file to deploy the new version.
-6. **Monitoring**
-   - Prometheus and Grafana are installed using Helm. They run in K8s pods and monitor the cluster.
-
-## Tools and Technologies
-
-### Jenkins
-
-Jenkins is an open-source automation server that orchestrates the CI/CD pipeline.
-
-### Maven
-
-Maven is a build automation tool used for Java projects. It handles project building, dependency management, and more.
-
-### SonarQube
-
-SonarQube is a code quality tool that performs static code analysis to detect bugs, vulnerabilities, and code smells.
-
-### Docker
-
-Docker is a platform that enables developers to automate the deployment of applications inside lightweight, portable containers.
-
-### Kubernetes
-
-Kubernetes is an open-source container orchestration platform that automates the deployment, scaling, and management of containerized applications.
-
-### Helm
-
-Helm is a package manager for Kubernetes, simplifying the deployment and management of applications within K8s.
-
-### Prometheus
-
-Prometheus is an open-source systems monitoring and alerting toolkit, designed for reliability and scalability.
-
-### Grafana
-
-Grafana is an open-source platform for monitoring and observability, providing rich visualizations for time-series data.
 
 ## Pipeline Details
 
@@ -70,7 +12,6 @@ Grafana is an open-source platform for monitoring and observability, providing r
 When a developer pushes code changes to the repository, it triggers the pipeline via a webhook.
 
 ### 2. Jenkins Pipeline Activation
-![Jenkins Pipeline](https://www.jenkins.io/images/pipeline/pipeline_flow.png)
 The webhook triggers Jenkins to start the pipeline.
 
 ### 3. Maven Build and Test
@@ -80,80 +21,15 @@ Jenkins executes the Maven build lifecycle to compile the code, run tests, and p
 The code is analyzed by SonarQube for code quality. If it passes the quality gate, the pipeline proceeds to the next step.
 
 ### 5. Docker Image Creation
-![Docker Build](https://www.docker.com/sites/default/files/d8/styles/large/s3/2018-11/whale-in-container.jpg)
 A Docker image is built and tagged with the new application version.
 
 ### 6. Helm Deployment
-Helm updates the version of the Docker image and the Kubernetes manifest file. Kubernetes then deploys the new version of the application.
+Helm updates the Kubernetes manifest file. Kubernetes then deploys the new version of the application.
 
 ### 7. Monitoring with Prometheus and Grafana
 Prometheus and Grafana are deployed as Helm charts in K8s. They monitor the cluster, providing real-time metrics and visualizations.
 
-## Installation and Setup
 
-1. **Clone the Repository**
-   ```bash
-   git clone https://github.com/your-repo/ci-cd-pipeline.git
-   cd ci-cd-pipeline
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rotating Logos Animation</title>
-    <style>
-        body {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            background-color: #fff;
-        }
-        .carousel {
-            position: relative;
-            width: 300px;
-            height: 300px;
-            perspective: 1000px;
-        }
-        .carousel .spinner {
-            width: 100%;
-            height: 100%;
-            position: absolute;
-            transform-style: preserve-3d;
-            animation: rotate 10s infinite linear;
-        }
-        .carousel .spinner .logo {
-            width: 100px;
-            height: 100px;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-        }
-        .carousel .spinner .logo:nth-child(1) { transform: rotateY(0deg) translateZ(150px); }
-        .carousel .spinner .logo:nth-child(2) { transform: rotateY(72deg) translateZ(150px); }
-        .carousel .spinner .logo:nth-child(3) { transform: rotateY(144deg) translateZ(150px); }
-        .carousel .spinner .logo:nth-child(4) { transform: rotateY(216deg) translateZ(150px); }
-        .carousel .spinner .logo:nth-child(5) { transform: rotateY(288deg) translateZ(150px); }
-        
-        @keyframes rotate {
-            from { transform: rotateY(0deg); }
-            to { transform: rotateY(-360deg); }
-        }
-    </style>
-</head>
-<body>
-    <div class="carousel">
-        <div class="spinner">
-            <div class="logo"><img src="https://www.jenkins.io/images/logos/jenkins/jenkins.png" alt="Jenkins Logo" style="width: 100px; height: 100px;"></div>
-            <div class="logo"><img src="https://maven.apache.org/images/maven-logo-black-on-white.png" alt="Maven Logo" style="width: 100px; height: 100px;"></div>
-            <div class="logo"><img src="https://www.sonarqube.org/logos/index/sonarqube-logo.png" alt="SonarQube Logo" style="width: 100px; height: 100px;"></div>
-            <div class="logo"><img src="https://www.docker.com/sites/default/files/d8/2019-07/vertical-logo-monochromatic.png" alt="Docker Logo" style="width: 100px; height: 100px;"></div>
-            <div class="logo"><img src="https://kubernetes.io/images/kubernetes-horizontal-color.png" alt="Kubernetes Logo" style="width: 100px; height: 100px;"></div>
-        </div>
-    </div>
-</body>
-</html>
 
 

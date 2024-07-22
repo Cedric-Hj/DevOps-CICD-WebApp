@@ -2,62 +2,6 @@
 
 ![CI/CD Pipeline](https://miro.medium.com/max/1400/1*F9gQvs4vGM0vRA_e5x8Eww.gif)
 
-<div class="logo-container">
-    <div class="logo"><img src="https://www.jenkins.io/images/logos/jenkins/jenkins.svg" alt="Jenkins Logo"></div>
-    <div class="logo"><img src="https://maven.apache.org/images/maven-logo-black-on-white.png" alt="Maven Logo"></div>
-    <div class="logo center"><img src="https://www.sonarqube.org/logos/index/sonarqube-logo.png" alt="SonarQube Logo"></div>
-    <div class="logo"><img src="https://www.docker.com/sites/default/files/d8/2019-07/vertical-logo-monochromatic.png" alt="Docker Logo"></div>
-    <div class="logo"><img src="https://kubernetes.io/images/kubernetes-horizontal-color.png" alt="Kubernetes Logo"></div>
-    <div class="logo"><img src="https://helm.sh/img/helm.svg" alt="Helm Logo"></div>
-    <div class="logo"><img src="https://prometheus.io/assets/prometheus_logo_grey.svg" alt="Prometheus Logo"></div>
-    <div class="logo"><img src="https://grafana.com/static/img/press/grafana_logo_transparent_400x192.png" alt="Grafana Logo"></div>
-</div>
-
-<style>
-.logo-container {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-  width: 100%;
-  height: 150px;
-  position: relative;
-}
-
-.logo {
-  width: 150px;
-  height: 150px;
-  position: absolute;
-  opacity: 0;
-  transition: opacity 1s;
-}
-
-.logo img {
-  width: 100%;
-  height: auto;
-}
-
-.center {
-  opacity: 1;
-}
-
-@keyframes rotateLogos {
-  0% { transform: rotateY(0deg); }
-  12.5% { opacity: 1; }
-  25% { transform: rotateY(45deg); opacity: 0; }
-  37.5% { transform: rotateY(90deg); opacity: 0; }
-  50% { transform: rotateY(135deg); opacity: 1; }
-  62.5% { transform: rotateY(180deg); opacity: 1; }
-  75% { transform: rotateY(225deg); opacity: 1; }
-  87.5% { transform: rotateY(270deg); opacity: 0; }
-  100% { transform: rotateY(315deg); opacity: 0; }
-}
-
-.logo-container {
-  animation: rotateLogos 10s infinite linear;
-}
-</style>
-
 ## Overview
 
 This repository contains the configuration for a robust CI/CD pipeline utilizing the following technologies:
@@ -89,42 +33,34 @@ This repository contains the configuration for a robust CI/CD pipeline utilizing
 ## Tools and Technologies
 
 ### Jenkins
-![Jenkins Logo](https://www.jenkins.io/images/logos/jenkins/jenkins.svg)
 
 Jenkins is an open-source automation server that orchestrates the CI/CD pipeline.
 
 ### Maven
-![Maven Logo](https://maven.apache.org/images/maven-logo-black-on-white.png)
 
 Maven is a build automation tool used for Java projects. It handles project building, dependency management, and more.
 
 ### SonarQube
-![SonarQube Logo](https://www.sonarqube.org/logos/index/sonarqube-logo.png)
 
 SonarQube is a code quality tool that performs static code analysis to detect bugs, vulnerabilities, and code smells.
 
 ### Docker
-![Docker Logo](https://www.docker.com/sites/default/files/d8/2019-07/vertical-logo-monochromatic.png)
 
 Docker is a platform that enables developers to automate the deployment of applications inside lightweight, portable containers.
 
 ### Kubernetes
-![Kubernetes Logo](https://kubernetes.io/images/kubernetes-horizontal-color.png)
 
 Kubernetes is an open-source container orchestration platform that automates the deployment, scaling, and management of containerized applications.
 
 ### Helm
-![Helm Logo](https://helm.sh/img/helm.svg)
 
 Helm is a package manager for Kubernetes, simplifying the deployment and management of applications within K8s.
 
 ### Prometheus
-![Prometheus Logo](https://prometheus.io/assets/prometheus_logo_grey.svg)
 
 Prometheus is an open-source systems monitoring and alerting toolkit, designed for reliability and scalability.
 
 ### Grafana
-![Grafana Logo](https://grafana.com/static/img/press/grafana_logo_transparent_400x192.png)
 
 Grafana is an open-source platform for monitoring and observability, providing rich visualizations for time-series data.
 

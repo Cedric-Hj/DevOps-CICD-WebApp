@@ -1,4 +1,4 @@
-# CI/CD Pipeline with Jenkins, Maven, SonarQube, Docker, Kubernetes, Helm, Prometheus, and Grafana
+# CI/CD Pipeline for a simple webpage
 
 ![CI/CD Pipeline](https://miro.medium.com/max/1400/1*F9gQvs4vGM0vRA_e5x8Eww.gif)
 

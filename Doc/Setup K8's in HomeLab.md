@@ -2,8 +2,8 @@
 
 ### VM'S pre-requesite:
 - The VM's must have internet connection and their own IP adress
-- 2 vCPU, 4 GB RAM, 20GB Disk for each nodesEACH
--NameSpace and static IP
+- 2 vCPU, 4 GB RAM, 20GB Disk for each nodes
+- NameSpace and static IP
 ```sh
 k8s-control   192.168.15.93
 k8-worker1    192.168.15.94
@@ -151,22 +151,26 @@ When everything is running, the status of the control-plane should be Ready:
 kubectl get nodes
 ```
 
-## --------------------- After worker has join --------------------------------
-
-Use get node and get pods command above to see the pods loading untill the worker node status is Ready
-
-Change the role of the node to worker. Chane "worker-node-1" to the name of your Vm:
-
-```sh
-kubectl label node worker-node-1 node-role.kubernetes.io/worker=worker
-```
+If everything is running smoothly, take a snapshot of the master node VM while k8's are running. You can turn off the master's VM and turn it on again with the k8's still running by reloading from that snapshot.
 
 ## ON Worker NODE
+take a snapshot of the worker node VM before joining it to the cluster. You can shutdown the node and restore the VM to the sapshot to rejoin it. You can also clone the VM from the snapshot to create another worker node.
+
 Run the command from the token create output above
 ```sh
 
 kubeadm join 192.168.0.27:6443 --token 9n0kiz.9lj3b60r3rbs27j1 --discovery-token-ca-cert-hash sha256:33da70046c2b6972731c6d33dc83036f3f8a50dfa51137743a4cf8f816ad899e 
 ```
-If everything is running smoothly, take a snapshot of the master node while running. You can turn off the master's VM and turn it on again with the k8's still running by reloading from that snapshot.
 
-## the Jenkins machine need access to the kubeconfig file. copy the kubeconfig file in another directory that the user jenkins can have access and or add the creencial as a file in jekins or add the directoy of the copy of the kubeconfig file in the jenkinsfile
+
+## After worker node has join the cluster
+
+Use get node and get pods command above to see the pods loading until the worker node status is Ready
+
+Change the role of the node to worker. Change "worker-node-1" to the name of your Vm:
+
+```sh
+kubectl label node worker-node-1 node-role.kubernetes.io/worker=worker
+```
+
+### The Jenkins machine need access to the kubeconfig file. Copy the kubeconfig file in another directory that the user jenkins can have access and or add the creencial as a file in jekins or add the directoy of the copy of the kubeconfig file in the jenkinsfile

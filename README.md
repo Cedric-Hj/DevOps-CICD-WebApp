@@ -1,4 +1,6 @@
-# CI/CD Pipeline for a simple webpage
+# DevOps project of a CI/CD Pipeline for a Webpage
+
+This repository contains a DevOps project for a CI/CD pipeline designed for a webpage. The purpose of this project is to learn how to implement such a pipeline and understand the technologies involved. The entire project was set up on multiple VMs in a home lab, making it completely free and without time constraints, allowing for experimentation and learning. All documentation and step-by-step guides are located in the doc folder.
 
 ![CI/CD Pipeline](https://miro.medium.com/max/1400/1*F9gQvs4vGM0vRA_e5x8Eww.gif)
 

@@ -11,7 +11,7 @@ This repository contains a DevOps project for a CI/CD pipeline designed for a we
 
 ## Pipeline Diagram
 
-https://app.eraser.io/workspace/thllnGtosn8VVMRPxttC?elements=gfDARamoeprwAYfewlynZA
+<img src="https://github.com/Cedric-Hj/DevOps-CICD-WebApp/blob/main/Doc/Pipeline%20diagram.png"  alt="Diagram"/> </a>
 
 ## Pipeline Details
 ### 1. Code Modification
@@ -39,11 +39,3 @@ Helm updates the Kubernetes manifest file. Kubernetes then deploys the new versi
 Prometheus and Grafana are deployed as Helm charts in K8s. They monitor the cluster, providing real-time metrics and visualizations.
 
 
-<!-- eraser-additional-content -->
-## Diagrams
-<!-- eraser-additional-files -->
-<a href="/README-cloud-architecture-1.eraserdiagram" data-element-id="WY-FEKA7NfyYuoZwZQ3Ku"><img src="undefined" alt="" data-element-id="WY-FEKA7NfyYuoZwZQ3Ku" /></a>
-<a href="/README-cloud-architecture-2.eraserdiagram" data-element-id="Kdaq4J5QmJI7ezPve5Y1w"><img src="undefined" alt="" data-element-id="Kdaq4J5QmJI7ezPve5Y1w" /></a>
-<!-- end-eraser-additional-files -->
-<!-- end-eraser-additional-content -->
-<!--- Eraser file: https://app.eraser.io/workspace/thllnGtosn8VVMRPxttC --->

@@ -1,4 +1,4 @@
-# Step by step guide to setup k8's cluster with Master and Worker nodes on VM'S
+## Step by step guide to setup k8's cluster with Master and Worker nodes on VM'S
 
 ### VM'S pre-requesite:
 - The VM's must have internet connection and their own IP adress

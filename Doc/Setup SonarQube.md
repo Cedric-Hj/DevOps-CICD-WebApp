@@ -1,4 +1,4 @@
-# SonarQube Setup
+## SonarQube Setup
 
 ### Setup an account
 https://www.sonarsource.com/products/sonarcloud/

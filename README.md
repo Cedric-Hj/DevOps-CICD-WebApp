@@ -1,5 +1,3 @@
-<p><a target="_blank" href="https://app.eraser.io/workspace/thllnGtosn8VVMRPxttC" id="edit-in-eraser-github-link"><img alt="Edit in Eraser" src="https://firebasestorage.googleapis.com/v0/b/second-petal-295822.appspot.com/o/images%2Fgithub%2FOpen%20in%20Eraser.svg?alt=media&amp;token=968381c8-a7e7-472a-8ed6-4a6626da5501"></a></p>
-
 # DevOps project of a CI/CD Pipeline for a Webpage
 This repository contains a DevOps project for a CI/CD pipeline designed for a webpage. This pipeline is designed to automate the process of building, testing, and deploying a web application. It consists of several stages, each with specific tasks to ensure code quality and streamline deployment. The purpose of this project is to learn how to implement such a pipeline and understand the technologies involved. The entire project was set up on multiple VMs in a home lab, making it completely free and without time constraints, allowing for experimentation and learning. All documentation and step-by-step guides are located in the doc folder.
 
@@ -8,6 +6,8 @@ This repository contains a DevOps project for a CI/CD pipeline designed for a we
 
 ## Pipeline Diagram
 ![Diagram](https://github.com/Cedric-Hj/DevOps-CICD-WebApp/blob/main/Doc/Pipeline%20diagram.png "")
+<p><a target="_blank" href="https://app.eraser.io/workspace/thllnGtosn8VVMRPxttC" id="edit-in-eraser-github-link"><img alt="Edit in Eraser" src="https://firebasestorage.googleapis.com/v0/b/second-petal-295822.appspot.com/o/images%2Fgithub%2FOpen%20in%20Eraser.svg?alt=media&amp;token=968381c8-a7e7-472a-8ed6-4a6626da5501"></a></p>
+
 
 ## Pipeline Details
 ### 1. Code Modification

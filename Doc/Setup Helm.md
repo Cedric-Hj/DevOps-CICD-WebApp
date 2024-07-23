@@ -1,69 +1,79 @@
-# Download Helm
+## Setup Helm
+
+### Download Helm
+```  sh
 curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
-
-# Add executable permissions
+```
+### Add executable permissions
+``` sh
 chmod 700 get_helm.sh
+```
 
-# Execute installation script
+### Execute installation script
+``` sh
 ./get_helm.sh
-
 helm repo add stable https://charts.helm.sh/stable
-
-
 helm repo update
 helm search repo <helm-chart>
 helm search repo stable
+```
 
 
+### Create a helm chart template 
+```sh 
+helm create Ced_Devops_Webapp
+```
 
-1. To create a helm chart template 
-   ```sh 
-   helm create Ced_Devops_Webapp
-   ```
-
-    by default, it contains 
-    - values.yaml
-    - templates
-    - Charts.yaml
-    - charts
+by default, it contains 
+- values.yaml
+- templates
+- Charts.yaml
+- charts
 
 delete all file in /templates folder:
-   ```sh
-   cd /root/Ced_Devops_Webapp/templates
-   rm -rf *
-   ```
+```sh
+cd /root/Ced_Devops_Webapp/templates
+rm -rf *
+```
 
+### Add the manifest files in the templates folders and then package the chart
+List of manifest file in this repo:
+- [deployment.yamls](/deployment.yaml)
+- [namespace.yaml](/namespace.yaml)
+- [service.yaml](/service.yaml)
+- [secret.yaml](/secret.yaml) (Not used in this project)
 
+```sh
+helm package Ced_Devops_Webapp
+```
 
-2. Add the manifest files in the templates folders and then package the chart
-   ```sh
-   helm package Ced_Devops_Webapp
-   ```
-
-1. Add Labels and Annotations
+### Add Labels and Annotations
 
 create the namespace:
+``` sh
 kubectl create namespace ced-devops-cicd
+```
 
-Run the following commands to add the required labels and annotations to the namespace:
+### Run the following commands to add the required labels and annotations to the namespace:
 
-bash
-
-# Add the label for Helm management
+Add the label for Helm management
+``` sh
 kubectl label namespace ced-devops-cicd app.kubernetes.io/managed-by=Helm
+```
 
-# Add the annotations for Helm release tracking
+Add the annotations for Helm release tracking
+``` sh
 kubectl annotate namespace ced-devops-cicd meta.helm.sh/release-name=ced-devops-webapp
 kubectl annotate namespace ced-devops-cicd meta.helm.sh/release-namespace=ced-devops-cicd
+```
 
 
+### Install de deployment 
+```sh 
+helm install ced-devops-webapp Ced_Devops_Webapp-0.1.0.tgz --namespace ced-devops-cicd
+```
 
-3. Change the version number in the 
-   ```sh 
-   helm install ced-devops-webapp Ced_Devops_Webapp-0.1.0.tgz --namespace ced-devops-cicd
-   ```
-
-4. Create a jenkins job for the deployment 
+### Create a jenkins job for the deployment 
    ```sh 
    stage(" Deploy ") {
           steps {
@@ -76,16 +86,17 @@ kubectl annotate namespace ced-devops-cicd meta.helm.sh/release-namespace=ced-de
         }
    ```
 
-5. To list installed helm deployments
-   ```sh 
-   helm list -a
-   ```
+### To list installed helm deployments
+```sh 
+helm list -a
+```
 
 Other useful commands
-1. to change the default namespace to valaxy
-   ```sh
-   kubectl config set-context --current --namespace=valaxy
-   ```
+
+to change the default namespace to valaxy
+```sh
+kubectl config set-context --current --namespace=valaxy
+```
 
 
 ## Setup Prometheus

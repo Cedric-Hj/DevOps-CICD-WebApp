@@ -51,10 +51,5 @@ Helm updates the Kubernetes manifest file. Kubernetes then deploys the new versi
 Prometheus and Grafana are deployed as Helm charts in K8s. They monitor the cluster, providing real-time metrics and visualizations.
 
 
-<!-- eraser-additional-content -->
-## Diagrams
-<!-- eraser-additional-files -->
-<a href="/README-cloud-architecture-1.eraserdiagram" data-element-id="um39Na4BNbEIINpf_ETms"><img src="undefined" alt="" data-element-id="um39Na4BNbEIINpf_ETms" /></a>
-<!-- end-eraser-additional-files -->
-<!-- end-eraser-additional-content -->
+
 <!--- Eraser file: https://app.eraser.io/workspace/thllnGtosn8VVMRPxttC --->

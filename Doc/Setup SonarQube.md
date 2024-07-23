@@ -42,7 +42,7 @@ Go to My project -> analyse new project
 - Project key name: Cedric-Hj_DevOps-CICD-WebApp
 
 ### Create the file sonar-project.properties
-In the root directory of the GitHub repo, create the file [sonar-project.properties](sonar-project.properties) using the neccessary sonarqube credencials
+In the root directory of the GitHub repo, create the file [sonar-project.properties](/sonar-project.properties) using the neccessary sonarqube credencials
 
 Note: if using cloud services like AWS, to cost as less as possible, Sonarcloud can be used in a browser with a auth token, the AWS security group need to allow all ip to the port 8080 (Jenkins)
 It is possible to create an ec2 instance just for sonarqube and in the security group allow the communication between the two, it is more secure, but it also require one more EC2 instance.

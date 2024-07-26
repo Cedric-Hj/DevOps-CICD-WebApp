@@ -34,3 +34,39 @@ sudo apt install docker-ce docker-ce-cli containerd.io
 ```sh
 sudo docker --version
 ```
+
+### Configure Docker to Run Without sudo
+Add Your User to the Docker Group
+
+```sh
+sudo usermod -aG docker ${USER}
+```
+
+### Apply the New Group Membership
+
+```sh
+su - ${USER}
+```
+
+### Verify Docker Without sudo
+```sh
+docker run hello-world
+```
+
+## Integrate Docker with Jenkins
+
+### Install Docker Plugin in Jenkins
+
+Open Jenkins in your browser.
+
+Go to Manage Jenkins > Manage Plugins.
+
+Search for the "Docker" plugin and install it.
+
+### Configure Docker in Jenkins
+
+Go to Manage Jenkins > Configure System.
+
+Scroll down to the Docker section and configure Docker by adding a new Docker Cloud.
+
+Enter your Docker host URI (e.g., unix:///var/run/docker.sock).

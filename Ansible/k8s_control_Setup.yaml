@@ -1,0 +1,167 @@
+---
+- name: Setup K8 Control Node
+  hosts: k8s-control
+  become: yes
+  tasks:
+    - name: Configuring Hostnames
+      lineinfile:
+        path: /etc/hosts
+        line: "{{ item }}"
+        create: yes
+      loop:
+        - "192.168.15.93 k8s-control"
+        - "192.168.15.94 k8s-1"
+        - "192.168.15.95 k8s-2"
+
+    - name: Preload Kernel Modules for Containerd
+      lineinfile:
+        path: /etc/modules-load.d/containerd.conf
+        line: "{{ item }}"
+      loop:
+        - "overlay"
+        - "br_netfilter"
+
+    - name: Load Kernel Modules
+      command: modprobe "{{ item }}"
+      loop:
+        - overlay
+        - br_netfilter
+
+    - name: Essential Kernel Module and Network Configuration for Kubernetes Setup
+      lineinfile:
+        path: /etc/sysctl.d/99-kubernetes-cri.conf
+        line: "{{ item }}"
+      loop:
+        - "net.bridge.bridge-nf-call-iptables = 1"
+        - "net.ipv4.ip_forward = 1"
+        - "net.bridge.bridge-nf-call-ip6tables = 1"
+
+    - name: Apply sysctl settings
+      command: sysctl --system
+
+    - name: Install and Configure Containerd for Kubernetes
+      block:
+        - name: Download Containerd
+          get_url:
+            url: https://github.com/containerd/containerd/releases/download/v1.7.13/containerd-1.7.13-linux-amd64.tar.gz
+            dest: /tmp/containerd-1.7.13-linux-amd64.tar.gz
+
+        - name: Extract Containerd
+          unarchive:
+            src: /tmp/containerd-1.7.13-linux-amd64.tar.gz
+            dest: /usr/local
+            remote_src: yes
+
+        - name: Download Containerd systemd service file
+          get_url:
+            url: https://raw.githubusercontent.com/containerd/containerd/main/containerd.service
+            dest: /etc/systemd/system/containerd.service
+
+        - name: Reload systemd daemon
+          command: systemctl daemon-reload
+
+        - name: Enable and start Containerd service
+          systemd:
+            name: containerd
+            enabled: yes
+            state: started
+
+    - name: Install and Set Up runc
+      block:
+        - name: Download runc
+          get_url:
+            url: https://github.com/opencontainers/runc/releases/download/v1.1.12/runc.amd64
+            dest: /tmp/runc.amd64
+
+        - name: Install runc
+          command: install -m 755 /tmp/runc.amd64 /usr/local/sbin/runc
+
+    - name: Install CNI Plugins for Kubernetes Networking
+      block:
+        - name: Download CNI plugins
+          get_url:
+            url: https://github.com/containernetworking/plugins/releases/download/v1.4.0/cni-plugins-linux-amd64-v1.4.0.tgz
+            dest: /tmp/cni-plugins-linux-amd64-v1.4.0.tgz
+
+        - name: Create CNI bin directory
+          file:
+            path: /opt/cni/bin
+            state: directory
+            mode: '0755'
+
+        - name: Extract CNI plugins
+          unarchive:
+            src: /tmp/cni-plugins-linux-amd64-v1.4.0.tgz
+            dest: /opt/cni/bin
+            remote_src: yes
+
+    - name: Configure Containerd for Kubernetes: Systemd Cgroup Setup
+      block:
+        - name: Create containerd config directory
+          file:
+            path: /etc/containerd
+            state: directory
+            mode: '0755'
+
+        - name: Generate containerd default configuration
+          command: containerd config default | tee /etc/containerd/config.toml
+
+        - name: Replace SystemdCgroup value in containerd config
+          replace:
+            path: /etc/containerd/config.toml
+            regexp: '^(\s*SystemdCgroup\s*=\s*)false'
+            replace: '\1true'
+
+        - name: Restart containerd service
+          systemd:
+            name: containerd
+            state: restarted
+
+    - name: Install HTTPS and Certificates
+      apt:
+        name:
+          - apt-transport-https
+          - ca-certificates
+          - curl
+          - gpg
+        state: present
+
+    - name: Add Kubernetes APT Repository and Keyring Setup
+      block:
+        - name: Create keyrings directory
+          file:
+            path: /etc/apt/keyrings
+            state: directory
+            mode: '0755'
+
+        - name: Download Kubernetes APT key
+          command: curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.29/deb/Release.key | gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg
+
+        - name: Add Kubernetes APT repository
+          lineinfile:
+            path: /etc/apt/sources.list.d/kubernetes.list
+            line: 'deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.29/deb/ /'
+
+    - name: Update Package Repositories
+      apt:
+        update_cache: yes
+
+    - name: Turn Off Swap
+      command: swapoff -a
+
+    - name: Install and Version Lock Kubernetes Tools
+      apt:
+        name:
+          - kubelet=1.29.1-1.1
+          - kubeadm=1.29.1-1.1
+          - kubectl=1.29.1-1.1
+        state: present
+
+    - name: Hold Kubernetes packages
+      apt:
+        name:
+          - kubelet
+          - kubeadm
+          - kubectl
+        state: present
+        mark: hold

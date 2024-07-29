@@ -4,21 +4,21 @@
 ansible_user=root 
 ansible_ssh_private_key_file=<path to private_key>
 
-[K8_Control_Node]
+[k8s-control]
 <ip_adress> 
-[K8_Control_Node:vars]
+[k8s-control:vars]
 ansible_user=root 
 ansible_ssh_private_key_file=<path to private_key>
 
-[K8_Worker_Node1]
+[k8s-1]
 <ip_adress> 
-[K8_Worker_Node1:vars]
+[k8s-1:vars]
 ansible_user=root 
 ansible_ssh_private_key_file=<path to private_key>
 
-[K8_Worker_Node2]
+[k8s-2]
 <ip_adress> 
-[K8_Worker_Node2:vars]
+[k8s-2:vars]
 ansible_user=root 
 ansible_ssh_private_key_file=<path to private_key>
 

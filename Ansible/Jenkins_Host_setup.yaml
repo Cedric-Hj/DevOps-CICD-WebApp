@@ -1,0 +1,116 @@
+---
+- name: Setup Jenkins Host
+  hosts: Jenkins
+  become: yes
+  vars:
+    maven_version: 3.9.7
+    maven_home: /opt/apache-maven-{{ maven_version }}
+    maven_binary_url: https://dlcdn.apache.org/maven/maven-3/{{ maven_version }}/binaries/apache-maven-{{ maven_version }}-bin.tar.gz
+
+  tasks:
+    - name: Update and upgrade apt packages
+      apt:
+        update_cache: yes
+        upgrade: dist
+
+    # Install Java 11 first
+    - name: Install Java 11
+      apt:
+        name: openjdk-11-jdk
+        state: present
+
+    # Install Jenkins second
+    - name: Install Jenkins
+      apt_key:
+        url: https://pkg.jenkins.io/debian-stable/jenkins.io.key
+        state: present
+
+    - name: Add Jenkins repository
+      apt_repository:
+        repo: deb http://pkg.jenkins.io/debian-stable binary/
+        state: present
+
+    - name: Install Jenkins
+      apt:
+        name: jenkins
+        state: present
+
+    - name: Start and enable Jenkins service
+      systemd:
+        name: jenkins
+        enabled: yes
+        state: started
+
+    # Install Maven third using your existing tasks
+    - name: Update apt cache
+      ansible.builtin.apt:
+        update_cache: yes
+        force_apt_get: yes
+        cache_valid_time: 3600
+
+    - name: Install dependencies for Maven
+      ansible.builtin.apt:
+        name:
+          - fontconfig
+          - openjdk-11-jre
+        state: present
+
+    - name: Download Maven
+      ansible.builtin.get_url:
+        url: "{{ maven_binary_url }}"
+        dest: /tmp/apache-maven-{{ maven_version }}-bin.tar.gz
+
+    - name: Extract Maven
+      ansible.builtin.unarchive:
+        src: /tmp/apache-maven-{{ maven_version }}-bin.tar.gz
+        dest: /opt
+        remote_src: yes
+
+    - name: Create symlink for Maven
+      ansible.builtin.file:
+        src: "{{ maven_home }}/bin/mvn"
+        dest: /usr/bin/mvn
+        state: link
+
+    # Install Docker fourth
+    - name: Install dependencies for Docker
+      apt:
+        name: "{{ item }}"
+        state: present
+      loop:
+        - apt-transport-https
+        - ca-certificates
+        - curl
+        - software-properties-common
+
+    - name: Add Docker GPG key
+      apt_key:
+        url: https://download.docker.com/linux/ubuntu/gpg
+        state: present
+
+    - name: Add Docker repository
+      apt_repository:
+        repo: deb [arch=amd64] https://download.docker.com/linux/ubuntu focal stable
+        state: present
+
+    - name: Install Docker
+      apt:
+        name: docker-ce
+        state: present
+
+    - name: Start and enable Docker service
+      systemd:
+        name: docker
+        enabled: yes
+        state: started
+
+    # Install kubectl fifth
+    - name: Install kubectl
+      shell: |
+        curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+        install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
+
+    # Install Helm last
+    - name: Install Helm
+      shell: |
+        curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash

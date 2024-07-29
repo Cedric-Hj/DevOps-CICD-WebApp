@@ -4,29 +4,10 @@
 This repository contains a DevOps project for a CI/CD pipeline designed for a webpage. This pipeline is designed to automate the process of building, testing, and deploying a web application. It consists of several stages, each with specific tasks to ensure code quality and streamline deployment. The purpose of this project is to learn how to implement such a pipeline and understand the technologies involved. The entire project was set up on multiple VMs in a home lab, making it completely free and without time constraints, allowing for experimentation and learning. All documentation and step-by-step guides are located in the doc folder.
 
 ## Technologies and Tools Used
-```
+
 <img src="https://icon.icepanel.io/Technology/svg/Jenkins.svg"  width="50" height="50" alt="Jenkins"/> </a> <img src="https://icon.icepanel.io/Technology/svg/Apache-Maven.svg" width="50" height="50" alt="Apache Maven"/> </a> <img src="https://icon.icepanel.io/Technology/svg/SonarQube.svg" width="50" height="50" alt="SonarQube"/> </a> <img src="https://icon.icepanel.io/Technology/svg/Docker.svg" width="50" height="50" alt="Docker"/> </a> <img src="https://icon.icepanel.io/Technology/svg/Kubernetes.svg" width="50" height="50" alt="Kubernetes"/> </a> <img src="https://icon.icepanel.io/Technology/svg/Helm.svg" width="50" height="50" alt="Helm"/> </a> <img src="https://icon.icepanel.io/Technology/svg/Grafana.svg" width="50" height="50" alt="Grafana"/> </a> <img src="https://icon.icepanel.io/Technology/svg/Prometheus.svg" width="50" height="50" alt="Prometheus"/> </a> <img src="https://icon.icepanel.io/Technology/svg/Git.svg" width="50" height="50" alt="Git"/>
-```
-![Jenkins](https://icon.icepanel.io/Technology/svg/Jenkins.svg "")
-
-![Apache Maven](https://icon.icepanel.io/Technology/svg/Apache-Maven.svg "")
-
-![SonarQube](https://icon.icepanel.io/Technology/svg/SonarQube.svg "")
-
-![Docker](https://icon.icepanel.io/Technology/svg/Docker.svg "")
-
-![Kubernetes](https://icon.icepanel.io/Technology/svg/Kubernetes.svg "")
-
-![Helm](https://icon.icepanel.io/Technology/svg/Helm.svg "")
-
-![Grafana](https://icon.icepanel.io/Technology/svg/Grafana.svg "")
-
-![Prometheus](https://icon.icepanel.io/Technology/svg/Prometheus.svg "")
-
-![Git](https://icon.icepanel.io/Technology/svg/Git.svg "")
 
 ## Pipeline Diagram
-![Pipleine Diagram](undefined "Pipleine Diagram")
 
 ![Diagram](https://github.com/Cedric-Hj/DevOps-CICD-WebApp/blob/main/Doc/Pipeline%20diagram.png "")
 
@@ -56,10 +37,3 @@ Helm updates the Kubernetes manifest file. Kubernetes then deploys the new versi
 Prometheus and Grafana are deployed as Helm charts in K8s. They monitor the cluster, providing real-time metrics and visualizations.
 
 
-<!-- eraser-additional-content -->
-## Diagrams
-<!-- eraser-additional-files -->
-<a href="/README-cloud-architecture-1.eraserdiagram" data-element-id="n50PsW_lmH0tUQX_RjYzU"><img src="undefined" alt="" data-element-id="n50PsW_lmH0tUQX_RjYzU" /></a>
-<!-- end-eraser-additional-files -->
-<!-- end-eraser-additional-content -->
-<!--- Eraser file: https://app.eraser.io/workspace/thllnGtosn8VVMRPxttC --->

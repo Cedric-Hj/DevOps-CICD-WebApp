@@ -41,7 +41,7 @@
         enabled: yes
         state: started
 
-    # Install Maven third using your existing tasks
+    # Install Maven third
     - name: Update apt cache
       ansible.builtin.apt:
         update_cache: yes

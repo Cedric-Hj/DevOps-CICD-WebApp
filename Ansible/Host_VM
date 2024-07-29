@@ -1,0 +1,25 @@
+[Jenkins]
+<ip_adress> 
+[Jenkins:vars]
+ansible_user=root 
+ansible_ssh_private_key_file=<path to private_key>
+
+[K8_Control_Node]
+<ip_adress> 
+[K8_Control_Node:vars]
+ansible_user=root 
+ansible_ssh_private_key_file=<path to private_key>
+
+[K8_Worker_Node1]
+<ip_adress> 
+[K8_Worker_Node1:vars]
+ansible_user=root 
+ansible_ssh_private_key_file=<path to private_key>
+
+[K8_Worker_Node2]
+<ip_adress> 
+[K8_Worker_Node2:vars]
+ansible_user=root 
+ansible_ssh_private_key_file=<path to private_key>
+
+

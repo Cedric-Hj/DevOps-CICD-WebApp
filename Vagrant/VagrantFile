@@ -1,7 +1,7 @@
 Vagrant.configure("2") do |config|
   # Define the Jenkins VM
   config.vm.define "jenkins" do |jenkins|
-    jenkins.vm.box = "ubuntu/jammy-server"
+    jenkins.vm.box = "ubuntu/jammy64"
     jenkins.vm.hostname = "jenkins"
     jenkins.vm.network "public_network", bridge: "Intel(R) Ethernet Connection (2)I219-V", ip: "192.168.1.100"
     jenkins.vm.provider "virtualbox" do |vb|
@@ -67,7 +67,7 @@ Vagrant.configure("2") do |config|
 
   # Define the second VM (k8s-control)
   config.vm.define "k8s-control" do |k8s_control|
-    k8s_control.vm.box = "ubuntu/jammy-server"
+    k8s_control.vm.box = "ubuntu/jammy64"
     k8s_control.vm.hostname = "k8s-control"
     k8s_control.vm.network "public_network", bridge: "Intel(R) Ethernet Connection (2)I219-V", ip: "192.168.1.101"
     k8s_control.vm.provider "virtualbox" do |vb|
@@ -88,7 +88,7 @@ Vagrant.configure("2") do |config|
 
   # Define the third VM (k8s-1)
   config.vm.define "k8s-1" do |k8s_1|
-    k8s_1.vm.box = "ubuntu/jammy-server"
+    k8s_1.vm.box = "ubuntu/jammy64"
     k8s_1.vm.hostname = "k8s-1"
     k8s_1.vm.network "public_network", bridge: "Intel(R) Ethernet Connection (2)I219-V", ip: "192.168.1.102"
     k8s_1.vm.provider "virtualbox" do |vb|

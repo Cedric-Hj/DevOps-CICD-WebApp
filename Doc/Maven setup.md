@@ -1,4 +1,6 @@
 # Maven Setup
+
+## Completely optional, follow only if not using VagrantFile for provisioning
 ### Update the package index:
 ```sh
 sudo apt update

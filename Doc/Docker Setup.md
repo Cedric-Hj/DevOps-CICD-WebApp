@@ -1,4 +1,8 @@
 # Install Docker
+
+## Install optional if not using VagrantFile for provisioning
+Skip to [Integrate Docker with Jenkins](#Integrate-Docker-with-Jenkins) if provisioning was used
+
 ### Update Package Information
 
 ```sh

@@ -1,4 +1,7 @@
-## Step by step guide to setup k8's cluster with Master and Worker nodes on VM'S
+# Step by step guide to setup k8's cluster with Master and Worker nodes on VM'S
+
+## Install optional if not using Ansible for provisioning
+Skip to [After install](#After-install) if provisioning was used
 
 ### VM'S pre-requesite:
 - The VM's must have internet connection and their own IP adress
@@ -116,7 +119,8 @@ apt-mark hold kubelet kubeadm kubectl
 ```
 
 
-## ONLY ON CONTROL NODE
+## After install
+### ONLY ON CONTROL NODE
 The pod network default adress is 192.138.0.0/16 which will overlap with a personal home network and will create routing issue.
 to avoid this problem, use another IP, in this case it will be used: 10.10.0.0/16
 make sure --node-name is the same name as the one defined in VM'S pre-requesite

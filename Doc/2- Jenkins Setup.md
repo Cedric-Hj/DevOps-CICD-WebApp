@@ -1,6 +1,8 @@
 # Jenkins Setup
 
-## Install manually if not using VagrantFile (Optional)
+## Install manually if not using VagrantFile for provisioning (Optional)
+Skip to [After the install](#After-the-install) in case provisioning was used
+
 ### Install Java
 Java is needed for Jenkins to work. Make sure the java version is compatible with the newer jenkins version
 

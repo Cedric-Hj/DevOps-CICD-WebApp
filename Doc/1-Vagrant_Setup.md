@@ -28,8 +28,11 @@ The K8's VM will be provisioned later with Ansible
      ```
 
 2. **Create the Vagrantfile**:
-   - Use your preferred text editor to create a file named `Vagrantfile` in this directory.
-   - Copy and paste the updated Vagrantfile content into this file and save it.
+   - Create a file named `Vagrantfile` in this directory.
+   ```bash
+     touch Vagrantfile
+     ```
+   - Copy and paste the content of the [Vagrantfile](https://github.com/Cedric-Hj/DevOps-CICD-WebApp/blob/main/Vagrant/VagrantFile) into this file and save it.
 
 ## Step 3: Initialize Vagrant
 

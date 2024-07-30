@@ -3,6 +3,8 @@
 
 This guide will help you set up three Ubuntu VMs using Vagrant and VirtualBox. The Vagrantfile provided will configure a Jenkins VM with Jenkins, Maven, Docker, kubectl, Helm, and Ansible installed.
 
+The K8's VM will be provisioned later with Ansible
+
 ## Step 1: Install Prerequisites
 
 1. **Install VirtualBox**:

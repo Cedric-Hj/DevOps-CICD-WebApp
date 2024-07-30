@@ -1,11 +1,12 @@
-## Jenkins Setup
+# Jenkins Setup
 
+## Install manually if not using VagrantFile (Optional)
 ### Install Java
 Java is needed for Jenkins to work. Make sure the java version is compatible with the newer jenkins version
 
 ```  sh
 sudo apt update
-sudo apt install openjdk-11-jdk -y
+sudo apt install openjdk-21-jdk -y
 ```
 
 ### Install Jenkins
@@ -27,6 +28,7 @@ sudo ufw allow 8080
 sudo ufw status
 ```
 
+## After the install
 ### Inbound rule for Jenkins
 By default, jenkins will run on the port 8080. Configure the router (or security group) to allow traffic to access the machine ip and port 8080
 

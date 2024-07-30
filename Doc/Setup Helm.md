@@ -1,4 +1,7 @@
-## Setup Helm
+# Setup Helm
+
+## Install optional if not using VagrantFile for provisioning
+Skip to [Create a helm chart template](#Create-a-helm-chart-template) if provisioning was used
 
 ### Download Helm
 ```  sh

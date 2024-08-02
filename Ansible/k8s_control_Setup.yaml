@@ -67,7 +67,7 @@
             state: absent
 
         - name: Generate containerd default configuration
-          command: containerd config default > /etc/containerd/config.toml
+          shell: containerd config default > /etc/containerd/config.toml
           args:
             creates: /etc/containerd/config.toml
 

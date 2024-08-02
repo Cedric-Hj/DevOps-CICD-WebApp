@@ -122,6 +122,12 @@
 
     - name: Add Kubernetes APT Repository and Keyring Setup
       block:
+        - name: Create APT sources.list.d directory
+          file:
+            path: /etc/apt/sources.list.d
+            state: directory
+            mode: '0755'
+
         - name: Create keyrings directory
           file:
             path: /etc/apt/keyrings
@@ -129,12 +135,20 @@
             mode: '0755'
 
         - name: Download Kubernetes APT key
-          command: curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.29/deb/Release.key | gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg
+          get_url:
+            url: https://pkgs.k8s.io/core:/stable:/v1.29/deb/Release.key
+            dest: /tmp/kubernetes-apt-key
+          register: apt_key
+
+        - name: Convert Kubernetes APT key to keyring format
+          command: gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg /tmp/kubernetes-apt-key
+          when: apt_key.changed
 
         - name: Add Kubernetes APT repository
           lineinfile:
             path: /etc/apt/sources.list.d/kubernetes.list
             line: 'deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.29/deb/ /'
+            create: yes
 
     - name: Update Package Repositories
       apt:
@@ -157,5 +171,4 @@
           - kubelet
           - kubeadm
           - kubectl
-        state: present
-        mark: hold
+        state: fixed

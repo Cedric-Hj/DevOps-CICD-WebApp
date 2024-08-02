@@ -61,27 +61,15 @@
             state: directory
             mode: '0755'
 
+        - name: Ensure no .config.toml.swp file exists
+          file:
+            path: /etc/containerd/.config.toml.swp
+            state: absent
+
         - name: Generate containerd default configuration
-          command: containerd config default
-          register: containerd_config
-          changed_when: false
-
-        - name: Save containerd configuration to file
-          copy:
-            content: "{{ containerd_config.stdout }}"
-            dest: /etc/containerd/config.toml
-            mode: '0644'
-          when: containerd_config.stdout is defined
-
-        - name: Debug - Check if config.toml was created
-          stat:
-            path: /etc/containerd/config.toml
-          register: config_stat
-
-        - name: Fail if config.toml was not created
-          fail:
-            msg: "The file /etc/containerd/config.toml was not created."
-          when: not config_stat.stat.exists
+          command: containerd config default > /etc/containerd/config.toml
+          args:
+            creates: /etc/containerd/config.toml
 
         - name: Replace SystemdCgroup value in containerd config
           replace:

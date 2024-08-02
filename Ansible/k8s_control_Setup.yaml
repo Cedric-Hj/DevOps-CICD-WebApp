@@ -13,10 +13,17 @@
         - "192.168.15.94 k8s-1"
         - "192.168.15.95 k8s-2"
 
+    - name: Ensure /etc/modules-load.d directory exists
+      file:
+        path: /etc/modules-load.d
+        state: directory
+        mode: '0755'
+
     - name: Preload Kernel Modules for Containerd
       lineinfile:
         path: /etc/modules-load.d/containerd.conf
         line: "{{ item }}"
+        create: yes
       loop:
         - "overlay"
         - "br_netfilter"
@@ -27,10 +34,17 @@
         - overlay
         - br_netfilter
 
+    - name: Ensure /etc/sysctl.d/ directory exists
+      file:
+        path: /etc/sysctl.d
+        state: directory
+        mode: '0755'
+
     - name: Essential Kernel Module and Network Configuration for Kubernetes Setup
       lineinfile:
         path: /etc/sysctl.d/99-kubernetes-cri.conf
         line: "{{ item }}"
+        create: yes
       loop:
         - "net.bridge.bridge-nf-call-iptables = 1"
         - "net.ipv4.ip_forward = 1"
@@ -41,30 +55,44 @@
 
     - name: Install and Configure Containerd for Kubernetes
       block:
-        - name: Download Containerd
-          get_url:
-            url: https://github.com/containerd/containerd/releases/download/v1.7.13/containerd-1.7.13-linux-amd64.tar.gz
-            dest: /tmp/containerd-1.7.13-linux-amd64.tar.gz
+        - name: Ensure /etc/containerd/ directory exists
+          file:
+            path: /etc/containerd/
+            state: directory
+            mode: '0755'
 
-        - name: Extract Containerd
-          unarchive:
-            src: /tmp/containerd-1.7.13-linux-amd64.tar.gz
-            dest: /usr/local
-            remote_src: yes
+        - name: Generate containerd default configuration
+          command: containerd config default
+          register: containerd_config
+          changed_when: false
 
-        - name: Download Containerd systemd service file
-          get_url:
-            url: https://raw.githubusercontent.com/containerd/containerd/main/containerd.service
-            dest: /etc/systemd/system/containerd.service
+        - name: Save containerd configuration to file
+          copy:
+            content: "{{ containerd_config.stdout }}"
+            dest: /etc/containerd/config.toml
+            mode: '0644'
+          when: containerd_config.stdout is defined
 
-        - name: Reload systemd daemon
-          command: systemctl daemon-reload
+        - name: Debug - Check if config.toml was created
+          stat:
+            path: /etc/containerd/config.toml
+          register: config_stat
 
-        - name: Enable and start Containerd service
+        - name: Fail if config.toml was not created
+          fail:
+            msg: "The file /etc/containerd/config.toml was not created."
+          when: not config_stat.stat.exists
+
+        - name: Replace SystemdCgroup value in containerd config
+          replace:
+            path: /etc/containerd/config.toml
+            regexp: '^(\s*SystemdCgroup\s*=\s*)false'
+            replace: '\1true'
+
+        - name: Restart containerd service
           systemd:
             name: containerd
-            enabled: yes
-            state: started
+            state: restarted
 
     - name: Install and Set Up runc
       block:
@@ -94,28 +122,6 @@
             src: /tmp/cni-plugins-linux-amd64-v1.4.0.tgz
             dest: /opt/cni/bin
             remote_src: yes
-
-    - name: Configure Containerd for Kubernetes
-      block:
-        - name: Create containerd config directory
-          file:
-            path: /etc/containerd
-            state: directory
-            mode: '0755'
-
-        - name: Generate containerd default configuration
-          command: containerd config default | tee /etc/containerd/config.toml
-
-        - name: Replace SystemdCgroup value in containerd config
-          replace:
-            path: /etc/containerd/config.toml
-            regexp: '^(\s*SystemdCgroup\s*=\s*)false'
-            replace: '\1true'
-
-        - name: Restart containerd service
-          systemd:
-            name: containerd
-            state: restarted
 
     - name: Install HTTPS and Certificates
       apt:

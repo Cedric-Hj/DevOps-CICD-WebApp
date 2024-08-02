@@ -95,7 +95,7 @@
             dest: /opt/cni/bin
             remote_src: yes
 
-    - name: Configure Containerd for Kubernetes: Systemd Cgroup Setup
+    - name: Configure Containerd for Kubernetes
       block:
         - name: Create containerd config directory
           file:

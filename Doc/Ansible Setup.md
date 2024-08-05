@@ -20,7 +20,7 @@ in this case, we are using /opt as our working directory for Ansible.
    cd /opt
    touch hosts
   ```
-Copy the content of [Host_VM](Ansible/Host_VM) into the hosts file
+Copy the content of [Host_VM](/Ansible/Host_VM) into the hosts file
   ```sh
    vim /opt/hosts
    ```
@@ -32,7 +32,7 @@ Copy the content of [Host_VM](Ansible/Host_VM) into the hosts file
 
 ### Create the Ansible Playbooks
 Create a playbook for K8 control and worker nodes at opt and paste the content of 
-[K8_worker_Setup.yaml](Ansible/K8_worker_Setup.yaml) and [K8_control_Setup.yaml](Ansible/k8s_control_Setup.yaml) in it
+[K8_worker_Setup.yaml](/Ansible/K8_worker_Setup.yaml) and [K8_control_Setup.yaml](/Ansible/k8s_control_Setup.yaml) in it
    ```sh
   touch /opt/k8s_control_Setup.yaml
   touch /opt/k8_worker_Setup.yaml

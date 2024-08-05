@@ -55,6 +55,12 @@
 
     - name: Install and Configure Containerd for Kubernetes
       block:
+        - name: Install containerd
+          apt:
+            name: containerd
+            state: present
+            update_cache: yes
+
         - name: Ensure /etc/containerd/ directory exists
           file:
             path: /etc/containerd/

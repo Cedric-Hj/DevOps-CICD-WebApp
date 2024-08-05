@@ -1,116 +1,181 @@
 ---
-- name: Setup Jenkins Host
-  hosts: Jenkins
+- name: Setup K8 Control Node
+  hosts: k8s-control
   become: yes
-  vars:
-    maven_version: 3.9.7  # Compatible with Java 21
-    maven_home: /opt/apache-maven-{{ maven_version }}
-    maven_binary_url: https://dlcdn.apache.org/maven/maven-3/{{ maven_version }}/binaries/apache-maven-{{ maven_version }}-bin.tar.gz
-
   tasks:
-    - name: Update and upgrade apt packages
-      apt:
-        update_cache: yes
-        upgrade: dist
+    - name: Configuring Hostnames
+      lineinfile:
+        path: /etc/hosts
+        line: "{{ item }}"
+        create: yes
+      loop:
+        - "192.168.15.93 k8s-control"
+        - "192.168.15.94 k8s-1"
+        - "192.168.15.95 k8s-2"
 
-    # Install Java 21 first
-    - name: Install Java 21
-      apt:
-        name: openjdk-21-jdk
-        state: present
+    - name: Ensure /etc/modules-load.d directory exists
+      file:
+        path: /etc/modules-load.d
+        state: directory
+        mode: '0755'
 
-    # Install Jenkins second
-    - name: Install Jenkins
-      apt_key:
-        url: https://pkg.jenkins.io/debian-stable/jenkins.io.key
-        state: present
+    - name: Preload Kernel Modules for Containerd
+      lineinfile:
+        path: /etc/modules-load.d/containerd.conf
+        line: "{{ item }}"
+        create: yes
+      loop:
+        - "overlay"
+        - "br_netfilter"
 
-    - name: Add Jenkins repository
-      apt_repository:
-        repo: deb http://pkg.jenkins.io/debian-stable binary/
-        state: present
+    - name: Load Kernel Modules
+      command: modprobe "{{ item }}"
+      loop:
+        - overlay
+        - br_netfilter
 
-    - name: Install Jenkins
-      apt:
-        name: jenkins
-        state: present
+    - name: Ensure /etc/sysctl.d/ directory exists
+      file:
+        path: /etc/sysctl.d
+        state: directory
+        mode: '0755'
 
-    - name: Start and enable Jenkins service
-      systemd:
-        name: jenkins
-        enabled: yes
-        state: started
+    - name: Essential Kernel Module and Network Configuration for Kubernetes Setup
+      lineinfile:
+        path: /etc/sysctl.d/99-kubernetes-cri.conf
+        line: "{{ item }}"
+        create: yes
+      loop:
+        - "net.bridge.bridge-nf-call-iptables = 1"
+        - "net.ipv4.ip_forward = 1"
+        - "net.bridge.bridge-nf-call-ip6tables = 1"
 
-    # Install Maven third
-    - name: Update apt cache
-      apt:
-        update_cache: yes
-        force_apt_get: yes
-        cache_valid_time: 3600
+    - name: Apply sysctl settings
+      command: sysctl --system
 
-    - name: Install dependencies for Maven
+    - name: Install Containerd for Kubernetes
+      block:
+        - name: Install containerd
+          apt:
+            name: containerd
+            state: present
+            update_cache: yes
+
+        - name: Ensure /etc/containerd/ directory exists
+          file:
+            path: /etc/containerd/
+            state: directory
+            mode: '0755'
+
+        - name: Generate containerd default configuration
+          shell: containerd config default > /etc/containerd/config.toml
+          args:
+            creates: /etc/containerd/config.toml
+
+        - name: Replace SystemdCgroup value in containerd config
+          replace:
+            path: /etc/containerd/config.toml
+            regexp: '^(\s*SystemdCgroup\s*=\s*)false'
+            replace: '\1true'
+
+        - name: Restart containerd service
+          systemd:
+            name: containerd
+            state: restarted
+
+    - name: Install and Set Up runc
+      block:
+        - name: Download runc
+          get_url:
+            url: https://github.com/opencontainers/runc/releases/download/v1.1.12/runc.amd64
+            dest: /tmp/runc.amd64
+
+        - name: Install runc
+          command: install -m 755 /tmp/runc.amd64 /usr/local/sbin/runc
+
+    - name: Install CNI Plugins for Kubernetes Networking
+      block:
+        - name: Download CNI plugins
+          get_url:
+            url: https://github.com/containernetworking/plugins/releases/download/v1.4.0/cni-plugins-linux-amd64-v1.4.0.tgz
+            dest: /tmp/cni-plugins-linux-amd64-v1.4.0.tgz
+
+        - name: Create CNI bin directory
+          file:
+            path: /opt/cni/bin
+            state: directory
+            mode: '0755'
+
+        - name: Extract CNI plugins
+          unarchive:
+            src: /tmp/cni-plugins-linux-amd64-v1.4.0.tgz
+            dest: /opt/cni/bin
+            remote_src: yes
+            
+        - name: Ensure SystemdCgroup is set to true in containerd config
+          lineinfile:
+            path: /etc/containerd/config.toml
+            regexp: '^SystemdCgroup'
+            line: 'SystemdCgroup = true'
+            create: yes
+            backup: yes
+
+    - name: Install HTTPS and Certificates
       apt:
         name:
-          - fontconfig
-          - openjdk-21-jre
+          - apt-transport-https
+          - ca-certificates
+          - curl
+          - gpg
         state: present
 
-    - name: Download Maven
-      get_url:
-        url: "{{ maven_binary_url }}"
-        dest: /tmp/apache-maven-{{ maven_version }}-bin.tar.gz
+    - name: Add Kubernetes APT Repository and Keyring Setup
+      block:
+        - name: Create APT sources.list.d directory
+          file:
+            path: /etc/apt/sources.list.d
+            state: directory
+            mode: '0755'
 
-    - name: Extract Maven
-      unarchive:
-        src: /tmp/apache-maven-{{ maven_version }}-bin.tar.gz
-        dest: /opt
-        remote_src: yes
+        - name: Create keyrings directory
+          file:
+            path: /etc/apt/keyrings
+            state: directory
+            mode: '0755'
 
-    - name: Create symlink for Maven
-      file:
-        src: "{{ maven_home }}/bin/mvn"
-        dest: /usr/bin/mvn
-        state: link
+        - name: Download Kubernetes APT key
+          get_url:
+            url: https://pkgs.k8s.io/core:/stable:/v1.29/deb/Release.key
+            dest: /tmp/kubernetes-apt-key
+          register: apt_key
 
-    # Install Docker fourth
-    - name: Install dependencies for Docker
+        - name: Convert Kubernetes APT key to keyring format
+          command: gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg /tmp/kubernetes-apt-key
+          when: apt_key.changed
+
+        - name: Add Kubernetes APT repository
+          lineinfile:
+            path: /etc/apt/sources.list.d/kubernetes.list
+            line: 'deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.29/deb/ /'
+            create: yes
+
+    - name: Update Package Repositories
       apt:
-        name: "{{ item }}"
-        state: present
-      loop:
-        - apt-transport-https
-        - ca-certificates
-        - curl
-        - software-properties-common
+        update_cache: yes
 
-    - name: Add Docker GPG key
-      apt_key:
-        url: https://download.docker.com/linux/ubuntu/gpg
-        state: present
+    - name: Turn Off Swap
+      command: swapoff -a
 
-    - name: Add Docker repository
-      apt_repository:
-        repo: deb [arch=amd64] https://download.docker.com/linux/ubuntu focal stable
-        state: present
-
-    - name: Install Docker
+    - name: Install Kubernetes Tools
       apt:
-        name: docker-ce
+        name:
+          - kubeadm=1.29.1-1.1
+          - kubectl=1.29.1-1.1
         state: present
 
-    - name: Start and enable Docker service
-      systemd:
-        name: docker
-        enabled: yes
-        state: started
-
-    # Install kubectl fifth
-    - name: Install kubectl
-      shell: |
-        curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
-        install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
-
-    # Install Helm last
-    - name: Install Helm
-      shell: |
-        curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
+    - name: Hold Kubernetes tools versions
+      apt:
+        name:
+          - kubeadm
+          - kubectl
+        state: fixed

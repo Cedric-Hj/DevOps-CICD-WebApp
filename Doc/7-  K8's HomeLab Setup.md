@@ -140,7 +140,7 @@ kubeadm token create --print-join-command
 ```sh
 kubectl create -f https://raw.githubusercontent.com/projectcalico/calico/v3.27.2/manifests/tigera-operator.yaml
 wget https://raw.githubusercontent.com/projectcalico/calico/v3.27.2/manifests/custom-resources.yaml
-vi custom-resources.yaml <<<<<< edit the CIDR for pods if its custom
+vi custom-resources.yaml <<<<<< edit the CIDR for 10.10.0.0/16
 kubectl apply -f custom-resources.yaml
 ```
 

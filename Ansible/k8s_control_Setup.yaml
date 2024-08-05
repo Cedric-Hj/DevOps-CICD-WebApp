@@ -111,6 +111,14 @@
             src: /tmp/cni-plugins-linux-amd64-v1.4.0.tgz
             dest: /opt/cni/bin
             remote_src: yes
+            
+        - name: Ensure SystemdCgroup is set to true in containerd config
+          lineinfile:
+            path: /etc/containerd/config.toml
+            regexp: '^SystemdCgroup'
+            line: 'SystemdCgroup = true'
+            create: yes
+            backup: yes
 
     - name: Install HTTPS and Certificates
       apt:

@@ -37,7 +37,7 @@ CALICO CNI 3.27.2         - https://docs.tigera.io/calico/3.27/getting-started/k
 
 ### Configuring Hostnames
 ```sh
-printf "\n192.168.15.93 k8s-control\n192.168.15.94 k8s-1\n192.168.15.95 k8s-1\n\n" >> /etc/hosts
+printf "\n192.168.15.93 k8s-control\n192.168.15.94 k8s-1\n192.168.15.95 k8s-2\n\n" >> /etc/hosts
 ```
 ### Preload Kernel Modules for Containerd with Configuration Commands
 ```sh

@@ -9,9 +9,9 @@
         line: "{{ item }}"
         create: yes
       loop:
-        - "192.168.15.93 k8s-control"
-        - "192.168.15.94 k8s-1"
-        - "192.168.15.95 k8s-2"
+        - "192.168.0.101 k8s-control"
+        - "192.168.0.102 k8s-1"
+        - "192.168.0.103 k8s-2"
 
     - name: Ensure /etc/modules-load.d directory exists
       file:

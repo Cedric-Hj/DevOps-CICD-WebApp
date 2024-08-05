@@ -1,6 +1,8 @@
 
 # Setup Ansible
-1. Install ansibe on Ubuntu 22.04 
+
+## Install Ansibe
+Skip to [After the install](#After-the-install) in case provisioning was used
    ```sh 
    sudo apt update
    sudo apt install software-properties-common
@@ -8,21 +10,16 @@
    sudo apt install ansible
    ```
 
-2. Add the key.pm file in personal folders to /opt using Moba extern
-Due to limitations, copy to /home/ubuntu and then using the terminal
-   ```sh
-   mv /home/ubuntu/Devops_Project_Key_1.pem /opt/
-   chmod 400 /opt/Devops_Project_Key_1.pem
-   ```
-
-3. Add Jenkins as hosts 
-Add jenkins master and slave private IPs in the inventory file 
+## After the install 
+### Add the hosts File 
+Create the hosts file 
 in this case, we are using /opt as our working directory for Ansible. 
-File name hosts
    ```sh
    sudo su
    cd /opt
    touch hosts
+```
+Copy the content of [Host_VM](main/Ansible/Host_VM)
    vim /opt/hosts
    ```
 

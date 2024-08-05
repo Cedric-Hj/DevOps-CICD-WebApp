@@ -164,6 +164,8 @@ Run the command from the token create output above
 ```sh
 
 kubeadm join 192.168.0.27:6443 --token 9n0kiz.9lj3b60r3rbs27j1 --discovery-token-ca-cert-hash sha256:33da70046c2b6972731c6d33dc83036f3f8a50dfa51137743a4cf8f816ad899e 
+
+kubeadm join 192.168.0.27:6443 --token vcyzye.slwimf307oe4bojh --discovery-token-ca-cert-hash sha256:33da70046c2b6972731c6d33dc83036f3f8a50dfa51137743a4cf8f816ad899e 
 ```
 
 

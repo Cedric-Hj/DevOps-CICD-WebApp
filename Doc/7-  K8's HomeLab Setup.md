@@ -9,7 +9,7 @@ Skip to [After install](#After-install) if provisioning was used
 - NameSpace and static IP
 ```sh
 k8s-control   192.168.15.93
-k8-worker1    192.168.15.94
+k8-1    192.168.15.94
 ```
 While installing UBUNTU SERVER, manual IPV4 config
 - Subnet: 192.168.15.0/24

@@ -169,13 +169,13 @@
     - name: Install Kubernetes Tools
       apt:
         name:
+          - kubelet=1.29.1-1.1
           - kubeadm=1.29.1-1.1
-          - kubectl=1.29.1-1.1
         state: present
 
     - name: Hold Kubernetes tools versions
       apt:
         name:
+          - kubelet
           - kubeadm
-          - kubectl
         state: fixed

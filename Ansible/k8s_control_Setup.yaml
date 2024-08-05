@@ -53,7 +53,7 @@
     - name: Apply sysctl settings
       command: sysctl --system
 
-    - name: Install and Configure Containerd for Kubernetes
+    - name: Install Containerd for Kubernetes
       block:
         - name: Install containerd
           apt:
@@ -66,11 +66,6 @@
             path: /etc/containerd/
             state: directory
             mode: '0755'
-
-        - name: Ensure no .config.toml.swp file exists
-          file:
-            path: /etc/containerd/.config.toml.swp
-            state: absent
 
         - name: Generate containerd default configuration
           shell: containerd config default > /etc/containerd/config.toml
@@ -163,7 +158,7 @@
     - name: Turn Off Swap
       command: swapoff -a
 
-    - name: Install and Version Lock Kubernetes Tools
+    - name: Install Kubernetes Tools
       apt:
         name:
           - kubelet=1.29.1-1.1
@@ -171,7 +166,7 @@
           - kubectl=1.29.1-1.1
         state: present
 
-    - name: Hold Kubernetes packages
+    - name: Hold Kubernetes tools versions
       apt:
         name:
           - kubelet

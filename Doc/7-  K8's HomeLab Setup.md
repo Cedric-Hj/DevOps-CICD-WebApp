@@ -122,7 +122,7 @@ apt-mark hold kubelet kubeadm kubectl
 ## After install
 ### ONLY ON CONTROL NODE
 The pod network default adress is 192.138.0.0/16 which will overlap with a personal home network and will create routing issue.
-to avoid this problem, use another IP, in this case it will be used: 10.10.0.0/16
+to avoid this problem, use another IP, in this case it will be used: 10.96.0.0/16
 make sure --node-name is the same name as the one defined in VM'S pre-requesite
 
 ## control plane install:
@@ -140,7 +140,7 @@ kubeadm token create --print-join-command
 ```sh
 kubectl create -f https://raw.githubusercontent.com/projectcalico/calico/v3.27.2/manifests/tigera-operator.yaml
 wget https://raw.githubusercontent.com/projectcalico/calico/v3.27.2/manifests/custom-resources.yaml
-vi custom-resources.yaml <<<<<< edit the CIDR for 10.10.0.0/16
+vi custom-resources.yaml <<<<<< edit the CIDR for 10.96.0.0/16
 kubectl apply -f custom-resources.yaml
 ```
 

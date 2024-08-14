@@ -37,6 +37,11 @@ By default, jenkins will run on the port 8080. Configure the router (or security
 
 ### Jenkins setup Wizard
 in the browser, go the <IP_Address:8080> to start the jenkins setup wizard
+to change IP
+```  sh
+edit jenkins --full
+```
+change Environment="JENKINS_PORT=8080" to Environment="JENKINS_PORT=8081" 
 
 Get the security code located in the Jenkins instance:
 

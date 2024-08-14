@@ -42,6 +42,8 @@ to change IP
 edit jenkins --full
 ```
 change Environment="JENKINS_PORT=8080" to Environment="JENKINS_PORT=8081" 
+and
+Environment="JENKINS_LISTEN_ADDRESS=0.0.0.0"
 
 Get the security code located in the Jenkins instance:
 

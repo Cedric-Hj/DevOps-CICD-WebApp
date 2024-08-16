@@ -11,16 +11,6 @@ Skip to [After install](#After-install) if provisioning was used
 k8s-control   192.168.15.93
 k8-1    192.168.15.94
 ```
-While installing UBUNTU SERVER, manual IPV4 config
-- Subnet: 192.168.15.0/24
-- Adress 192.168.15.93 (for control node)
-- Adress 192.168.15.94 (for worker node 1)
-- Gateway 192.168.15.1
-- Name servers 192.168.15.1
-- done
-
-- No proxy
--Install OpenSSH server
 
 ### Sofwtares and Versions:
 UBUNTU SERVER LTS 22.04.3 - https://ubuntu.com/download/server
@@ -37,7 +27,7 @@ CALICO CNI 3.27.2         - https://docs.tigera.io/calico/3.27/getting-started/k
 
 ### Configuring Hostnames
 ```sh
-printf "\n192.168.15.93 k8s-control\n192.168.15.94 k8s-1\n192.168.15.95 k8s-2\n\n" >> /etc/hosts
+printf "\n192.168.0.101 k8s-control\n192.168.0.102 k8s-1\n192.168.0.103 k8s-2\n\n" >> /etc/hosts
 ```
 ### Preload Kernel Modules for Containerd with Configuration Commands
 ```sh
@@ -163,9 +153,8 @@ take a snapshot of the worker node VM before joining it to the cluster. You can 
 Run the command from the token create output above
 ```sh
 
-kubeadm join 192.168.0.27:6443 --token 9n0kiz.9lj3b60r3rbs27j1 --discovery-token-ca-cert-hash sha256:33da70046c2b6972731c6d33dc83036f3f8a50dfa51137743a4cf8f816ad899e 
+kubeadm join 192.168.0.101:6443 --token 9n0kiz.9lj3b60r3rbs27j1 --discovery-token-ca-cert-hash sha256:33da70046c2b6972731c6d33dc83036f3f8a50dfa51137743a4cf8f816ad899e 
 
-kubeadm join 192.168.0.27:6443 --token vcyzye.slwimf307oe4bojh --discovery-token-ca-cert-hash sha256:33da70046c2b6972731c6d33dc83036f3f8a50dfa51137743a4cf8f816ad899e 
 ```
 
 

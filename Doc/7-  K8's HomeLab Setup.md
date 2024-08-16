@@ -134,9 +134,9 @@ export KUBECONFIG=/etc/kubernetes/admin.conf
 kubectl create -f https://raw.githubusercontent.com/projectcalico/calico/v3.27.2/manifests/tigera-operator.yaml
 wget https://raw.githubusercontent.com/projectcalico/calico/v3.27.2/manifests/custom-resources.yaml
 ```
-Since a custom IP is used, it is neccessary to edit the resource file
+Since a custom IP is used, it is neccessary to edit the filecustom-resources.yaml and change the CIDR to 10.96.0.0/16
 ```sh
-vi custom-resources.yaml <<<<<< change the CIDR to 10.96.0.0/16
+sed -i 's/192\.168\.0\.0\/16/10.96.0.0\/16/g' custom-resources.yaml
 ```
 
 Finaly apply the changes:

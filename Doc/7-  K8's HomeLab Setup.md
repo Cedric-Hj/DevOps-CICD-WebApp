@@ -118,9 +118,13 @@ make sure --node-name is the same name as the one defined in VM'S pre-requesite
 ## control plane install:
 ```sh
 kubeadm init --pod-network-cidr 10.96.0.0/16 --kubernetes-version 1.29.1 --node-name k8s-control --apiserver-advertise-address 192.168.0.101
+```
 
+after do as told on the console:
+```sh
 export KUBECONFIG=/etc/kubernetes/admin.conf 
 ```
+
 Either save the kubeadm join command with token or use the following command later on:
 ```sh
 kubeadm token create --print-join-command

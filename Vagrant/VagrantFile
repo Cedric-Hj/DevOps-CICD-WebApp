@@ -8,7 +8,7 @@ Vagrant.configure("2") do |config|
       vb.memory = "4096"
       vb.cpus = 2
     end
-    
+
     # Provision the Jenkins VM
     jenkins.vm.provision "shell", inline: <<-SHELL
       # Update and upgrade apt packages
@@ -23,9 +23,6 @@ Vagrant.configure("2") do |config|
       sudo sh -c 'echo deb http://pkg.jenkins.io/debian-stable binary/ > /etc/apt/sources.list.d/jenkins.list'
       sudo apt-get update
       sudo apt-get install -y jenkins
-      
-      # Configure Jenkins to use port 8081
-      echo -e '[Service]\nEnvironment="JENKINS_PORT=8081"' | sudo tee /etc/systemd/system/jenkins.service.d/override.conf
       
       # Reload systemd to apply the changes
       sudo systemctl daemon-reload
@@ -78,10 +75,6 @@ Vagrant.configure("2") do |config|
 
       # Set root password
       echo "root:rootroot" | sudo chpasswd
-      
-      # Create ssh rsa key
-      sudo ssh-keygen -t ed25519
-      
     SHELL
   end
 
@@ -103,10 +96,6 @@ Vagrant.configure("2") do |config|
 
       # Set root password
       echo "root:rootroot" | sudo chpasswd
-
-      # Create ssh rsa key
-      sudo ssh-keygen -t ed25519
-
     SHELL
   end
 
@@ -128,10 +117,6 @@ Vagrant.configure("2") do |config|
 
       # Set root password
       echo "root:rootroot" | sudo chpasswd
-
-      # Create ssh rsa key
-      sudo ssh-keygen -t ed25519
-
     SHELL
   end
 end

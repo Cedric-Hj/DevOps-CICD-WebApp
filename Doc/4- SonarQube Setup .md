@@ -21,7 +21,8 @@ Manage jenkins -> System -> sonarqube server
 - Name: sonar-server
 - server url: https://sonarcloud.io/
 - server auth: secret text credentials
-- Add the previously saved sonarclou token
+- Add the previously saved sonarcloud token
+-  The ID of the credencial must match what's in thejenkinsfile
 
 ### Configure sonarqube scaner
 Manage jenkins -> Tools -> sonarqube Scanner installations

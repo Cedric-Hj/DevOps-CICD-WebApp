@@ -104,35 +104,6 @@ pipeline {
             }
         }
 
-        /*stage('Deploy to Kubernetes') {
-            steps {
-                script {
-                    // Apply the Kubernetes manifests
-                    sh "kubectl --kubeconfig=$KUBECONFIG apply -f /opt/kubernetes/namespace.yaml"
-                    sh "kubectl --kubeconfig=$KUBECONFIG apply -f /opt/kubernetes/deployment.yaml"
-                    sh "kubectl --kubeconfig=$KUBECONFIG apply -f /opt/kubernetes/service.yaml"
-                }
-            }
-        }*/
-
-        /*stage(" Deploy ") {
-          steps {
-            script {
-               echo '<--------------- Helm remove all version and Deploy new one --------------->'
-               sh '''
-                    
-                    helm uninstall ced-devops-webapp --namespace ced-devops-cicd || true
-                    kubectl --kubeconfig=$KUBECONFIG  delete namespace ced-devops-cicd || true
-                    kubectl --kubeconfig=$KUBECONFIG create namespace ced-devops-cicd
-                    kubectl --kubeconfig=$KUBECONFIG label namespace ced-devops-cicd app.kubernetes.io/managed-by=Helm
-                    kubectl --kubeconfig=$KUBECONFIG annotate namespace ced-devops-cicd meta.helm.sh/release-name=ced-devops-webapp
-                    kubectl --kubeconfig=$KUBECONFIG annotate namespace ced-devops-cicd meta.helm.sh/release-namespace=ced-devops-cicd
-                    helm install ced-devops-webapp /var/lib/jenkins/helm/Ced_Devops_Webapp --namespace ced-devops-cicd
-                '''
-               echo '<--------------- Helm deploy Ends --------------->'
-            }
-          }
-        }*/
         stage("Deploy") {
             steps {
                 script {

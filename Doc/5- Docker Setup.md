@@ -59,7 +59,7 @@ docker run hello-world
 
 ## Integrate Docker with Jenkins
 
-### Install Docker Plugin in Jenkins
+### Install Docker Plugins in Jenkins
 
 Open Jenkins in your browser.
 
@@ -67,10 +67,14 @@ Go to Manage Jenkins > Manage Plugins.
 
 Search for the "Docker" and "Docker Pipeline" plugins and install them.
 
-### Configure Docker in Jenkins
+### Configure Jenkins user to access Docker
+On the terminal, as root user, insert the command:
+```sh
+usermod -aG docker jenkins
+```
+This will allow jenkins to use docker commands
+Restart jenkins to make the modification active:
+```sh
+sudo systemctl restart jenkins
+```
 
-Go to Manage Jenkins > Configure System.
-
-Scroll down to the Docker section and configure Docker by adding a new Docker Cloud.
-
-Enter your Docker host URI (e.g., unix:///var/run/docker.sock).

@@ -118,7 +118,7 @@ Prometheus run on :9090 and alert manager on :9093
 5. Above helm create all services as ClusterIP. To access Prometheus out side of the cluster, we should change the service type load balancer
    ```sh 
    kubectl edit svc prometheus-kube-prometheus-prometheus -n monitoring
-   
+   # change type: ClusterIP to type: LoadBalancer
    ```
 6. Loginto Prometheus dashboard to monitor application
    https://ELB:9090

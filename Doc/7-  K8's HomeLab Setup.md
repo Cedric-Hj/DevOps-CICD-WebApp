@@ -177,10 +177,10 @@ kubeadm join 192.168.0.101:6443 --token 9n0kiz.9lj3b60r3rbs27j1 --discovery-toke
 
 Use get node and get pods command above to see the pods loading until the worker node status is Ready
 
-Change the role of the node to worker. Change "worker-node-1" to the name of your Vm:
+Change the role of the node to worker. Change "k8s-1" to the name of your Vm in case you've changed it:
 
 ```sh
-kubectl label node worker-node-1 node-role.kubernetes.io/worker=worker
+kubectl label node k8s-1 node-role.kubernetes.io/worker=worker
 ```
 
 ### The Jenkins machine need access to the kubeconfig file. Copy the kubeconfig file in another directory that the user jenkins can have access and or add the creencial as a file in jekins or add the directoy of the copy of the kubeconfig file in the jenkinsfile

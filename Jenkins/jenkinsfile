@@ -5,7 +5,7 @@ pipeline {
         MAVEN_HOME = '/opt/apache-maven-3.9.7'
         PATH = "${MAVEN_HOME}/bin:${env.PATH}"
         SONARQUBE_URL = 'https://sonarcloud.io'
-        SONARCLOUD_TOKEN = credentials('sonarcloud token')
+        SONARCLOUD_TOKEN = credentials('Sonar_token')
         dockerImageTag = "latest"  // You should change this to a valid tag name
         dockerRepo = "cedrichj/devops_cicd"
         dockerHubCredentials = 'DockerCredencials' // ID of your Jenkins credentials

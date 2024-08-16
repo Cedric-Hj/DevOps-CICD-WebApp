@@ -115,7 +115,7 @@ pipeline {
             }
         }*/
 
-        stage(" Deploy ") {
+        /*stage(" Deploy ") {
           steps {
             script {
                echo '<--------------- Helm remove all version and Deploy new one --------------->'
@@ -132,6 +132,21 @@ pipeline {
                echo '<--------------- Helm deploy Ends --------------->'
             }
           }
+        }*/
+        stage("Deploy") {
+            steps {
+                script {
+                    echo '<--------------- Helm Upgrade/Install --------------->'
+                    sh '''
+                        helm upgrade --install ced-devops-webapp /var/lib/jenkins/helm/Ced_Devops_Webapp \
+                        --namespace ced-devops-cicd \
+                        --kubeconfig=$KUBECONFIG \
+                        --set image.tag=${IMAGE_TAG} \
+                        --wait
+                    '''
+                    echo '<--------------- Helm Deploy Ends --------------->'
+                }
+            }
         }
     }
 

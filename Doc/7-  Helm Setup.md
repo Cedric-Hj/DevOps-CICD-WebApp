@@ -76,19 +76,6 @@ kubectl annotate namespace ced-devops-cicd meta.helm.sh/release-namespace=ced-de
 helm install ced-devops-webapp Ced_Devops_Webapp-0.1.0.tgz --namespace ced-devops-cicd
 ```
 
-### Create a jenkins job for the deployment 
-   ```sh 
-   stage(" Deploy ") {
-          steps {
-            script {
-               echo '<--------------- Helm Deploy Started --------------->'
-               sh 'helm install ttrend ttrend-0.1.0.tgz'
-               echo '<--------------- Helm deploy Ends --------------->'
-            }
-          }
-        }
-   ```
-
 ### To list installed helm deployments
 ```sh 
 helm list -a

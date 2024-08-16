@@ -119,22 +119,28 @@ make sure --node-name is the same name as the one defined in VM'S pre-requesite
 ```sh
 kubeadm init --pod-network-cidr 10.96.0.0/16 --kubernetes-version 1.29.1 --node-name k8s-control --apiserver-advertise-address 192.168.0.101
 ```
+save the kubeadm join command at the end or use the following command to join a worker node:
+```sh
+kubeadm token create --print-join-command
+```
 
 after do as told on the console:
 ```sh
 export KUBECONFIG=/etc/kubernetes/admin.conf 
 ```
 
-Either save the kubeadm join command with token or use the following command later on:
-```sh
-kubeadm token create --print-join-command
-```
-
 ## Add Calico 3.27.2 CNI: 
 ```sh
 kubectl create -f https://raw.githubusercontent.com/projectcalico/calico/v3.27.2/manifests/tigera-operator.yaml
 wget https://raw.githubusercontent.com/projectcalico/calico/v3.27.2/manifests/custom-resources.yaml
-vi custom-resources.yaml <<<<<< edit the CIDR for 10.96.0.0/16
+```
+Since a custom IP is used, it is neccessary to edit the resource file
+```sh
+vi custom-resources.yaml <<<<<< change the CIDR to 10.96.0.0/16
+```
+
+Finaly apply the changes:
+```sh
 kubectl apply -f custom-resources.yaml
 ```
 
@@ -150,6 +156,11 @@ kubectl get nodes
 ```
 
 If everything is running smoothly, take a snapshot of the master node VM while k8's are running. You can turn off the master's VM and turn it on again with the k8's still running by reloading from that snapshot.
+
+Either save the kubeadm join command with token or use the following command later on:
+```sh
+kubeadm token create --print-join-command
+```
 
 ## ON Worker NODE
 take a snapshot of the worker node VM before joining it to the cluster. You can shutdown the node and restore the VM to the sapshot to rejoin it. You can also clone the VM from the snapshot to create another worker node.

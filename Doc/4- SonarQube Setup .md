@@ -24,7 +24,7 @@ Manage jenkins -> System -> sonarqube server
 - Add the previously saved sonarclou token
 
 ### Configure sonarqube scaner
-Manage jenkins -> Global tools -> sonarqube Scanner installations
+Manage jenkins -> Ttools -> sonarqube Scanner installations
 - add sonarqube scanner
 - Sonarqube scanner name: sonar-scanner
 - instal automatically

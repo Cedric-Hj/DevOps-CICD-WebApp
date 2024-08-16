@@ -65,7 +65,7 @@ Open Jenkins in your browser.
 
 Go to Manage Jenkins > Manage Plugins.
 
-Search for the "Docker" plugin and install it.
+Search for the "Docker" and "Docker Pipeline" plugins and install them.
 
 ### Configure Docker in Jenkins
 

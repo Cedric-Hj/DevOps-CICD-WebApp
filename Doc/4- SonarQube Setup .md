@@ -8,7 +8,7 @@ Signup using github and free option
 ### Generate auth token
 - My account -> security -> generate token
 - Token name: Ced_Sonarcloud_Token
-- token in another folder for security reasons and is not available in the repo
+- Save the token somewhere since it is not possible to retrieve it later
 
 ### Instal sonarQube plugging in jenkins
 instal the plugging sonarqube scanner
@@ -20,7 +20,8 @@ Manage jenkins -> System -> sonarqube server
 - Add sonarqube server
 - Name: sonar-server
 - server url: https://sonarcloud.io/
-- server auth: secret text credencials
+- server auth: secret text credentials
+- Add the previously saved sonarclou token
 
 ### Configure sonarqube scaner
 Manage jenkins -> Global tools -> sonarqube Scanner installations

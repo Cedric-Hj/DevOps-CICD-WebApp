@@ -19,17 +19,13 @@ Vagrant.configure("2") do |config|
       sudo apt-get install -y openjdk-21-jdk
 
       # Install Jenkins
-      sudo wget -O /usr/share/keyrings/jenkins-keyring.asc \
-        https://pkg.jenkins.io/debian-stable/jenkins.io-2023.key
-      echo "deb [signed-by=/usr/share/keyrings/jenkins-keyring.asc] \
-        https://pkg.jenkins.io/debian-stable binary/" | sudo tee \
-        /etc/apt/sources.list.d/jenkins.list > /dev/null
-      sudo apt-get update
-      sudo apt-get install -y jenkins
-
+      wget -O /usr/share/keyrings/jenkins-keyring.asc https://pkg.jenkins.io/debian-stable/jenkins.io-2023.key
+      echo "deb [signed-by=/usr/share/keyrings/jenkins-keyring.asc] https://pkg.jenkins.io/debian-stable binary/" | tee /etc/apt/sources.list.d/jenkins.list > /dev/null
+      apt-get update
+      apt-get install -y jenkins
       
-      # Configure Jenkins to use port 8081
-      echo -e '[Service]\nEnvironment="JENKINS_PORT=8081"' | sudo tee /etc/systemd/system/jenkins.service.d/override.conf
+      # Update the Jenkins service file to change the port
+      sudo sed -i 's/Environment="JENKINS_PORT=8080"/Environment="JENKINS_PORT=8081"/' /etc/systemd/system/jenkins.service
       
       # Reload systemd to apply the changes
       sudo systemctl daemon-reload

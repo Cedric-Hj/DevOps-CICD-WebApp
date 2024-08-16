@@ -32,18 +32,14 @@ sudo ufw status
 
 ## After the install
 ### Inbound rule for Jenkins
-By default, jenkins will run on the port 8080. Configure the router (or security group) to allow traffic to access the machine ip and port 8080
-
-
-### Jenkins setup Wizard
-in the browser, go the <IP_Address:8080> to start the jenkins setup wizard
+By default, jenkins will run on the port 8080. In this case we will change the port to :8081, configure the router (or security group) to allow traffic to access the machine ip and port 8081 (inbound rules)
 to change IP
 ```  sh
 edit jenkins --full
 ```
-change Environment="JENKINS_PORT=8080" to Environment="JENKINS_PORT=8081" 
-and
-Environment="JENKINS_LISTEN_ADDRESS=0.0.0.0"
+
+### Jenkins setup Wizard
+in the browser, go the <IP_Address:8081> to start the jenkins setup wizard
 
 Get the security code located in the Jenkins instance:
 
@@ -59,7 +55,7 @@ Insert the user and password values to create your admin account.
 Install the default plugins recommended by Jenkins.
 
 ### Jenkins Default URL Step
-add <IP_Address:8080>
+add <IP_Address:8081>
 
 ## Configure GitHub <-> Jenkins Connection
 For better security, the connection will be made using ssh.
@@ -147,7 +143,7 @@ Configure as follows:
 
 Click Create
 
-### Setup the Slave (Maven Machine)
+### to Setup a Slave >Maven Machine (Optional)
 
 Go to: Dashboard -> Manage Jenkins -> Nodes -> New Node
  

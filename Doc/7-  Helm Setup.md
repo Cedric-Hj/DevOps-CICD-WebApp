@@ -54,6 +54,7 @@ touch /var/lib/jenkins/helm/Ced_Devops_Webapp/templates/service.yaml
 ```
 then:
 ```sh
+cd /var/lib/jenkins/helm
 helm package Ced_Devops_Webapp
 ```
 

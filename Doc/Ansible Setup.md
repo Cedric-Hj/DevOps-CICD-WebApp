@@ -41,6 +41,7 @@ Create a playbook for K8 control and worker nodes at opt and paste the content o
    ```
 
 ### Do a dry run of the playbook
+this is just a check to see if the playbook start installing, there will be an error
    ```sh
    ansible-playbook -i /opt/hosts k8s_control_Setup.yaml --check 
    ansible-playbook -i /opt/hosts k8_worker_Setup.yaml --check

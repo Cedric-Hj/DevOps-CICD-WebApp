@@ -25,6 +25,7 @@ Vagrant.configure("2") do |config|
       apt-get install -y jenkins
       
       # Configure Jenkins to use port 8081
+      sudo mkdir -p /etc/systemd/system/jenkins.service.d
       echo -e '[Service]\nEnvironment="JENKINS_PORT=8081"' | sudo tee /etc/systemd/system/jenkins.service.d/override.conf
 
       # Reload systemd to apply the changes

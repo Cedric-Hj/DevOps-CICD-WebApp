@@ -26,6 +26,7 @@ Copy the content of [Host_VM](/Ansible/Host_VM) into the hosts file
    ```
 
 ### Test the connection 
+Do the first ssh connection to the machines before hand
    ```sh
    ansible -i hosts all -m ping 
    ```

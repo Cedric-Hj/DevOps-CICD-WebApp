@@ -24,15 +24,15 @@ Vagrant.configure("2") do |config|
       apt-get update
       apt-get install -y jenkins
       
-      # Update the Jenkins service file to change the port
-      sudo sed -i 's/Environment="JENKINS_PORT=8080"/Environment="JENKINS_PORT=8081"/' /etc/systemd/system/jenkins.service
-      
+      # Configure Jenkins to use port 8081
+      echo -e '[Service]\nEnvironment="JENKINS_PORT=8081"' | sudo tee /etc/systemd/system/jenkins.service.d/override.conf
+
       # Reload systemd to apply the changes
       sudo systemctl daemon-reload
-      
+
       # Restart Jenkins to apply the new port
       sudo systemctl restart jenkins
-      
+
       # Enable Jenkins to start on boot
       sudo systemctl enable jenkins
 
@@ -104,7 +104,7 @@ Vagrant.configure("2") do |config|
   config.vm.define "k8s-1" do |k8s_1|
     k8s_1.vm.box = "ubuntu/jammy64"
     k8s_1.vm.hostname = "k8s-1"
-    k8s_1.vm.network "public_network", ip: "192.168.0.103"
+    k8s_1.vm.network "public_network", ip: "192.168.0.102"
     k8s_1.vm.provider "virtualbox" do |vb|
       vb.memory = "4096"
       vb.cpus = 2

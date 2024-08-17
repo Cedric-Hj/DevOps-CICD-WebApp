@@ -48,6 +48,12 @@ List of manifest file in this repo:
 - [secret.yaml](/secret.yaml) (Not used in this project)
 
 ```sh
+touch /var/lib/jenkins/helm/Ced_Devops_Webapp/templates/deployment.yaml
+touch /var/lib/jenkins/helm/Ced_Devops_Webapp/templates/namespace.yaml
+touch /var/lib/jenkins/helm/Ced_Devops_Webapp/templates/service.yaml
+```
+then:
+```sh
 helm package Ced_Devops_Webapp
 ```
 

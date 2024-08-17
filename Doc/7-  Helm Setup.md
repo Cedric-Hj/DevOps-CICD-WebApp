@@ -24,6 +24,7 @@ helm search repo stable
 
 ### Create a helm chart template 
 ```sh 
+touch /var/lib/jenkins/helm
 helm create /var/lib/jenkins/helm/Ced_Devops_Webapp
 ```
 
@@ -101,7 +102,7 @@ Prometheus run on :9090 and alert manager on :9093
    helm repo list
    ```
 
-4. Install the prometheus
+4. Install prometheus
 
    ```sh
     helm install prometheus prometheus-community/kube-prometheus-stack --namespace monitoring

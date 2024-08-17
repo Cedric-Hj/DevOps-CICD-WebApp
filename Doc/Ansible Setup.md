@@ -36,8 +36,8 @@ Create a playbook for K8 control and worker nodes at opt and paste the content o
    ```sh
   touch /opt/k8s_control_Setup.yaml
   touch /opt/k8_worker_Setup.yaml
-   vim /opt/jenkins-setup.yaml
-   vim /opt/maven-setup.yaml
+   vim /opt/k8s_control_Setup.yaml
+   vim /opt/k8_worker_Setup.yaml
    ```
 
 ### Do a dry run of the playbook

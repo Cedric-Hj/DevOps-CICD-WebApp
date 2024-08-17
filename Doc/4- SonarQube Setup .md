@@ -14,6 +14,7 @@ Signup using github and free option
 instal the plugging sonarqube scanner
 
 then, Go to credencial and add a secret text credencial with sonarcloud token
+The ID of the credencial must match what's in thejenkinsfile -> Sonar_token
 
 ### Configure sonarqube server:
 Manage jenkins -> System -> sonarqube server

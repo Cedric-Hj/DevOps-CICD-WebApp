@@ -24,7 +24,7 @@ helm search repo stable
 
 ### Create a helm chart template 
 ```sh 
-touch /var/lib/jenkins/helm
+mkdir /var/lib/jenkins/helm
 helm create /var/lib/jenkins/helm/Ced_Devops_Webapp
 ```
 

@@ -24,7 +24,7 @@ helm search repo stable
 
 ### Create a helm chart template 
 ```sh 
-helm create Ced_Devops_Webapp
+helm create /var/lib/jenkins/helm/Ced_Devops_Webapp
 ```
 
 by default, it contains 
@@ -35,7 +35,7 @@ by default, it contains
 
 delete all file in /templates folder:
 ```sh
-cd /root/Ced_Devops_Webapp/templates
+cd /var/lib/jenkins/helm/Ced_Devops_Webapp/templates
 rm -rf *
 ```
 
@@ -80,14 +80,6 @@ helm install ced-devops-webapp Ced_Devops_Webapp-0.1.0.tgz --namespace ced-devop
 ```sh 
 helm list -a
 ```
-
-Other useful commands
-
-to change the default namespace to valaxy
-```sh
-kubectl config set-context --current --namespace=valaxy
-```
-
 
 ## Setup Prometheus
 

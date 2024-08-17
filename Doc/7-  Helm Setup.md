@@ -41,7 +41,7 @@ rm -rf *
 
 ### Add the manifest files in the templates folders and then package the chart
 List of manifest file in this repo:
-- [deployment.yamls](/deployment.yaml)
+- [deployment.yaml](/deployment.yaml)
 - [namespace.yaml](/namespace.yaml)
 - [service.yaml](/service.yaml)
 - [secret.yaml](/secret.yaml) (Not used in this project)

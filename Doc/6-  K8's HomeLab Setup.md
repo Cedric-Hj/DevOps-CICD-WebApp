@@ -128,6 +128,7 @@ after do as told on the console:
 ```sh
 export KUBECONFIG=/etc/kubernetes/admin.conf 
 ```
+Note: if the connection is refuser after shuting down the vm and restoring a snaphot, re-use this command to make it work again
 
 ## Add Calico 3.27.2 CNI: 
 ```sh

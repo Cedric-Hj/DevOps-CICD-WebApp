@@ -89,7 +89,7 @@ pipeline {
             steps {
                 script {
                     echo "Building Docker image with tag: ${dockerRepo}:${appVersion}"
-                    docker.build("${dockerRepo}:${appVersion}")
+                    docker.build("${dockerRepo}:v${appVersion}")
                 }
             }
         }
@@ -98,7 +98,7 @@ pipeline {
             steps {
                 script {
                     docker.withRegistry('', 'DockerCredencials') {
-                        sh "docker push ${dockerRepo}:${appVersion}" 
+                        sh "docker push ${dockerRepo}:v${appVersion}" 
                     }
                 }
             }

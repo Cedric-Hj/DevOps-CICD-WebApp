@@ -7,7 +7,7 @@ pipeline {
         SONARQUBE_URL = 'https://sonarcloud.io'
         SONARCLOUD_TOKEN = credentials('Sonar_token')
         dockerRepo = "cedrichj/devops_cicd"
-        dockerHubCredentials = 'DockerCredencials' // ID of your Jenkins credentials
+        dockerHubCredentials = 'DockerCredencials'
         dockerContainerName = "devops_cicd"
         appVersion = "2.0.6"
         KUBECONFIG = '/var/lib/jenkins/.kube/kubeconfig'

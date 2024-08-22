@@ -110,7 +110,7 @@ pipeline {
                     echo '<--------------- Helm Upgrade/Install --------------->'
                     sh '''
                         sudo sed -i "s|image: cedrichj/devops_cicd:.*|image: cedrichj/devops_cicd:$appVersion|" /var/lib/jenkins/helm/Ced_Devops_Webapp/templates/deployment.yaml
-                        helm upgrade --install ced-devops-webapp /var/lib/jenkins/helm/Ced_Devops_Webapp \
+                        helm upgrade --install ced-devops-webapp /var/lib/jenkins/helm/Ced_Devops_Webapp --set appVersion=${appVersion}\
                         --namespace ced-devops-cicd \
                         --kubeconfig=$KUBECONFIG \
                         --set image.tag=${appVersion} \

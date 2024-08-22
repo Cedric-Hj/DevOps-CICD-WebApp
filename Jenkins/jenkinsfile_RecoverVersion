@@ -5,7 +5,6 @@ pipeline {
         dockerRepo = "cedrichj/devops_cicd"
         dockerHubCredentials = 'DockerCredencials'
         dockerContainerName = "devops_cicd"
-        dockerFullContainerName = "${dockerRepo}:v${appVersion}"
         KUBECONFIG = '/var/lib/jenkins/.kube/kubeconfig'
     }
 
@@ -30,7 +29,7 @@ pipeline {
                     try {
                         sh '''
                             docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
-                            if ! docker pull ${dockerFullContainerName} >/dev/null 2>&1; then
+                            if ! docker pull ${dockerRepo}:v${appVersion} >/dev/null 2>&1; then
                                 echo "Docker image ${dockerFullContainerName} does not exist."
                                 exit 1
                             fi

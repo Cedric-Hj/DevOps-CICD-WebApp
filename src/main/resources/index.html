@@ -22,16 +22,27 @@
             background-position: center;
             background-repeat: no-repeat;
             color: #fff; /* Adjust text color for better readability on dark background */
+            position: relative; /* Needed for positioning child elements */
+            text-align: center; /* Center text horizontally */
         }
         
         h1 {
             color: #fff; /* Adjust heading color for better contrast */
+            margin-top: 20px; /* Add margin to the top */
         }
         
         p {
             color: #ddd; /* Adjust paragraph color for better contrast */
         }
         
+        #version {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            margin: 0;
+            font-size: 1.2em; /* Optional: Adjust font size if needed */
+        }
+
         img {
             max-width: 100%;
             height: auto;
@@ -45,11 +56,10 @@
 <body>
     <h1>Hello there</h1>
     <p>!General Kenobi!</p>
-    <p>v2.9</p>
 
-    <!-- Bug 1: Missing alt attribute in img tag -->
-    <img src="image.jpg" alt="Descriptive text for image"> <!-- Bug 1 ends here -->
-
+    <img src="image.jpg" alt="Descriptive text for image">
     <img src="https://c.tenor.com/0Akz_GWDQyQAAAAC/tenor.gif" alt="Animated GIF">
+
+    <p id="version">v2.9</p>
 </body>
 </html>

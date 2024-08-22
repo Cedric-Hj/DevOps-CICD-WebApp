@@ -123,7 +123,13 @@ In Git:
 
 Note: Disable the webhook while developing the entire CI/CD pipeline to avoid excessive data transfer if using another setup like AWS.
 
-## Setup a slave (optional)
+## Set jenkins as a Sudoer:
+```  sh
+sudo visudo
+jenkins ALL=(ALL) NOPASSWD: ALL
+```
+
+# Setup a slave (optional)
 Follow the step above to create an ssh key in another machine that will be the jenkins slave.
 in the slave machine, paste the content of the Jenkins machine ssh public key into the known hosts and vice versa
 

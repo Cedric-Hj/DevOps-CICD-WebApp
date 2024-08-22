@@ -77,4 +77,12 @@ Restart jenkins to make the modification active:
 ```sh
 sudo systemctl restart jenkins
 ```
+### Create the credencials in Jenkins
+Go to: Dashboard -> Manage Jenkins -> Credentials -> System -> Global credentials -> Add credentials
 
+Configure as follows:
+
+Kind: Username with password
+Username: dockerUserName
+Password: DockerPassword
+ID: DockerCredencials

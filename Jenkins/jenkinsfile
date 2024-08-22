@@ -33,16 +33,16 @@ pipeline {
             parallel {
                 stage('Build') {
                     steps {
-                        echo "----------- Build started ----------"
+                        echo "<---------------- Build started --------------->"
                         sh 'mvn clean deploy -Dmaven.test.skip=true'
-                        echo "----------- Build completed ----------"
+                        echo "<---------------- Build completed --------------->"
                     }
                 }
                 stage('Unit Test') {
                     steps {
-                        echo "----------- Unit test started ----------"
+                        echo "<--------------- Unit test started --------------->"
                         sh 'mvn surefire-report:report'
-                        echo "----------- Unit test completed ----------"
+                        echo "<--------------- Unit test completed --------------->"
                     }
                 }
             }
@@ -87,8 +87,10 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 script {
+                    echo '<--------------- Start of Build Docker Image  --------------->'
                     echo "Building Docker image with tag: ${dockerRepo}:${appVersion}"
                     docker.build("${dockerRepo}:v${appVersion}")
+                    echo '<--------------- End of Build Docker Image  --------------->
                 }
             }
         }
@@ -96,8 +98,10 @@ pipeline {
         stage('Push Docker Image') {
             steps {
                 script {
+                    echo '<--------------- Start of Push Docker Image  --------------->
                     docker.withRegistry('', 'DockerCredencials') {
                         sh "docker push ${dockerRepo}:v${appVersion}" 
+                    echo '<--------------- End of Push Docker Image  --------------->
                     }
                 }
             }
@@ -106,7 +110,7 @@ pipeline {
         stage("Deploy") {
             steps {
                 script {
-                    echo '<--------------- Helm Upgrade/Install --------------->'
+                    echo '<--------------- Start of Helm Upgrade/Install --------------->'
                     sh '''
                         sudo sed -i "s|image: cedrichj/devops_cicd:v.*|image: cedrichj/devops_cicd:v$appVersion|" /var/lib/jenkins/helm/Ced_Devops_Webapp/templates/deployment.yaml 
                         sudo sed -i "s/^appVersion: .*/appVersion: \"$appVersion\"/" /var/lib/jenkins/helm/Ced_Devops_Webapp/Chart.yaml
@@ -117,7 +121,7 @@ pipeline {
                         --set image.tag=$appVersion \
                         --wait
                     '''
-                    echo '<--------------- Helm Deploy Ends --------------->'
+                    echo '<--------------- End of Helm Deploy --------------->'
                 }
             }
         }

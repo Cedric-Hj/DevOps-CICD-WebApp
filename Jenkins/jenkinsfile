@@ -10,7 +10,7 @@ pipeline {
         dockerRepo = "cedrichj/devops_cicd"
         dockerHubCredentials = 'DockerCredencials' // ID of your Jenkins credentials
         dockerContainerName = "devops_cicd"
-        appVersion = "v2.7"
+        appVersion = "v2.8"
         dockerFullContainerName = "${dockerRepo}:${appVersion}"
         KUBECONFIG = '/var/lib/jenkins/.kube/kubeconfig'
     }
@@ -112,7 +112,7 @@ pipeline {
                         helm upgrade --install ced-devops-webapp /var/lib/jenkins/helm/Ced_Devops_Webapp \
                         --namespace ced-devops-cicd \
                         --kubeconfig=$KUBECONFIG \
-                        --set image.tag=${IMAGE_TAG} \
+                        --set image.tag=${appVersion} \
                         --wait
                     '''
                     echo '<--------------- Helm Deploy Ends --------------->'

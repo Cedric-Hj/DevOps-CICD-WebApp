@@ -23,13 +23,32 @@ pipeline {
             }
         }
 
-        stage("Deploy") {
+        stage('Check Docker Image') {
             steps {
                 script {
-                    echo '<--------------- Start of Helm Upgrade/Install --------------->'
-                    echo '$appVersion'
-                    sh '''
+                    echo '<--------------- Checking Docker Image --------------->'
+                    try {
+                        sh '''
+                            docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
+                            if ! docker pull ${dockerFullContainerName} >/dev/null 2>&1; then
+                                echo "Docker image ${dockerFullContainerName} does not exist."
+                                exit 1
+                            fi
+                        '''
+                    } catch (Exception e) {
+                        echo "Error checking Docker image: ${e.message}"
+                        currentBuild.result = 'FAILURE'
+                        error("Docker image ${dockerFullContainerName} does not exist.")
+                    }
+                }
+            }
+        }
 
+        stage("Rollback version") {
+            steps {
+                script {
+                    echo '<--------------- RollBack to version: $appVersion  --------------->'
+                    sh '''
                         sudo sed -i "s|image: cedrichj/devops_cicd:v.*|image: cedrichj/devops_cicd:v$appVersion|" /var/lib/jenkins/helm/Ced_Devops_Webapp/templates/deployment.yaml 
                         sudo sed -i "s/^appVersion: .*/appVersion: \"$appVersion\"/" /var/lib/jenkins/helm/Ced_Devops_Webapp/Chart.yaml
                         sudo sed -i "s/^version: .*/version: $appVersion/" /var/lib/jenkins/helm/Ced_Devops_Webapp/Chart.yaml                   

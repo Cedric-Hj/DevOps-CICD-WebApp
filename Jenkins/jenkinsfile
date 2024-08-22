@@ -109,7 +109,7 @@ pipeline {
                 script {
                     echo '<--------------- Helm Upgrade/Install --------------->'
                     sh '''
-                        sed -i "s|image: cedrichj/devops_cicd:.*|image: cedrichj/devops_cicd:$appVersion|" "/var/lib/jenkins/helm/Ced_Devops_Webapp/templates/deployment.yaml"
+                        TMPDIR=/tmp sed -i "s|image: cedrichj/devops_cicd:.*|image: cedrichj/devops_cicd:v2.8|" /var/lib/jenkins/helm/Ced_Devops_Webapp/templates/deployment.yaml
                         helm upgrade --install ced-devops-webapp /var/lib/jenkins/helm/Ced_Devops_Webapp \
                         --namespace ced-devops-cicd \
                         --kubeconfig=$KUBECONFIG \

@@ -192,6 +192,7 @@ cat /etc/kubernetes/admin.conf
 In the jenkins machine, create the directory and file needed:
 ```sh
 mkdir /var/lib/jenkins/.kube
+cd /var/lib/jenkins/.kube
 touch kubeconfig
 vim kubeconfig #paste the content in this file
 ```

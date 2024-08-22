@@ -26,6 +26,7 @@ pipeline {
             steps {
                 script {
                     echo '<--------------- Checking Docker Image --------------->'
+                    echo "${dockerRepo}:v${appVersion}"
                     try {
                         sh '''
                             docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD

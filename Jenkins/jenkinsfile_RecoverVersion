@@ -3,7 +3,7 @@ pipeline {
 
     environment {
         dockerRepo = "cedrichj/devops_cicd"
-        dockerHubCredentials = 'DockerCredencials' // ID of your Jenkins credentials
+        dockerHubCredentials = 'DockerCredencials'
         dockerContainerName = "devops_cicd"
         dockerFullContainerName = "${dockerRepo}:v${appVersion}"
         KUBECONFIG = '/var/lib/jenkins/.kube/kubeconfig'

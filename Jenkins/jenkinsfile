@@ -103,7 +103,7 @@ pipeline {
                 }
             }
         }
-/*sudo sed -i "s/^appVersion: .*/appVersion: \"$appVersion\"/" /var/lib/jenkins/helm/Ced_Devops_Webapp/Chart.yaml*/
+
         stage("Deploy") {
             steps {
                 script {

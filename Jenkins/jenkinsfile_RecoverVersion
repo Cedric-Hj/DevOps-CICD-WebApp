@@ -30,14 +30,14 @@ pipeline {
                         sh '''
                             docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
                             if ! docker pull ${dockerRepo}:v${appVersion} >/dev/null 2>&1; then
-                                echo "Docker image ${dockerFullContainerName} does not exist."
+                                echo "Docker image ${dockerRepo}:v${appVersion} does not exist."
                                 exit 1
                             fi
                         '''
                     } catch (Exception e) {
                         echo "Error checking Docker image: ${e.message}"
                         currentBuild.result = 'FAILURE'
-                        error("Docker image ${dockerFullContainerName} does not exist.")
+                        error("Docker image ${dockerRepo}:v${appVersion} does not exist.")
                     }
                 }
             }

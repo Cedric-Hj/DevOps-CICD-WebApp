@@ -2,57 +2,25 @@ pipeline {
     agent any
     
     stages {
-        stage('Checkout dev branch') {
-            steps {
-                // Checkout the dev branch using HTTPS
-                git branch: 'dev', url: 'git@github.com:Cedric-Hj/DevOps-CICD-WebApp.git', credentialsId: 'git'
-            }
-        }
-        
-        stage('Prepare for merge') {
+        stage('Checkout and Merge') {
             steps {
                 script {
-                    // Check if the working directory is clean
-                    sh 'git status'
-
-                    // Save the dev branch content temporarily
-                    sh 'git checkout -b temp-branch'
-                    sh 'git checkout dev -- src'
-                    
-                    // Checkout the test branch
-                    git branch: 'test', url: 'git@github.com:Cedric-Hj/DevOps-CICD-WebApp.git', credentialsId: 'git'
+                    // Checkout dev branch and copy src to temp-branch
+                    git branch: 'dev', url: 'git@github.com:Cedric-Hj/DevOps-CICD-WebApp.git'
+                    sh '''
+                        git checkout -b temp-branch
+                        git checkout dev -- src
+                        git checkout test
+                        git merge temp-branch --no-ff -m "Merged src folder from dev branch"
+                    '''
                 }
             }
         }
         
-        stage('Merge src folder') {
+        stage('Push Changes') {
             steps {
-                script {
-                    // Check for differences
-                    sh 'git diff --name-only'
-
-                    // Copy the src folder from temp-branch to test branch
-                    sh 'git checkout temp-branch -- src'
-                    
-                    // Stage and commit the changes if there are differences
-                    sh 'git status' // Check for staged changes
-                    def changes = sh(script: 'git status --porcelain', returnStdout: true).trim()
-                    if (changes) {
-                        sh 'git add src'
-                        sh 'git commit -m "Merged src folder from dev branch"'
-                    } else {
-                        echo 'No changes to commit.'
-                    }
-                }
-            }
-        }
-        
-        stage('Push changes') {
-            steps {
-                script {
-                    // Push the changes to the remote test branch using HTTPS
-                    sh 'git push origin test'
-                }
+                // Push changes to test branch
+                sh 'git push origin test'
             }
         }
     }

@@ -4,8 +4,8 @@ pipeline {
     stages {
         stage('Checkout dev branch') {
             steps {
-                // Checkout the dev branch
-                git branch: 'dev', url: 'https://github.com/Cedric-Hj/DevOps-CICD-WebApp.git'
+                // Checkout the dev branch using HTTPS
+                git branch: 'dev', url: 'https://github.com/Cedric-Hj/DevOps-CICD-WebApp.git', credentialsId: 'git'
             }
         }
         
@@ -50,7 +50,7 @@ pipeline {
         stage('Push changes') {
             steps {
                 script {
-                    // Push the changes to the remote test branch
+                    // Push the changes to the remote test branch using HTTPS
                     sh 'git push origin test'
                 }
             }

@@ -1,15 +1,9 @@
 pipeline {
     agent any
 
-    environment {
-        MAVEN_HOME = '/opt/apache-maven-3.9.7'
-        PATH = "${MAVEN_HOME}/bin:${env.PATH}"
-        SONARQUBE_URL = 'https://sonarcloud.io'
-        SONARCLOUD_TOKEN = credentials('Sonar_token')
+environment {
         dockerRepo = "cedrichj/devops_cicd"
-        dockerHubCredentials = 'DockerCredencials'
-        dockerContainerName = "devops_cicd"
-        appVersion = "2.0.6"
+        appVersion = "2.0.${env.BUILD_NUMBER}"
         KUBECONFIG = '/var/lib/jenkins/.kube/kubeconfig'
     }
 

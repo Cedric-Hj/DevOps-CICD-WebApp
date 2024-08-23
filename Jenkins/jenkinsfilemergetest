@@ -12,6 +12,9 @@ pipeline {
         stage('Prepare for merge') {
             steps {
                 script {
+                    // Check if the working directory is clean
+                    sh 'git status'
+
                     // Save the dev branch content temporarily
                     sh 'git checkout -b temp-branch'
                     sh 'git checkout dev -- src'
@@ -25,12 +28,21 @@ pipeline {
         stage('Merge src folder') {
             steps {
                 script {
+                    // Check for differences
+                    sh 'git diff --name-only'
+
                     // Copy the src folder from temp-branch to test branch
                     sh 'git checkout temp-branch -- src'
                     
-                    // Stage and commit the changes
-                    sh 'git add src'
-                    sh 'git commit -m "Merged src folder from dev branch"'
+                    // Stage and commit the changes if there are differences
+                    sh 'git status' // Check for staged changes
+                    def changes = sh(script: 'git status --porcelain', returnStdout: true).trim()
+                    if (changes) {
+                        sh 'git add src'
+                        sh 'git commit -m "Merged src folder from dev branch"'
+                    } else {
+                        echo 'No changes to commit.'
+                    }
                 }
             }
         }

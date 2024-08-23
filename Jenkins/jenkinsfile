@@ -16,7 +16,7 @@ pipeline {
 
         stage('Checkout') {
             steps {
-                git branch: 'dev', url: 'https://github.com/Cedric-Hj/DevOps-CICD-WebApp.git'
+                git branch: 'test', url: 'https://github.com/Cedric-Hj/DevOps-CICD-WebApp.git'
             }
         }
 
@@ -40,37 +40,12 @@ pipeline {
             }
         }
 
-        stage('SonarQube Analysis') {
-            environment {
-                scannerHome = tool 'sonar-scanner'
-            }
-            steps {
-                echo '<--------------- SonarQube Analysis started  --------------->'
-                withSonarQubeEnv('sonar-server') {
-                    sh "${scannerHome}/bin/sonar-scanner"
-                }
-                echo '<--------------- SonarQube Analysis completed  --------------->'
-            }
-        }
-
-        stage('Quality Gate') {
-            steps {
-                script {
-                    def qg = waitForQualityGate()
-                    if (qg.status != 'OK') {
-                        error "Pipeline aborted due to Quality Gate failure: ${qg.status}"
-                        
-                    }
-                }
-            }
-        }
-
         stage('Build Docker Image') {
             steps {
                 script {
                     echo '<--------------- Start of Build Docker Image  --------------->'
-                    echo "Building Docker image with tag: ${dockerRepo}:dev${appVersion}"
-                    docker.build("${dockerRepo}:dev${appVersion}")
+                    echo "Building Docker image with tag: ${dockerRepo}:test${appVersion}"
+                    docker.build("${dockerRepo}:test${appVersion}")
                     echo '<--------------- End of Build Docker Image  --------------->'
                 }
             }
@@ -81,7 +56,7 @@ pipeline {
                 script {
                     echo '<--------------- Start of Push Docker Image  --------------->'
                     docker.withRegistry('', 'DockerCredencials') {
-                        sh "docker push ${dockerRepo}:dev${appVersion}" 
+                        sh "docker push ${dockerRepo}:test${appVersion}" 
                     echo '<--------------- End of Push Docker Image  --------------->'
                     }
                 }
@@ -93,11 +68,11 @@ pipeline {
                 script {
                     echo '<--------------- Start of Helm Upgrade/Install --------------->'
                     sh '''
-                        sudo sed -i "s|image: ${dockerRepo}:dev.*|image: ${dockerRepo}:dev$appVersion|" /var/lib/jenkins/helm/Ced_Devops_Webapp-dev/templates/deployment.yaml 
-                        sudo sed -i "s/^appVersion: .*/appVersion: \"$appVersion\"/" /var/lib/jenkins/helm/Ced_Devops_Webapp-dev/Chart.yaml
-                        sudo sed -i "s/^version: .*/version: $appVersion/" /var/lib/jenkins/helm/Ced_Devops_Webapp-dev/Chart.yaml                   
-                        helm upgrade --install ced-devops-webapp-dev /var/lib/jenkins/helm/Ced_Devops_Webapp-dev \
-                        --namespace ced-devops-cicd-dev \
+                        sudo sed -i "s|image: ${dockerRepo}:test.*|image: ${dockerRepo}:test$appVersion|" /var/lib/jenkins/helm/Ced_Devops_Webapp-test/templates/deployment.yaml 
+                        sudo sed -i "s/^appVersion: .*/appVersion: \"$appVersion\"/" /var/lib/jenkins/helm/Ced_Devops_Webapp-test/Chart.yaml
+                        sudo sed -i "s/^version: .*/version: $appVersion/" /var/lib/jenkins/helm/Ced_Devops_Webapp-test/Chart.yaml                   
+                        helm upgrade --install ced-devops-webapp-test /var/lib/jenkins/helm/Ced_Devops_Webapp-test \
+                        --namespace ced-devops-cicd-test \
                         --kubeconfig=$KUBECONFIG \
                         --set image.tag=$appVersion \
                         --wait

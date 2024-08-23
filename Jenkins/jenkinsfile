@@ -5,19 +5,9 @@ pipeline {
         dockerRepo = "cedrichj/devops_cicd"
         appVersion = "2.0.1"
         KUBECONFIG = '/var/lib/jenkins/.kube/kubeconfig'
-        /*
-        dockerHubCredentials = 'DockerCredencials'
-        dockerContainerName = "devops_cicd"
-        MAVEN_HOME = '/opt/apache-maven-3.9.7'
-        PATH = "${MAVEN_HOME}/bin:${env.PATH}"
-        SONARQUBE_URL = 'https://sonarcloud.io'
-         SONARCLOUD_TOKEN = credentials('Sonar_token')
-*/
-
     }
 
     stages {
-
         stage('Cleanup') {
             steps {
                 deleteDir()

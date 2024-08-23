@@ -213,4 +213,11 @@ kubectl get pods -A
 Delete all pod for self healing:
 ```sh
 kubectl delete pods --all --all-namespaces
+
+kubectl apply -f https://raw.githubusercontent.com/projectcalico/calico/v3.28.1/manifests/calico.yaml
+
+kubectl apply -f custom-resources.yaml
+
 ```
+or 
+https://docs.tigera.io/calico/latest/getting-started/kubernetes/quickstart

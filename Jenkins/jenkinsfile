@@ -2,15 +2,18 @@ pipeline {
     agent any
 
     environment {
+        dockerRepo = "cedrichj/devops_cicd"
+        appVersion = "2.0.6"
+        KUBECONFIG = '/var/lib/jenkins/.kube/kubeconfig'
+        /*
+        dockerHubCredentials = 'DockerCredencials'
+        dockerContainerName = "devops_cicd"
         MAVEN_HOME = '/opt/apache-maven-3.9.7'
         PATH = "${MAVEN_HOME}/bin:${env.PATH}"
         SONARQUBE_URL = 'https://sonarcloud.io'
-        SONARCLOUD_TOKEN = credentials('Sonar_token')
-        dockerRepo = "cedrichj/devops_cicd"
-        dockerHubCredentials = 'DockerCredencials'
-        dockerContainerName = "devops_cicd"
-        appVersion = "2.0.6"
-        KUBECONFIG = '/var/lib/jenkins/.kube/kubeconfig'
+         SONARCLOUD_TOKEN = credentials('Sonar_token')
+*/
+
     }
 
     stages {
@@ -23,7 +26,7 @@ pipeline {
 
         stage('Checkout') {
             steps {
-                git branch: 'main', url: 'https://github.com/Cedric-Hj/DevOps-CICD-WebApp.git'
+                git branch: 'dev', url: 'https://github.com/Cedric-Hj/DevOps-CICD-WebApp.git'
             }
         }
 
@@ -87,8 +90,8 @@ pipeline {
             steps {
                 script {
                     echo '<--------------- Start of Build Docker Image  --------------->'
-                    echo "Building Docker image with tag: ${dockerRepo}:${appVersion}"
-                    docker.build("${dockerRepo}:v${appVersion}")
+                    echo "Building Docker image with tag: ${dockerRepo}:dev${appVersion}"
+                    docker.build("${dockerRepo}:dev${appVersion}")
                     echo '<--------------- End of Build Docker Image  --------------->
                 }
             }
@@ -99,7 +102,7 @@ pipeline {
                 script {
                     echo '<--------------- Start of Push Docker Image  --------------->
                     docker.withRegistry('', 'DockerCredencials') {
-                        sh "docker push ${dockerRepo}:v${appVersion}" 
+                        sh "docker push ${dockerRepo}:dev${appVersion}" 
                     echo '<--------------- End of Push Docker Image  --------------->
                     }
                 }
@@ -111,10 +114,10 @@ pipeline {
                 script {
                     echo '<--------------- Start of Helm Upgrade/Install --------------->'
                     sh '''
-                        sudo sed -i "s|image: cedrichj/devops_cicd:v.*|image: cedrichj/devops_cicd:v$appVersion|" /var/lib/jenkins/helm/Ced_Devops_Webapp/templates/deployment.yaml 
-                        sudo sed -i "s/^appVersion: .*/appVersion: \"$appVersion\"/" /var/lib/jenkins/helm/Ced_Devops_Webapp/Chart.yaml
-                        sudo sed -i "s/^version: .*/version: $appVersion/" /var/lib/jenkins/helm/Ced_Devops_Webapp/Chart.yaml                   
-                        helm upgrade --install ced-devops-webapp /var/lib/jenkins/helm/Ced_Devops_Webapp \
+                        sudo sed -i "s|image: ${dockerRepo}:dev.*|image: ${dockerRepo}:dev$appVersion|" /var/lib/jenkins/helm/Ced_Devops_Webapp-dev/templates/deployment.yaml 
+                        sudo sed -i "s/^appVersion: .*/appVersion: \"$appVersion\"/" /var/lib/jenkins/helm/Ced_Devops_Webapp-dev/Chart.yaml
+                        sudo sed -i "s/^version: .*/version: $appVersion/" /var/lib/jenkins/helm/Ced_Devops_Webapp-dev/Chart.yaml                   
+                        helm upgrade --install ced-devops-webapp /var/lib/jenkins/helm/Ced_Devops_Webapp-dev \
                         --namespace ced-devops-cicd \
                         --kubeconfig=$KUBECONFIG \
                         --set image.tag=$appVersion \

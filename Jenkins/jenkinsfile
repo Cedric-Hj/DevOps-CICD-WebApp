@@ -3,7 +3,7 @@ pipeline {
 
     environment {
         dockerRepo = "cedrichj/devops_cicd"
-        appVersion = "2.0.6"
+        appVersion = "2.0.1"
         KUBECONFIG = '/var/lib/jenkins/.kube/kubeconfig'
         /*
         dockerHubCredentials = 'DockerCredencials'

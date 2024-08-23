@@ -5,7 +5,7 @@ pipeline {
         stage('Checkout dev branch') {
             steps {
                 // Checkout the dev branch using HTTPS
-                git branch: 'dev', url: 'git@github.com:Cedric-Hj/DevOps-CICD-WebApp.git', credentialsId: 'git'
+                git branch: 'dev', url: 'git@github.com:Cedric-Hj/DevOps-CICD-WebApp.git'
             }
         }
         
@@ -20,7 +20,7 @@ pipeline {
                     sh 'git checkout dev -- src'
                     
                     // Checkout the test branch
-                    sh 'git checkout test'
+                    git branch: 'test', url: 'git@github.com:Cedric-Hj/DevOps-CICD-WebApp.git'
                 }
             }
         }

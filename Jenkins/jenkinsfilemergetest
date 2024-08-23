@@ -5,7 +5,7 @@ pipeline {
         stage('Checkout dev branch') {
             steps {
                 // Checkout the dev branch
-                git branch: 'dev', url: 'git@github.com:Cedric-Hj/DevOps-CICD-WebApp.git'
+                git branch: 'dev', url: 'https://github.com/Cedric-Hj/DevOps-CICD-WebApp.git'
             }
         }
         

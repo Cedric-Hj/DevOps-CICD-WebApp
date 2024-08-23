@@ -21,10 +21,9 @@ rm -rf *
 
 ### Add the manifest files in the templates folders and then package the chart
 List of manifest file in this repo:
-- [deployment.yaml](/deployment.yaml)
-- [namespace.yaml](/namespace.yaml)
-- [service.yaml](/service.yaml)
-- [secret.yaml](/secret.yaml) (Not used in this project)
+- [deployment.yaml](https://github.com/Cedric-Hj/DevOps-CICD-WebApp/blob/dev/deployment.yaml)
+- [namespace.yaml](https://github.com/Cedric-Hj/DevOps-CICD-WebApp/blob/dev/namespace.yaml)
+- [service.yaml](https://github.com/Cedric-Hj/DevOps-CICD-WebApp/blob/dev/service.yaml)
 
 ```sh
 touch /var/lib/jenkins/helm/Ced_Devops_Webapp-dev/templates/deployment.yaml

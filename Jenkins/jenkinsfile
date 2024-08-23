@@ -106,8 +106,18 @@ pipeline {
                 }
             }
         }
-    }
 
+        stage('Send Code To Test Branch') {
+            steps {
+                script {
+                    echo '<--------------- Merging Source code to test branch --------------->'
+                    build job: 'git_merge_SourceCode_Dev_to_Test'
+                    echo '<--------------- Source code Merged to test branch --------------->'
+                }
+            }
+        }
+
+    }
     post {
         success {
             echo 'Pipeline completed successfully'

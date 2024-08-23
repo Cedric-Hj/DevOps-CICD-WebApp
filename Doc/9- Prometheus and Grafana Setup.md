@@ -1,50 +1,57 @@
-## Setup Prometheus
+# Setup Prometheus
 
-Prometheus run on :9090 and alert manager on :9093
+Prometheus run on :9090 and alert manager on :9093 and or forwarded on pod specific pods
 
-1. Create a dedicated namespace for prometheus 
+### Create a dedicated namespace for prometheus 
    ```sh
    kubectl create namespace monitoring
    ```
 
-2. Add Prometheus helm chart repository
+### Add Prometheus helm chart repository
    ```sh
    helm repo add prometheus-community https://prometheus-community.github.io/helm-charts 
    ```
 
-3. Update the helm chart repository
+### Update the helm chart repository
    ```sh
    helm repo update
    helm repo list
    ```
 
-4. Install prometheus
+### Install Prometheus with Graphana
 
    ```sh
     helm install prometheus prometheus-community/kube-prometheus-stack --namespace monitoring
    ```
 
-5. Above helm create all services as ClusterIP. To access Prometheus out side of the cluster, we should change the service type load balancer
+### Open external access to Prometheus and Graphana
+Helm will create all services as ClusterIP. 
+To access Prometheus outside of the cluster, change the service type from ClusterIP to LoadBalancer:
    ```sh 
    kubectl edit svc prometheus-kube-prometheus-prometheus -n monitoring
    # change type: ClusterIP to type: LoadBalancer
    ```
-6. Loginto Prometheus dashboard to monitor application
-   https://ELB:9090
 
-7. Check for node_load15 executor to check cluster monitoring 
-
-8. We check similar graphs in the Grafana dashboard itself. for that, we should change the service type of Grafana to LoadBalancer
+  To access Graphana outside of the cluster, also change the service type from ClusterIP to LoadBalancer:
    ```sh 
-   kubectl edit svc prometheus-grafana
+   kubectl edit svc prometheus-grafana --namespace monitoring
+   # change type: ClusterIP to type: LoadBalancer
+   ```
+ 
+Check the port forwarded for the pods
+   - service/prometheus-kube-prometheus-prometheus for Prometheus
+   - service/prometheus-grafana for Graphana
+ 
+ using the command: 
+   ``` ssh
+   kubectl get all --namespace monitoring
    ```
 
-9.  To login to Grafana account, use the below username and password 
-    ```sh
-    username: admin
-    password: prom-operator
-    ```
-10. Here we should check for "Node Exporter/USE method/Node" and "Node Exporter/USE method/Cluster"
-    USE - Utilization, Saturation, Errors
-   
-11. Even we can check the behavior of each pod, node, and cluster
+### Log into Prometheus and Graphana
+ In a browser go to 192.168.0.101:Port for Prometheus and Grafana
+
+
+Graphana credencials
+- username: admin
+- password: prom-operator
+

@@ -210,3 +210,7 @@ The jenkins machine can now use kubectl commands, check with:
 kubectl get nodes
 kubectl get pods -A
 ```
+Delete all pod for self healing:
+```sh
+kubectl delete pods --all --all-namespaces
+```

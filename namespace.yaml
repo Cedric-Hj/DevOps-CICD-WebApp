@@ -1,4 +1,4 @@
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: ced-devops-cicd
+  name: ced-devops-cicd-dev

@@ -2,7 +2,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: ced-webpage-test
-  namespace: ced-testops-cicd-test
+  namespace: ced-devops-cicd-test
 spec:
   selector:
     app: ced-webpage-test

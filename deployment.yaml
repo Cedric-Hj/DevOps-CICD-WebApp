@@ -1,23 +1,23 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: ced-webpage-dev
-  namespace: ced-devops-cicd-dev
+  name: ced-webpage-test
+  namespace: ced-testops-cicd-test
   labels:
-    app: ced-webpage-dev
+    app: ced-webpage-test
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: ced-webpage-dev
+      app: ced-webpage-test
   template:
     metadata:
       labels:
-        app: ced-webpage-dev
+        app: ced-webpage-test
     spec:
       containers:
-        - name: ced-webpages-dev
-          image: cedrichj/devops_cicd:dev2.3
+        - name: ced-webpages-test
+          image: cedrichj/testops_cicd:test2.3
           imagePullPolicy: Always
           ports:
             - containerPort: 80

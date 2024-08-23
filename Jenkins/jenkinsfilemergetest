@@ -2,16 +2,17 @@ pipeline {
     agent any
     
     stages {
-        stage('Checkout and Merge') {
+        stage('Checkout and Prepare') {
             steps {
                 script {
-                    // Checkout dev branch and copy src to temp-branch
+                    // Checkout dev branch and create temp-branch
                     git branch: 'dev', url: 'git@github.com:Cedric-Hj/DevOps-CICD-WebApp.git'
                     sh '''
                         git checkout -b temp-branch
                         git checkout dev -- src
+                        git commit -m "Temporary commit for src folder" || echo "No changes to commit"
                         git checkout test
-                        git merge temp-branch --no-ff -m "Merged src folder from dev branch"
+                        git merge temp-branch --no-ff -m "Merged src folder from dev branch" || echo "No changes to merge"
                     '''
                 }
             }

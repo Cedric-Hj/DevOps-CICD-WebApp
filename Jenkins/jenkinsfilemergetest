@@ -1,0 +1,54 @@
+pipeline {
+    agent any
+    
+    stages {
+        stage('Checkout dev branch') {
+            steps {
+                // Checkout the dev branch
+                git branch: 'dev', url: 'git@github.com:Cedric-Hj/DevOps-CICD-WebApp.git'
+            }
+        }
+        
+        stage('Prepare for merge') {
+            steps {
+                script {
+                    // Save the dev branch content temporarily
+                    sh 'git checkout -b temp-branch'
+                    sh 'git checkout dev -- src'
+                    
+                    // Checkout the test branch
+                    sh 'git checkout test'
+                }
+            }
+        }
+        
+        stage('Merge src folder') {
+            steps {
+                script {
+                    // Copy the src folder from temp-branch to test branch
+                    sh 'git checkout temp-branch -- src'
+                    
+                    // Stage and commit the changes
+                    sh 'git add src'
+                    sh 'git commit -m "Merged src folder from dev branch"'
+                }
+            }
+        }
+        
+        stage('Push changes') {
+            steps {
+                script {
+                    // Push the changes to the remote test branch
+                    sh 'git push origin test'
+                }
+            }
+        }
+    }
+    
+    post {
+        always {
+            // Clean up temp branch
+            sh 'git branch -D temp-branch || true'
+        }
+    }
+}

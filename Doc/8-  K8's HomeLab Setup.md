@@ -216,6 +216,10 @@ kubectl delete pods --all --all-namespaces
 
 kubectl apply -f https://raw.githubusercontent.com/projectcalico/calico/v3.28.1/manifests/calico.yaml
 
+wget https://raw.githubusercontent.com/projectcalico/calico/v3.27.2/manifests/custom-resources.yaml
+
+sed -i 's/192\.168\.0\.0\/16/10.96.0.0\/16/g' custom-resources.yaml
+
 kubectl apply -f custom-resources.yaml
 
 ```

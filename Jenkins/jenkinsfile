@@ -120,6 +120,15 @@ pipeline {
                 }
             }
         }
+        stage('Send Code To Main Branch') {
+            steps {
+                script {
+                    echo '<--------------- Merging Source code to test branch --------------->'
+                    build job: 'git_merge_SourceCode_Test_to_Prod'
+                    echo '<--------------- Source code Merged to test branch --------------->'
+                }
+            }
+        }
     }
 
     post {

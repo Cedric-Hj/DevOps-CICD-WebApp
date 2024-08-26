@@ -82,29 +82,45 @@ pipeline {
                 }
             }
         }
-        
-        stage('Testing Application') {
+        stage('Integration Tests') {
             steps {
                 script {
                     echo "<------------------ started building IntegrationTests_Pipeline ------------------>"
                     build job: "Tests/IntegrationTests_Pipeline", wait: true
                     echo "<-------------------- End of build IntegrationTests_Pipeline -------------------->"
                 }
-                parallel{
+            }
+        }
+
+        stage('System and Performance Tests') {
+            parallel {
+                stage('System Tests') {
                     steps {
                         script {
-                            echo "<------------------ started building IntegrationTests_Pipeline ------------------>"
-                            build job: "Tests/IntegrationTests_Pipeline", wait: true
+                            echo "<------------------ started building SystemTests_Pipeline ------------------>"
+                            build job: "Tests/SystemTests_Pipeline", wait: true
                             echo "<-------------------- End of build IntegrationTests_Pipeline -------------------->"
                         }
                     }
+                }
+                stage('Performance Tests') {
                     steps {
-                        script {              
-                            echo "<------------------ started building IntegrationTests_Pipeline ------------------>"
-                            build job: "Tests/IntegrationTests_Pipeline", wait: true
-                            echo "<-------------------- End of build IntegrationTests_Pipeline -------------------->"
+                        script {
+                            echo "<------------------ started building PerformanceTests_Pipeline ------------------>"
+                            build job: "Tests/PerformanceTests_Pipeline", wait: true
+                            echo "<-------------------- End of build PerformanceTests_Pipeline -------------------->"
                         }
                     }
+                }
+            }
+        }
+
+        stage('Security Tests') {
+            steps {
+                script {
+                    echo "<------------------ started building SecurityTests_Pipeline ------------------>"
+                    build job: "Tests/SecurityTests_Pipeline", wait: true
+                    echo "<-------------------- End of build PSecurityTests_Pipeline -------------------->"
                 }
             }
         }

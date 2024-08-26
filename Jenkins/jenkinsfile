@@ -8,22 +8,22 @@ pipeline {
     }
 
     stages {
-        stage('Cleanup') {
+        stage {
             steps {
                 deleteDir()
             }
         }
 
-        stage('Checkout') {
+        stage('Git Checkout') {
             steps {
                 git branch: 'test', url: 'https://github.com/Cedric-Hj/DevOps-CICD-WebApp.git'
             }
         }
 
 
-        stage('Build and Test') {
+        stage {
             parallel {
-                stage('Build') {
+                stage('Build App') {
                     steps {
                          echo "$appVersion"
                         echo "<---------------- Build started --------------->"
@@ -92,7 +92,7 @@ pipeline {
             }
         }
 
-        stage('System and Performance Tests') {
+        stage {
             parallel {
                 stage('System Tests') {
                     steps {

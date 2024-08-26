@@ -8,22 +8,18 @@ pipeline {
     }
 
     stages {
-        stage {
+
+        stage('Checkout') {
             steps {
                 deleteDir()
-            }
-        }
-
-        stage('Git Checkout') {
-            steps {
                 git branch: 'test', url: 'https://github.com/Cedric-Hj/DevOps-CICD-WebApp.git'
             }
         }
 
 
-        stage {
+        stage('Build and Test') {
             parallel {
-                stage('Build App') {
+                stage('Build') {
                     steps {
                          echo "$appVersion"
                         echo "<---------------- Build started --------------->"
@@ -64,7 +60,7 @@ pipeline {
             }
         }
 
-        stage("Deploy") {
+        stage("Deploy App") {
             steps {
                 script {
                     echo '<--------------- Start of Helm Upgrade/Install --------------->'
@@ -92,7 +88,7 @@ pipeline {
             }
         }
 
-        stage {
+        stage('System and Performance Tests') {
             parallel {
                 stage('System Tests') {
                     steps {

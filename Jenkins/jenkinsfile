@@ -82,6 +82,32 @@ pipeline {
                 }
             }
         }
+        
+        stage('Testing Application') {
+            steps {
+                script {
+                    echo "<------------------ started building IntegrationTests_Pipeline ------------------>"
+                    build job: "Tests/IntegrationTests_Pipeline", wait: true
+                    echo "<-------------------- End of build IntegrationTests_Pipeline -------------------->"
+                }
+                parallel{
+                    steps {
+                        script {
+                            echo "<------------------ started building IntegrationTests_Pipeline ------------------>"
+                            build job: "Tests/IntegrationTests_Pipeline", wait: true
+                            echo "<-------------------- End of build IntegrationTests_Pipeline -------------------->"
+                        }
+                    }
+                    steps {
+                        script {              
+                            echo "<------------------ started building IntegrationTests_Pipeline ------------------>"
+                            build job: "Tests/IntegrationTests_Pipeline", wait: true
+                            echo "<-------------------- End of build IntegrationTests_Pipeline -------------------->"
+                        }
+                    }
+                }
+            }
+        }
     }
 
     post {

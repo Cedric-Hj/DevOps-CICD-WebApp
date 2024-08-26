@@ -1,0 +1,66 @@
+pipeline {
+    agent any
+    
+    stages {
+        stage('Checkout test branch') {
+            steps {
+                // Checkout the test branch using HTTPS
+                git branch: 'test', url: 'git@github.com:Cedric-Hj/DevOps-CICD-WebApp.git', credentialsId: 'git'
+            }
+        }
+        
+        stage('Prepare for merge') {
+            steps {
+                script {
+                    // Check if the working directory is clean
+                    sh 'git status'
+
+                    // Save the test branch content temporarily
+                    sh 'git checkout -b temp-branch'
+                    sh 'git checkout test -- src'
+                    
+                    // Checkout the main branch
+                    git branch: 'main', url: 'git@github.com:Cedric-Hj/DevOps-CICD-WebApp.git', credentialsId: 'git'
+                }
+            }
+        }
+        
+        stage('Merge src folder') {
+            steps {
+                script {
+                    // Check for differences
+                    sh 'git diff --name-only'
+
+                    // Copy the src folder from temp-branch to main branch
+                    sh 'git checkout temp-branch -- src'
+                    
+                    // Stage and commit the changes if there are differences
+                    sh 'git status' // Check for staged changes
+                    def changes = sh(script: 'git status --porcelain', returnStdout: true).trim()
+                    if (changes) {
+                        sh 'git add src'
+                        sh 'git commit -m "Merged src folder from test branch"'
+                    } else {
+                        echo 'No changes to commit.'
+                    }
+                }
+            }
+        }
+        
+        stage('Push changes') {
+            steps {
+                script {
+                    // Push the changes to the remote main branch
+                    sh 'git push origin main'
+                }
+            }
+        }
+    }
+    
+    post {
+        always {
+            // Clean up temp branch
+            sh 'git branch -D temp-branch || true'
+        }
+    }
+}

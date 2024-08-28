@@ -81,20 +81,5 @@ kubectl annotate namespace ced-devops-cicd meta.helm.sh/release-namespace=ced-de
 helm install ced-devops-webapp Ced_Devops_Webapp-0.1.0.tgz --namespace ced-devops-cicd
 ```
 
-### List of usefull heml commands
-```sh 
-helm list -a
 
-helm list --namespace <namespace>
-
-helm uninstall <release_name> --namespace <namespace>
-
-helm rollback <release_name> <revision> --namespace <namespace>
-
-helm get values <release_name> --namespace <namespace> [--all]
-
-helm history <release_name> --namespace <namespace>
-
-
-```
 

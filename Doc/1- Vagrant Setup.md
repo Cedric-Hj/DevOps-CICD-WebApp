@@ -1,6 +1,6 @@
 # Vagrant Setup for Jenkins and Kubernetes VMs
 
-This guide will help you set up three Ubuntu VMs using Vagrant and VirtualBox. The Vagrantfile provided will configure a Jenkins VM with Jenkins, Maven, Docker, kubectl, Helm, and Ansible installed.
+This guide explain how to set up three Ubuntu VMs using Vagrant and VirtualBox. The Vagrantfile provided will also configure the Jenkins VM with Jenkins, Maven, Docker, kubectl, Helm, and Ansible installed.
 
 The K8's VM will be provisioned later with Ansible
 
@@ -17,7 +17,7 @@ The K8's VM will be provisioned later with Ansible
    - **Windows/Mac**: Download and install from the [Git website](https://git-scm.com/downloads).
    - **Linux**: Use your package manager, e.g., `sudo apt install git` for Debian-based systems.
 
-## Step 2: Set Up Your Project Directory
+## Step 2: Set Up the Project Directory
 
 1. **Create a New Directory**:
    - Open a terminal or command prompt.
@@ -100,13 +100,18 @@ The K8's VM will be provisioned later with Ansible
      ```bash
      vagrant destroy
      ```
+3. Save delete and restore snapshots
+   - To save a snapshot of the entire infrastructure
+   ```bash
+   vagrant snapshot save <snapshot_name>
+    ```
+   - To restore a snapshot of the entire infrastructure
+   ```bash
+   vagrant restore save <snapshot_name>
+    ```
+   - To delete a snapshot of the entire infrastructure
+   ```bash
+   vagrant delete save <snapshot_name>
+    ```
 
-## Summary
 
-1. **Install VirtualBox, Vagrant, and Git**.
-2. **Create a directory for your Vagrant project** and place the `Vagrantfile` inside it.
-3. **Run `vagrant up`** to create and provision your VMs.
-4. **Access VMs using `vagrant ssh`** and check installed software.
-5. **Manage VMs with commands** like `vagrant suspend`, `vagrant halt`, and `vagrant destroy`.
-
-By following these steps, the three VMs needed for this project will configured and ready for use, the Main VM will already have instaled Jenkins, Maven, Docker, kubectl, Helm, and Ansible installed.

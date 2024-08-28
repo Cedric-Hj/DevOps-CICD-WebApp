@@ -30,8 +30,9 @@ Do the first ssh connection to the machines before hand
    ```sh
    ansible -i hosts all -m ping 
    ```
-![Expected result](Doc/Screenshots/Ansible-successfull-ping-to-hosts.PNG)
+Expected result:
 
+<img src="https://github.com/Cedric-Hj/DevOps-CICD-WebApp/blob/main/Doc/Screenshots/Ansible%20successfull%20ping%20to%20hosts.PNG" alt="Expected Result"/>
 
 ### Create the Ansible Playbooks
 Create a playbook for K8 control and worker nodes at opt and paste the content of 

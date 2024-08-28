@@ -1,6 +1,5 @@
 # Install Docker
 
-## Install optional if not using VagrantFile for provisioning
 Skip to [Integrate Docker with Jenkins](#Integrate-Docker-with-Jenkins) if provisioning was used
 
 ### Update Package Information
@@ -61,11 +60,11 @@ docker run hello-world
 
 ### Install Docker Plugins in Jenkins
 
-Open Jenkins in your browser.
+- Open Jenkins in your browser.
 
-Go to Manage Jenkins > Manage Plugins.
+- Go to Manage Jenkins > Manage Plugins.
 
-Search for the "Docker" and "Docker Pipeline" plugins and install them.
+- Search for the "Docker" and "Docker Pipeline" plugins and install them.
 
 ### Configure Jenkins user to access Docker
 On the terminal, as root user, insert the command:
@@ -82,7 +81,7 @@ Go to: Dashboard -> Manage Jenkins -> Credentials -> System -> Global credential
 
 Configure as follows:
 
-Kind: Username with password
-Username: dockerUserName
-Password: DockerPassword
-ID: DockerCredencials
+- Kind: Username with password
+- Username: dockerUserName
+- Password: DockerPassword
+- ID: DockerCredencials

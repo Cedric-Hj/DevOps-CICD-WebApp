@@ -1,9 +1,9 @@
 
 
 # Setup Ansible
-
-## Install Ansibe
 Skip to [After the install](#After-the-install) in case provisioning was used
+## Install Ansibe
+
    ```sh 
    sudo apt update
    sudo apt install software-properties-common

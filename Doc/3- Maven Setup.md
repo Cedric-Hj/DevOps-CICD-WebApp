@@ -1,6 +1,5 @@
 # Maven Setup
-
-## Completely optional, follow only if not using VagrantFile for provisioning or want to set up a slave for jenkins
+ Completely optional, follow only if not using VagrantFile for provisioning or for seting up a slave for jenkins
 ### Update the package index:
 ```sh
 sudo apt update

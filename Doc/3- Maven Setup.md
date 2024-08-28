@@ -1,6 +1,6 @@
 # Maven Setup
 
-## Completely optional, follow only if not using VagrantFile for provisioning
+## Completely optional, follow only if not using VagrantFile for provisioning or want to set up a slave for jenkins
 ### Update the package index:
 ```sh
 sudo apt update
@@ -9,7 +9,7 @@ sudo apt update
 ### Install Dependencies
 
 ```sh
-sudo apt install fontconfig openjdk-11-jre -y
+sudo apt install fontconfig openjdk-21-jre -y
 ```
 
 ## Step 3: Download Maven

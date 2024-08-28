@@ -1,6 +1,4 @@
 # Jenkins Setup
-
-## Install manually if not using VagrantFile for provisioning (Optional)
 Skip to [After the install](#After-the-install) in case provisioning was used
 
 ### Install Java

@@ -1,5 +1,5 @@
 # List of usefull command to use in the cluster
-this list contains commands for kubectl and helm
+this list contains usefull commands for kubectl and helm
 
 Kubectl
 - [Basic Operations](#Basic-Operations)

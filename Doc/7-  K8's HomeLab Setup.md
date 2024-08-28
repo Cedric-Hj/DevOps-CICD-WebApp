@@ -1,33 +1,19 @@
 # Step by step guide to setup k8's cluster with Master and Worker nodes on VM'S
 
-## Install optional if not using Ansible for provisioning
 Skip to [After install](#After-install) if provisioning was used
 
 ### VM'S pre-requesite:
 - The VM's must have internet connection and their own IP adress
-- 2 vCPU, 4 GB RAM, 20GB Disk for each nodes
+- 2 vCPU, 4 GB RAM, 20GB Disk for each nodes to run Kubernetes
 - NameSpace and static IP
 ```sh
-k8s-control   192.168.15.93
-k8-1    192.168.15.94
+k8s-control   192.168.0.101
+k8-1    192.168.0.102
 ```
-
-### Sofwtares and Versions:
-UBUNTU SERVER LTS 22.04.3 - https://ubuntu.com/download/server
-
-KUBERNETES 1.29.1         - https://kubernetes.io/releases/
-
-CONTAINERD 1.7.13         - https://containerd.io/releases/
-
-RUNC 1.1.12               - https://github.com/opencontainers/runc/releases
-
-CNI PLUGINS 1.4.0         - https://github.com/containernetworking/plugins/releases
-
-CALICO CNI 3.27.2         - https://docs.tigera.io/calico/3.27/getting-started/kubernetes/quickstart
-
+## Do on both k8s-control and k8-1 VM's
 ### Configuring Hostnames
 ```sh
-printf "\n192.168.0.101 k8s-control\n192.168.0.102 k8s-1\n192.168.0.103 k8s-2\n\n" >> /etc/hosts
+printf "\n192.168.0.101 k8s-control\n192.168.0.102 k8s-1\n\n" >> /etc/hosts
 ```
 ### Preload Kernel Modules for Containerd with Configuration Commands
 ```sh
@@ -109,13 +95,13 @@ apt-mark hold kubelet kubeadm kubectl
 ```
 
 
-## After install
-### ONLY ON CONTROL NODE
+### After install
+## ONLY ON CONTROL NODE
 The pod network default adress is 192.138.0.0/16 which will overlap with a personal home network and will create routing issue.
 to avoid this problem, use another IP, in this case it will be used: 10.96.0.0/16
 make sure --node-name is the same name as the one defined in VM'S pre-requesite
 
-## control plane install:
+### control plane install:
 ```sh
 kubeadm init --pod-network-cidr 10.96.0.0/16 --kubernetes-version 1.29.1 --node-name k8s-control --apiserver-advertise-address 192.168.0.101
 ```
@@ -128,27 +114,27 @@ after do as told on the console:
 ```sh
 export KUBECONFIG=/etc/kubernetes/admin.conf 
 ```
-Note: if the connection is refuser after shuting down the vm and restoring a snaphot, re-use this command to make it work again
 
-## Add Calico 3.27.2 CNI: 
+
+### Add Calico 3.27.2 CNI: 
 ```sh
-kubectl create -f https://raw.githubusercontent.com/projectcalico/calico/v3.27.2/manifests/tigera-operator.yaml
-wget https://raw.githubusercontent.com/projectcalico/calico/v3.27.2/manifests/custom-resources.yaml
+kubectl create -f https://raw.githubusercontent.com/projectcalico/calico/v3.28.1/manifests/tigera-operator.yaml
+wget https://raw.githubusercontent.com/projectcalico/calico/v3.28.1/manifests/custom-resources.yaml
 ```
 Since a custom IP is used, it is neccessary to edit the filecustom-resources.yaml and change the CIDR to 10.96.0.0/16
 ```sh
 sed -i 's/192\.168\.0\.0\/16/10.96.0.0\/16/g' custom-resources.yaml
 ```
 
-Finaly apply the changes:
+Apply the changes:
 ```sh
 kubectl apply -f custom-resources.yaml
 ```
 
 Wait a momment for all pods to be setup and running.
-Use the following command to check the pods:
+Use the following command to check the pods live:
 ```sh
-kubectl get pods -A
+watch kubectl get pods -A
 ```
 
 When everything is running, the status of the control-plane should be Ready:
@@ -158,7 +144,7 @@ kubectl get nodes
 
 If everything is running smoothly, take a snapshot of the master node VM while k8's are running. You can turn off the master's VM and turn it on again with the k8's still running by reloading from that snapshot.
 
-Either save the kubeadm join command or use the following command later on:
+For worker node to join the cluster, either save the kubeadm join command or use the following command later on:
 ```sh
 kubeadm token create --print-join-command
 ```
@@ -166,19 +152,17 @@ kubeadm token create --print-join-command
 ## ON Worker NODE
 Take a snapshot of the worker node VM before joining it to the cluster. You can shut down the node and restore the VM to the snapshot to rejoin it. You can also clone the VM from the snapshot to create another worker node.
 
-Run the command from the output of kubeadm init or from the token created above
+Run the command from the output of kubeadm init or from the token created above, it will lokk something like that:
 ```sh
-
 kubeadm join 192.168.0.101:6443 --token 9n0kiz.9lj3b60r3rbs27j1 --discovery-token-ca-cert-hash sha256:33da70046c2b6972731c6d33dc83036f3f8a50dfa51137743a4cf8f816ad899e 
-
 ```
 
 
-## After worker node has join the cluster
+### After worker node has join the cluster
 
 Use get node and get pods command above to see the pods loading until the worker node status is Ready
 
-Change the role of the node to worker. Change "k8s-1" to the name of your Vm in case you've changed it:
+When ready, Change the role of the node to worker:
 
 ```sh
 kubectl label node k8s-1 node-role.kubernetes.io/worker=worker
@@ -210,18 +194,20 @@ The jenkins machine can now use kubectl commands, check with:
 kubectl get nodes
 kubectl get pods -A
 ```
-Delete all pod for self healing:
+### After restoring VM's snapshot
+Usually, the cluster is unstable after restoring a snaphot or after suspending the vm's. 
+After restoring the vm's, do the following: 
 ```sh
 kubectl delete pods --all --all-namespaces
 
 kubectl apply -f https://raw.githubusercontent.com/projectcalico/calico/v3.28.1/manifests/calico.yaml
 
-wget https://raw.githubusercontent.com/projectcalico/calico/v3.27.2/manifests/custom-resources.yaml
+wget https://raw.githubusercontent.com/projectcalico/calico/v3.28.1/manifests/custom-resources.yaml
 
 sed -i 's/192\.168\.0\.0\/16/10.96.0.0\/16/g' custom-resources.yaml
 
 kubectl apply -f custom-resources.yaml
 
 ```
-or 
+Doc: 
 https://docs.tigera.io/calico/latest/getting-started/kubernetes/quickstart

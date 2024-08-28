@@ -1,7 +1,7 @@
-# Stage 1: Build Java application and extract index.html
+# Stage 1: Build the Java application
 FROM openjdk:17-jdk-slim AS build
 
-# Copy your Java application JAR to the image
+# Copy the Java application JAR to the image
 COPY jarstaging/com/example/ced-webpage/1.0-SNAPSHOT/*.jar app.jar
 
 # Create a temporary directory for extraction

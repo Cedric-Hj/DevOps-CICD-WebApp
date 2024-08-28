@@ -1,6 +1,5 @@
 # Setup Helm
 
-## Install optional if not using VagrantFile for provisioning
 Skip to [Create a helm chart template](#Create-a-helm-chart-template) if provisioning was used
 
 ### Download Helm
@@ -52,7 +51,7 @@ touch /var/lib/jenkins/helm/Ced_Devops_Webapp/templates/deployment.yaml
 touch /var/lib/jenkins/helm/Ced_Devops_Webapp/templates/namespace.yaml
 touch /var/lib/jenkins/helm/Ced_Devops_Webapp/templates/service.yaml
 ```
-then:
+Optional, package the application:
 ```sh
 cd /var/lib/jenkins/helm
 helm package Ced_Devops_Webapp
@@ -64,8 +63,6 @@ create the namespace:
 ``` sh
 kubectl create namespace ced-devops-cicd
 ```
-
-### Run the following commands to add the required labels and annotations to the namespace:
 
 Add the label for Helm management
 ``` sh
@@ -79,13 +76,25 @@ kubectl annotate namespace ced-devops-cicd meta.helm.sh/release-namespace=ced-de
 ```
 
 
-### Install de deployment 
+### Manually Install de packaged deployment 
 ```sh 
 helm install ced-devops-webapp Ced_Devops_Webapp-0.1.0.tgz --namespace ced-devops-cicd
 ```
 
-### To list installed helm deployments
+### List of usefull heml commands
 ```sh 
 helm list -a
+
+helm list --namespace <namespace>
+
+helm uninstall <release_name> --namespace <namespace>
+
+helm rollback <release_name> <revision> --namespace <namespace>
+
+helm get values <release_name> --namespace <namespace> [--all]
+
+helm history <release_name> --namespace <namespace>
+
+
 ```
 

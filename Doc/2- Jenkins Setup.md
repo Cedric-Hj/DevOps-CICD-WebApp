@@ -14,7 +14,7 @@ sudo apt install openjdk-21-jdk -y
 ### Install Jenkins
 ```  sh
 wget -q -O - https://pkg.jenkins.io/debian-stable/jenkins.io.key | sudo apt-key add -
-sudo ```  sh -c 'echo deb http://pkg.jenkins.io/debian-stable binary/ > /etc/apt/sources.list.d/jenkins.list'
+sudo sh -c 'echo deb http://pkg.jenkins.io/debian-stable binary/ > /etc/apt/sources.list.d/jenkins.list'
 sudo apt update
 sudo apt install jenkins -y
 ```
@@ -41,21 +41,17 @@ edit jenkins --full
 ### Jenkins setup Wizard
 in the browser, go the <IP_Address:8081> to start the jenkins setup wizard
 
-Get the security code located in the Jenkins instance:
+- Get the security code located in the Jenkins instance:
 
 ```  sh
 cat /var/lib/jenkins/secrets/initialAdminPassword
 ```
-Insert the security code into the Jenkins setup wizard.
+- Insert the security code into the Jenkins setup wizard.
 
-### Setup Admin User
-Insert the user and password values to create your admin account.
+- Insert the user and password values to create your admin account.
 
-### Install Suggested Plugins
-Install the default plugins recommended by Jenkins.
-
-### Jenkins Default URL Step
-add <IP_Address:8081>
+- Install the default plugins recommended by Jenkins.
+- Jenkins Default URL Step set to <IP_Address:8081>
 
 ## Configure GitHub <-> Jenkins Connection
 For better security, the connection will be made using ssh.
@@ -87,13 +83,13 @@ Go to GitHub and log in ther account.
 ## Configure SSH Key in Jenkins:
 Ensure that the SSH key has the correct permissions:
 
-```  sh
+```sh
 chmod 600 ~/.ssh/id_ed25519
 ```
 
 ### Test the connection from Jenkins server to GitHub:
 
-```  sh
+```sh
 ssh -T git@github.com
 ```
 
@@ -124,13 +120,20 @@ In Git:
 Note: Disable the webhook while developing the entire CI/CD pipeline to avoid excessive data transfer if using another setup like AWS.
 
 ## Set jenkins as a Sudoer:
-```  sh
+```sh
 sudo visudo
 jenkins ALL=(ALL) NOPASSWD: ALL
 ```
 
 # Setup a slave (optional)
+For this solution, the jenkins VM only need to have jenkins intalled in it, the slave will have all other software needed
+The slave must have installed in it:
+- Maven
+- Docker
+- kubectl
+- Helm
 Follow the step above to create an ssh key in another machine that will be the jenkins slave.
+
 in the slave machine, paste the content of the Jenkins machine ssh public key into the known hosts and vice versa
 
 test the connection

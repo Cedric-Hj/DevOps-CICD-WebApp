@@ -18,12 +18,12 @@ environment {
         stage('Checkout') {
             steps {
                 git branch: 'main', url: 'https://github.com/Cedric-Hj/DevOps-CICD-WebApp.git'
+                }
             }
-        }
 
 
-        stage('Build and Test') {
-           /* parallel {*/
+    /*    stage('Build and Test') {
+          parallel {
                 stage('Build') {
                     steps {
                         echo "<---------------- Build started --------------->"
@@ -31,14 +31,22 @@ environment {
                         echo "<---------------- Build completed --------------->"
                     }
                 }
-    /*            stage('Unit Test') {
+               stage('Unit Test') {
                     steps {
                         echo "<--------------- Unit test started --------------->"
                         sh 'mvn surefire-report:report'
                         echo "<--------------- Unit test completed --------------->"
                     }
                 }
-            }*/
+            }
+        }*/
+
+        stage('Build') {
+            steps {
+                echo "<---------------- Build started --------------->"
+                sh 'mvn clean deploy -Dmaven.test.skip=true'
+                echo "<---------------- Build completed --------------->"
+            }
         }
 
         stage('SonarQube Analysis') {

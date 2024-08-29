@@ -67,7 +67,7 @@ All setup instructions and documentation for comprehensive guidance on configuri
 
 
 ## Pipeline Diagram
-![diagram-export-8-29-2024-10_25_04-AM.png](/.eraser/thllnGtosn8VVMRPxttC___3en0Fu49T2aSwTqzDKvcWrfcO6C2___pSncCFug52WX1G1jWLjRL.png "diagram-export-8-29-2024-10_25_04-AM.png")
+![diagram-export-8-29-2024-10_25_04-AM.png](Doc/Screenshots/thllnGtosn8VVMRPxttC___3en0Fu49T2aSwTqzDKvcWrfcO6C2___pSncCFug52WX1G1jWLjRL.png)
 
 The current setup includes dedicated pods for Development, Testing, and Production to limit resource usage and ensure efficient operation within the constraints of a local environment.
 In a real-world scenario, it is generally advisable to use separate clusters for Development, Testing, and Production environments.

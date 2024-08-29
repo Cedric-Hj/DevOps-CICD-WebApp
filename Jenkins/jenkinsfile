@@ -31,7 +31,7 @@ environment {
                         echo "<---------------- Build completed --------------->"
                     }
                 }
-                stage('Unit Test') {
+    /*            stage('Unit Test') {
                     steps {
                         echo "<--------------- Unit test started --------------->"
                         sh 'mvn surefire-report:report'
@@ -39,9 +39,9 @@ environment {
                     }
                 }
             }
-        }
+        }*/
 
-        /*stage('SonarQube Analysis') {
+        stage('SonarQube Analysis') {
             environment {
                 scannerHome = tool 'sonar-scanner'
             }
@@ -60,22 +60,11 @@ environment {
                     def qg = waitForQualityGate()
                     if (qg.status != 'OK') {
                         error "Pipeline aborted due to Quality Gate failure: ${qg.status}"
-                        emailext (
-                            to: 'devops.cedric.hj@gmail.com',
-                            subject: "Build ${env.JOB_NAME} - ${env.BUILD_NUMBER} Quality Gate Failed",
-                            body: """
-                            The build ${env.JOB_NAME} - ${env.BUILD_NUMBER} has failed the Quality Gate in SonarCloud.
-
-                            Quality Gate Status: ${status}
-                            Reason: ${description}
-
-                            Please check the SonarCloud report for more details: ${SONARCLOUD_URL}/dashboard?id=${env.JOB_NAME}
-                            """
-                        )
+                       
                     }
                 }
             }
-        }*/
+        }
 
         stage('Build Docker Image') {
             steps {

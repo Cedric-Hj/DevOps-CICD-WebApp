@@ -41,37 +41,31 @@
             </plugin>
     
             <!-- Maven Resources Plugin for copying resources -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-resources-plugin</artifactId>
-                <version>3.3.1</version>
-                <executions>
-                    <execution>
-                        <id>copy-resources</id>
-                        <phase>validate</phase>
-                        <goals>
-                            <goal>copy-resources</goal>
-                        </goals>
-                        <configuration>
-                            <outputDirectory>${project.build.directory}/public</outputDirectory>
-                            <resources>
-                                <resource>
-                                    <directory>src/main/resources</directory>
-                                    <includes>
-                                        <include>**/*</include>
-                                    </includes>
-                                </resource>
-                                <resource>
-                                    <directory>src/main/resources</directory>
-                                    <includes>
-                                        <include>index.html</include> <!-- Include index.html specifically -->
-                                    </includes>
-                                </resource>
-                            </resources>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
+           <plugin>
+             <groupId>org.apache.maven.plugins</groupId>
+             <artifactId>maven-resources-plugin</artifactId>
+             <version>3.3.1</version>
+             <executions>
+                 <execution>
+                     <id>copy-resources</id>
+                     <phase>validate</phase>
+                     <goals>
+                         <goal>copy-resources</goal>
+                     </goals>
+                     <configuration>
+                         <outputDirectory>${project.build.directory}/public</outputDirectory>
+                         <resources>
+                             <resource>
+                                 <directory>src/main/resources</directory>
+                                 <includes>
+                                     <include>**/*</include>
+                                 </includes>
+                             </resource>
+                         </resources>
+                     </configuration>
+                 </execution>
+             </executions>
+         </plugin>
     
             <!-- JaCoCo Maven Plugin for code coverage -->
             <plugin>
@@ -93,13 +87,7 @@
                     </execution>
                 </executions>
             </plugin>
-    
-            <!-- SonarQube Scanner Plugin for analysis -->
-            <plugin>
-                <groupId>org.sonarsource.scanner.maven</groupId>
-                <artifactId>sonar-maven-plugin</artifactId>
-                <version>3.9.1.2184</version>
-            </plugin>
+            
         </plugins>
     </build>
     

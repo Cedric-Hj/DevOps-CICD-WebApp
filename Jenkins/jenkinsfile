@@ -23,7 +23,7 @@ environment {
 
 
         stage('Build and Test') {
-            parallel {
+           /* parallel {*/
                 stage('Build') {
                     steps {
                         echo "<---------------- Build started --------------->"
@@ -38,8 +38,8 @@ environment {
                         echo "<--------------- Unit test completed --------------->"
                     }
                 }
-            }
-        }*/
+            }*/
+        }
 
         stage('SonarQube Analysis') {
             environment {

@@ -196,8 +196,10 @@ kubectl get pods -A
 ```
 ### After restoring VM's snapshot
 Usually, the cluster is unstable after restoring a snaphot or after suspending the vm's. 
-After restoring the vm's, do the following: 
+After restoring the vm's, do the following in the k8s-control (kubernetes control node) and execute each command one by one: 
 ```sh
+export KUBECONFIG=/etc/kubernetes/admin.conf 
+
 kubectl delete pods --all --all-namespaces
 
 kubectl apply -f https://raw.githubusercontent.com/projectcalico/calico/v3.28.1/manifests/calico.yaml

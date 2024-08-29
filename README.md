@@ -26,7 +26,9 @@ This repository contains a DevOps project for a CI/CD pipeline designed for a we
 ![Git](https://icon.icepanel.io/Technology/svg/Git.svg "")
 
 ## Pipeline Diagram
-![Pipleine Diagram](/.eraser/thllnGtosn8VVMRPxttC___3en0Fu49T2aSwTqzDKvcWrfcO6C2___---figure---NPruulAW2trWQuOd1vVoa---figure---vCQ4HbaY0f3iHpFraB8HQQ.png "Pipleine Diagram")
+![Pipleine Diagram](/.eraser/thllnGtosn8VVMRPxttC___3en0Fu49T2aSwTqzDKvcWrfcO6C2___---figure---f1edMs-T-2PRSbYK87cWJ---figure---vCQ4HbaY0f3iHpFraB8HQQ.png "Pipleine Diagram")
+
+
 
 ![Diagram](https://github.com/Cedric-Hj/DevOps-CICD-WebApp/blob/main/Doc/Pipeline%20diagram.png "")
 

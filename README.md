@@ -5,7 +5,7 @@ This repository contains a DevOps project that is designed to manage the deploym
 
 The infrastructure was deliberately designed to enhance learning while efficiently managing resource constraints. By provisioning and utilizing three virtual machines, the project effectively demonstrates Infrastructure as Code (IaC) principles. This setup not only adheres to local resource limitations but also provides a robust platform for exploring CI/CD practices, deployment strategies, and monitoring. It strikes a balance between practical, hands-on experience and efficient use of a constrained development environment.
 
-All setup instructions and documentation for comprehensive guidance on configuring and deploying the project are available in the doc folder.
+All setup instructions and documentation for comprehensive guidance on configuring and deploying the project are available in the [**doc folder**](https://github.com/Cedric-Hj/DevOps-CICD-WebApp/tree/main/doc/).
 
 ## Technology Stack Overview
 <table>
@@ -20,7 +20,7 @@ All setup instructions and documentation for comprehensive guidance on configuri
     </td>
     <td align="center">
       <img src="https://icon.icepanel.io/Technology/svg/Apache-Maven.svg" width="40" height="40" alt="Apache Maven"/><br>
-      Apache Maven
+      Maven
     </td>
     <td align="center">
       <img src="https://icon.icepanel.io/Technology/svg/SonarQube.svg" width="40" height="40" alt="SonarQube"/><br>
@@ -69,25 +69,30 @@ All setup instructions and documentation for comprehensive guidance on configuri
 ## Pipeline Diagram
 ![diagram-export-8-29-2024-10_25_04-AM.png](/.eraser/thllnGtosn8VVMRPxttC___3en0Fu49T2aSwTqzDKvcWrfcO6C2___pSncCFug52WX1G1jWLjRL.png "diagram-export-8-29-2024-10_25_04-AM.png")
 
+The current setup includes dedicated pods for Development, Testing, and Production to limit resource usage and ensure efficient operation within the constraints of a local environment.
+In a real-world scenario, it is generally advisable to use separate clusters for Development, Testing, and Production environments.
 
 
 ## Branches
-- dev: The primary branch for ongoing development. Changes pushed to this branch will trigger a Jenkins job for initial deployment and testing.
-- test: The branch where code is merged after successful deployment in the dev environment. It undergoes additional testing before being promoted to prod.
-- main (prod): The branch for stable, production-ready code. Merges into this branch trigger the final deployment to the production environment.
+- [**`dev`**](https://github.com/Cedric-Hj/DevOps-CICD-WebApp/tree/dev): The primary branch for ongoing development. Changes pushed to this branch will trigger a Jenkins job for initial deployment and testing.
+- [**`test`**](https://github.com/Cedric-Hj/DevOps-CICD-WebApp/tree/test/): The branch where code is merged after successful deployment in the dev environment. It undergoes additional testing before being promoted to main.
+- [**`main`**](https://github.com/Cedric-Hj/DevOps-CICD-WebApp/tree/main/): The branch for stable, production-ready code. Merges into this branch trigger the final deployment to the production environment.
+
 ## Infrastructure and Setup
+
 ### Virtual Machines:
 Three VMs were provisioned to optimize resource usage:
 
-- Jenkins VM: Hosts all services needed beside Kubernetes.
-- Kubernetes Control Node (k8s-control): Manages the Kubernetes cluster.
-- Kubernetes Worker Node (k8s-1): Executes application workloads within the cluster.
+- **Jenkins VM**: Hosts all services needed beside Kubernetes.
+- **Kubernetes Control Node** (k8s-control): Manages the Kubernetes cluster.
+- **Kubernetes Worker Node** (k8s-1): Executes application workloads within the cluster.
+
 ### Provisioning and Configuration:
-- Vagrant was used for VM provisioning, ensuring consistent and automated setup of the virtual machines.
-- Ansible was employed to configure the control and worker nodes. This automation tool installed and set up all necessary components for a fully functional Kubernetes cluster, adhering to IaC principles.
+- **Vagrant** was used for VM provisioning, ensuring consistent and automated setup of the virtual machines.
+- **Ansible** was employed to configure the control and worker nodes. This automation tool installed and set up all necessary components for a fully functional Kubernetes cluster, adhering to IaC principles.
 ## CI/CD Pipeline
 ### Development Workflow
- Jenkins Job:
+ **Jenkins Job:**
 
 - Clean Deploy: The application is built using Maven.
 - Code Analysis: SonarQube performs code analysis and enforces quality gates.
@@ -95,7 +100,7 @@ Three VMs were provisioned to optimize resource usage:
 - Kubernetes Deployment: The application is deployed to the Development pod in the Kubernetes cluster using Helm.
 - Merge to Test: Upon successful deployment and testing in the Development environment, code is automatically merged into the test branch.
 ### Testing Workflow
-Jenkins Job:
+**Jenkins Job:**
 
 - Clean Deploy: The application is rebuilt using Maven.
 - Docker Build: The updated image is created and pushed to the Docker repository.
@@ -104,7 +109,7 @@ Jenkins Job:
 - Multi-Version Testing: A parametrized Jenkins job allows for deploying multiple versions of the application to different pods in the Testing environment. This enables simultaneous testing of different versions.
 - Merge to Prod: If tests are successful, code is automatically merged into the prod branch.
 ### Production Workflow
-Jenkins Job:
+**Jenkins Job:**
 
 - Clean Deploy: The application is rebuilt using Maven.
 - Code Analysis: SonarQube performs code analysis and enforces quality gates.

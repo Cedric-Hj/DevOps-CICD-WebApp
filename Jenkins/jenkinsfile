@@ -107,12 +107,13 @@ pipeline {
             }
         }
 
-        stage('Send Code To Test Branch') {
+        stage('Save Version Tag') {
             steps {
                 script {
-                    echo '<--------------- Merging Source code to test branch --------------->'
-                    build job: 'git_merge_SourceCode_Dev_to_Test'
-                    echo '<--------------- Source code Merged to test branch --------------->'
+                    echo '<--------------- Saving Version Tag --------------->'
+                    writeFile file: 'version.txt', text: params.appVersion
+                    archiveArtifacts artifacts: 'version.txt'
+                    echo '<--------------- Version Tag Saved--------------->'
                 }
             }
         }

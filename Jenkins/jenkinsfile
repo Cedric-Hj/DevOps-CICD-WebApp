@@ -41,7 +41,7 @@ environment {
             }
         }*/
 
-        stage('Build') {
+        stage('Build and deploy') {
             steps {
                 echo "<---------------- Build started --------------->"
                 sh 'mvn clean deploy -Dmaven.test.skip=true'
@@ -53,6 +53,7 @@ environment {
             steps {
                 sh 'mvn test'
                 junit '**/target/surefire-reports/*.xml'
+                archiveArtifacts artifacts: '**/target/surefire-reports/*.xml', allowEmptyArchive: true
             }
         }
 

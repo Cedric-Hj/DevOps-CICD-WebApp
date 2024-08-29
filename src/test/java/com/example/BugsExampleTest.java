@@ -40,4 +40,21 @@ public class BugsExampleTest {
         // example.accessArray(); // Uncomment to simulate a failed test
         fail("Intentional failure to demonstrate KO test");
     }
+    @Test
+    public void testMockSuccess1() {
+        // This is a mock test that will always pass
+        assertTrue(true);
+    }
+
+    @Test
+    public void testMockSuccess2() {
+        // Another mock test that will always pass
+        assertEquals(1, 1);
+    }
+
+    @Test
+    public void testMockSuccess3() {
+        // Yet another mock test that will always pass
+        assertNotNull(new Object());
+    }
 }

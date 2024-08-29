@@ -36,6 +36,7 @@
                     <includes>
                         <include>**/*BugsExampleTest.java</include> <!-- Include test classes ending with Test.java -->
                     </includes>
+                    <!-- Add any additional configuration if necessary -->
                 </configuration>
             </plugin>
     
@@ -101,10 +102,11 @@
             </plugin>
         </plugins>
     </build>
-	<distributionManagement>
-		<repository>
-			<id>dev</id>
-			<url>file://jarstaging</url>
-		</repository>
-	</distributionManagement>
+    
+    <distributionManagement>
+        <repository>
+            <id>dev</id>
+            <url>file://jarstaging</url>
+        </repository>
+    </distributionManagement>
 </project>

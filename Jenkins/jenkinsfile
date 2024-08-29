@@ -44,10 +44,18 @@ environment {
         stage('Build') {
             steps {
                 echo "<---------------- Build started --------------->"
-                sh 'mvn clean deploy -Dmaven.test.skip=true'
+                sh 'mvn clean install -Dmaven.test.skip=true'
                 echo "<---------------- Build completed --------------->"
             }
         }
+       
+        stage('Unit Tests') {
+            steps {
+                sh 'mvn test'
+                junit '**/target/surefire-reports/*.xml'
+            }
+        }
+
 
         stage('SonarQube Analysis') {
             environment {

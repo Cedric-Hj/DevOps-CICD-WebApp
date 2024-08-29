@@ -6,9 +6,64 @@ This repository contains a DevOps project that is designed to manage the deploym
 The infrastructure was deliberately designed to enhance learning while efficiently managing resource constraints. By provisioning and utilizing three virtual machines, the project effectively demonstrates Infrastructure as Code (IaC) principles. This setup not only adheres to local resource limitations but also provides a robust platform for exploring CI/CD practices, deployment strategies, and monitoring. It strikes a balance between practical, hands-on experience and efficient use of a constrained development environment.
 
 ## Technology Stack Overview
-|  |  |  |  |  |  |  |  |  |  |  |  |  |
-| ----- | ----- | ----- | ----- | ----- | ----- | ----- | ----- | ----- | ----- | ----- | ----- | ----- |
-| <p> </p><p><br /></p><p> Ansible </p> | <p> </p><p><br /></p><p> Jenkins </p> | <p> </p><p><br /></p><p> Apache Maven </p> | <p> </p><p><br /></p><p> SonarQube </p> | <p> </p><p><br /></p><p> Docker </p> | <p> </p><p><br /></p><p> Kubernetes </p> | <p> </p><p><br /></p><p> Helm </p> | <p> </p><p><br /></p><p> Grafana </p> | <p> </p><p><br /></p><p> Prometheus </p> | <p> </p><p><br /></p><p> Git </p> | <p> </p><p><br /></p><p> Python </p> | <p> </p><p><br /></p><p> Bash </p> | <p> </p><p><br /></p><p> Vagrant </p> |
+<table>
+  <tr>
+    <td align="center">
+      <img src="https://icon.icepanel.io/Technology/svg/Ansible.svg" width="40" height="40" alt="Ansible"/><br>
+      Ansible
+    </td>    
+    <td align="center">
+      <img src="https://icon.icepanel.io/Technology/svg/Jenkins.svg" width="40" height="40" alt="Jenkins"/><br>
+      Jenkins
+    </td>
+    <td align="center">
+      <img src="https://icon.icepanel.io/Technology/svg/Apache-Maven.svg" width="40" height="40" alt="Apache Maven"/><br>
+      Apache Maven
+    </td>
+    <td align="center">
+      <img src="https://icon.icepanel.io/Technology/svg/SonarQube.svg" width="40" height="40" alt="SonarQube"/><br>
+      SonarQube
+    </td>
+    <td align="center">
+      <img src="https://icon.icepanel.io/Technology/svg/Docker.svg" width="40" height="40" alt="Docker"/><br>
+      Docker
+    </td>
+    <td align="center">
+      <img src="https://icon.icepanel.io/Technology/svg/Kubernetes.svg" width="40" height="40" alt="Kubernetes"/><br>
+      Kubernetes
+    </td>
+    <td align="center">
+      <img src="https://icon.icepanel.io/Technology/svg/Helm.svg" width="40" height="40" alt="Helm"/><br>
+      Helm
+    </td>
+    <td align="center">
+      <img src="https://icon.icepanel.io/Technology/svg/Grafana.svg" width="40" height="40" alt="Grafana"/><br>
+      Grafana
+    </td>
+    <td align="center">
+      <img src="https://icon.icepanel.io/Technology/svg/Prometheus.svg" width="40" height="40" alt="Prometheus"/><br>
+      Prometheus
+    </td>
+    <td align="center">
+      <img src="https://icon.icepanel.io/Technology/svg/Git.svg" width="40" height="40" alt="Git"/><br>
+      Git
+    </td>
+    <td align="center">
+      <img src="https://icon.icepanel.io/Technology/svg/Python.svg" width="40" height="40" alt="Python"/><br>
+      Python
+    </td>
+    <td align="center">
+      <img src="https://icon.icepanel.io/Technology/svg/Bash.svg" width="40" height="40" alt="Bash"/><br>
+      Bash
+    </td>   
+    <td align="center">
+      <img src="https://static-00.iconduck.com/assets.00/vagrant-icon-1981x2048-m89lsyi5.png" width="40" height="40" alt="Vagrant"/><br>
+      Vagrant
+    </td>    
+  </tr>
+</table>
+
+
 ## Pipeline Diagram
 ![diagram-export-8-29-2024-10_25_04-AM.png](/.eraser/thllnGtosn8VVMRPxttC___3en0Fu49T2aSwTqzDKvcWrfcO6C2___pSncCFug52WX1G1jWLjRL.png "diagram-export-8-29-2024-10_25_04-AM.png")
 

@@ -5,6 +5,8 @@ This repository contains a DevOps project that is designed to manage the deploym
 
 The infrastructure was deliberately designed to enhance learning while efficiently managing resource constraints. By provisioning and utilizing three virtual machines, the project effectively demonstrates Infrastructure as Code (IaC) principles. This setup not only adheres to local resource limitations but also provides a robust platform for exploring CI/CD practices, deployment strategies, and monitoring. It strikes a balance between practical, hands-on experience and efficient use of a constrained development environment.
 
+All setup instructions and documentation for comprehensive guidance on configuring and deploying the project are available in the doc folder.
+
 ## Technology Stack Overview
 <table>
   <tr>
@@ -127,9 +129,8 @@ Effective monitoring is essential for maintaining the health and performance of 
 - Resource Optimization: Helps in efficient utilization and allocation of resources.
 - Incident Response: Provides detailed metrics for rapid diagnosis and resolution of issues.
 - Capacity Planning: Supports forecasting and scaling based on historical data.
-- Monitoring with Prometheus and Grafana is crucial for maintaining a reliable and high-performing system..
+- Monitoring with Prometheus and Grafana is crucial for maintaining a reliable and high-performing system.
 
 
 
 
-<!--- Eraser file: https://app.eraser.io/workspace/thllnGtosn8VVMRPxttC --->

@@ -69,57 +69,62 @@ pipeline {
             }
         }
         
-        stage('Integration Tests') {
+   stages {
+        stage('Get jobs') {
             steps {
                 script {
-                    echo "<------------------ started building IntegrationTests_Pipeline ------------------>"
-                    build job: "Tests/IntegrationTests_Pipeline", wait: true
-                    echo "<-------------------- End of build IntegrationTests_Pipeline -------------------->"
-                }
-            }
-        }
-
-        stage('Parallel System and Performance Testing') {
-            parallel {
-                stage('System Tests') {
-                    steps {
-                        script {
-                            echo "<------------------ started building SystemTests_Pipeline ------------------>"
-                            build job: "Tests/SystemTests_Pipeline", wait: true
-                            echo "<-------------------- End of build IntegrationTests_Pipeline -------------------->"
-                        }
-                    }
-                }
-
-                stage('Performance Tests') {
-                    steps {
-                        script {
-                            echo "<------------------ started building PerformanceTests_Pipeline ------------------>"
-                            build job: "Tests/PerformanceTests_Pipeline", wait: true
-                            echo "<-------------------- End of build PerformanceTests_Pipeline -------------------->"
-                        }
+                    deleteDir()
+                    dir('/var/lib/jenkins/utility') {
+                        def generatedList = sh(script: "python3 ScanJenkinsTest.py ${FolderName} ${ViewName}", returnStdout: true).trim()
+                        list = generatedList.split('\n')
                     }
                 }
             }
         }
 
-        stage('Security Tests') {
+        stage('Building jobs') {
             steps {
                 script {
-                    echo "<------------------ started building SecurityTests_Pipeline ------------------>"
-                    build job: "Tests/SecurityTests_Pipeline", wait: true
-                    echo "<-------------------- End of build PSecurityTests_Pipeline -------------------->"
+                    for (int i = 0; i < list.size(); i++) {
+                        def jobName = "${FolderName}/${list[i]}"
+                        def reportDir = "reports/${list[i]}"  // Directory for each job's reports
+                        
+                        stage(jobName) {
+                            echo "Element: ${jobName}"
+                            catchError(buildResult: 'UNSTABLE', message: 'Job has Failed or is Unstable', stageResult: 'UNSTABLE') {
+                                echo "<------------------ started building ${jobName} ------------------>"
+                                echo "${jobName}"
+                                
+                                build job: "${jobName}", wait: true
+                                
+                                // Copy artifacts into job-specific directories
+                                copyArtifacts(
+                                    projectName: "${jobName}",
+                                    filter: 'reports/**/*',
+                                    selector: lastCompleted(),
+                                    target: reportDir
+                                )
+                                
+                                // Publish JUnit test results from the specific directory
+                                junit "reports/**/*"
+                                
+                                echo "<-------------------- End of build ${jobName} -------------------->"
+                            }
+                        }
+                    }
                 }
             }
         }
     }
-
+    
     post {
         success {
             echo 'Pipeline completed successfully'
+            archiveArtifacts artifacts: 'reports/**/*', allowEmptyArchive: true
         }
         failure {
             echo 'Pipeline failed'
+            archiveArtifacts artifacts: 'reports/**/*', allowEmptyArchive: true 
         }
     }
 }

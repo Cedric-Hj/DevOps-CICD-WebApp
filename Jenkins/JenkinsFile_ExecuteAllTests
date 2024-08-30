@@ -1,9 +1,12 @@
 pipeline {
     agent any
     environment {
-        def components = "${JOB_NAME}".split('/')
-        def JobDir = "${JENKINS_HOME}/jobs/${components[0]}/jobs/${components[1]}"
-        def destDirLogs = "$JobDir/builds/${BUILD_NUMBER}/Joblogs"
+         components = "${JOB_NAME}".split('/')
+         JobDir = "${JENKINS_HOME}/jobs/${components[0]}/jobs/${components[1]}"
+         destDirLogs = "$JobDir/builds/${BUILD_NUMBER}/Joblogs"
+        FolderName = 'Tests'
+        ViewName = '5_Pipelines'
+        
     }
 
     stages {

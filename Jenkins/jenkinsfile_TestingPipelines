@@ -33,7 +33,9 @@ pipeline {
                                 echo "<------------------ started building ${jobName} ------------------>"
                                 build job: "${jobName}", wait: true                
                                 // Copy the version.txt artifact from the job
-                                copyArtifacts filter: '*.xml', projectName: 'Tests/Integration_T01', selector: lastCompleted()        
+                                copyArtifacts filter: '*.xml', projectName: 'Tests/Integration_T01', selector: lastCompleted()      
+                                junit '*.xml'
+                                archiveArtifacts artifacts: '*.xml', allowEmptyArchive: true  
                                 echo "<-------------------- End of build ${jobName} -------------------->"
                             }
 

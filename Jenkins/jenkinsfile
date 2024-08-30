@@ -56,7 +56,7 @@ pipeline {
                 script {
                     echo '<--------------- Start of Helm Upgrade/Install --------------->'
                     sh '''
-                        sudo sed -i "s|image: ${dockerRepo}:test.*|image: ${dockerRepo}:test$appVersion|" /var/lib/jenkins/helm/Ced_Devops_Webapp-test/templates/deployment.yaml 
+                        sudo sed -i "s|image: ${dockerRepo}:.*|image: ${dockerRepo}:test$appVersion|" /var/lib/jenkins/helm/Ced_Devops_Webapp-test/templates/deployment.yaml 
                         sudo sed -i "s/^appVersion: .*/appVersion: \"$appVersion\"/" /var/lib/jenkins/helm/Ced_Devops_Webapp-test/Chart.yaml
                         sudo sed -i "s/^version: .*/version: $appVersion/" /var/lib/jenkins/helm/Ced_Devops_Webapp-test/Chart.yaml                   
                         helm upgrade --install ced-devops-webapp-test /var/lib/jenkins/helm/Ced_Devops_Webapp-test \

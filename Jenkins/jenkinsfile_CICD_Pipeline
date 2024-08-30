@@ -1,0 +1,121 @@
+pipeline {
+    agent any
+
+    environment {
+        dockerRepo = "cedrichj/devops_cicd"
+        KUBECONFIG = '/var/lib/jenkins/.kube/kubeconfig'
+    }
+
+    stages {
+
+        stage('Clean workspace and Checkout git repo') {
+            steps {
+                deleteDir()
+                git branch: 'test', url: 'https://github.com/Cedric-Hj/DevOps-CICD-WebApp.git'
+            }
+        }
+
+        stage('Retrieve latest version tag') {
+            steps {
+                copyArtifacts projectName: 'first-job-name', filter: 'version.txt'
+                script {
+                    def appVersion = readFile('version.txt').trim()
+                    echo "Recovered Version: ${version}"
+                }
+            }
+        }
+
+        stage('Pull Docker Image') {
+            steps {
+                script {
+                    echo '<--------------- Checking Docker Image --------------->'
+                    echo "${dockerRepo}:v${appVersion}"
+                    try {
+                        sh '''
+                            if ! docker pull ${dockerRepo}:v${appVersion} >/dev/null 2>&1; then
+                                echo "Docker image ${dockerRepo}:v${appVersion} does not exist."
+                                exit 1
+                            fi
+                        '''
+                    } catch (Exception e) {
+                        echo "Error checking Docker image: ${e.message}"
+                        currentBuild.result = 'FAILURE'
+                        error("Docker image ${dockerRepo}:v${appVersion} does not exist.")
+                    }
+                }
+            }
+        }
+
+        stage("Deploy App") {
+            steps {
+                script {
+                    echo '<--------------- Start of Helm Upgrade/Install --------------->'
+                    sh '''
+                        sudo sed -i "s|image: ${dockerRepo}:test.*|image: ${dockerRepo}:test$appVersion|" /var/lib/jenkins/helm/Ced_Devops_Webapp-test/templates/deployment.yaml 
+                        sudo sed -i "s/^appVersion: .*/appVersion: \"$appVersion\"/" /var/lib/jenkins/helm/Ced_Devops_Webapp-test/Chart.yaml
+                        sudo sed -i "s/^version: .*/version: $appVersion/" /var/lib/jenkins/helm/Ced_Devops_Webapp-test/Chart.yaml                   
+                        helm upgrade --install ced-devops-webapp-test /var/lib/jenkins/helm/Ced_Devops_Webapp-test \
+                        --namespace ced-devops-cicd-test \
+                        --kubeconfig=$KUBECONFIG \
+                        --set image.tag=$appVersion \
+                        --wait
+                    '''
+                    echo '<--------------- End of Helm Deploy --------------->'
+                }
+            }
+        }
+        
+        stage('Integration Tests') {
+            steps {
+                script {
+                    echo "<------------------ started building IntegrationTests_Pipeline ------------------>"
+                    build job: "Tests/IntegrationTests_Pipeline", wait: true
+                    echo "<-------------------- End of build IntegrationTests_Pipeline -------------------->"
+                }
+            }
+        }
+
+        stage('Parallel System and Performance Testing') {
+            parallel {
+                stage('System Tests') {
+                    steps {
+                        script {
+                            echo "<------------------ started building SystemTests_Pipeline ------------------>"
+                            build job: "Tests/SystemTests_Pipeline", wait: true
+                            echo "<-------------------- End of build IntegrationTests_Pipeline -------------------->"
+                        }
+                    }
+                }
+
+                stage('Performance Tests') {
+                    steps {
+                        script {
+                            echo "<------------------ started building PerformanceTests_Pipeline ------------------>"
+                            build job: "Tests/PerformanceTests_Pipeline", wait: true
+                            echo "<-------------------- End of build PerformanceTests_Pipeline -------------------->"
+                        }
+                    }
+                }
+            }
+        }
+
+        stage('Security Tests') {
+            steps {
+                script {
+                    echo "<------------------ started building SecurityTests_Pipeline ------------------>"
+                    build job: "Tests/SecurityTests_Pipeline", wait: true
+                    echo "<-------------------- End of build PSecurityTests_Pipeline -------------------->"
+                }
+            }
+        }
+    }
+
+    post {
+        success {
+            echo 'Pipeline completed successfully'
+        }
+        failure {
+            echo 'Pipeline failed'
+        }
+    }
+}

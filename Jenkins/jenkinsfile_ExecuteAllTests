@@ -46,7 +46,7 @@ pipeline {
                                 )
                                 
                                 // Publish JUnit test results from the specific directory
-                                junit "${reportDir}/${jobName}/*"
+                                junit "${reportDir}/**/*"
                                 
                                 echo "<-------------------- End of build ${jobName} -------------------->"
                             }

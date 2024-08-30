@@ -93,7 +93,7 @@
     
     <distributionManagement>
         <repository>
-            <id>dev</id>
+            <id>main</id>
             <url>file://jarstaging</url>
         </repository>
     </distributionManagement>

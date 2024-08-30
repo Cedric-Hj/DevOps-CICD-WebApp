@@ -37,14 +37,15 @@ pipeline {
                                 
                                 build job: "${jobName}", wait: true
                                 
-                                copyArtifacts(
-                                    projectName: "${jobName}",
-                                    filter: '*.xml',
-                                    selector: lastCompleted(),
-                                )
-                                
-                                // Publish JUnit test results from the specific directory
-                                junit "*.xml"
+                                    // Copy artifacts from Job2 to the current job
+                                    copyArtifacts(
+                                        projectName: '${jobName}',
+                                        filter: 'reports/**/*',
+                                        selector: lastCompleted(),
+                                    )
+                    
+                                    // Optionally, you can publish the JUnit results if needed
+                                    junit '**/reports/**/*.xml'
                                 
                                 echo "<-------------------- End of build ${jobName} -------------------->"
                             }

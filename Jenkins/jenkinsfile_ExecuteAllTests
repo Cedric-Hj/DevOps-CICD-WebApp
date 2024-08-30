@@ -40,7 +40,7 @@ pipeline {
                                 // Copy artifacts into job-specific directories
                                 copyArtifacts(
                                     projectName: "${jobName}",
-                                    filter: '*report.xml',
+                                    filter: 'reports/**/*',
                                     selector: lastCompleted(),
                                     target: reportDir
                                 )

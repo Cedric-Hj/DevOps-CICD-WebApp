@@ -15,6 +15,16 @@ pipeline {
                 git branch: 'main', url: 'https://github.com/Cedric-Hj/DevOps-CICD-WebApp.git'
             }
         }
+
+        stage('Install') {
+            steps {
+                echo "$appVersion"
+                echo "<---------------- Build started --------------->"
+                sh 'mvn clean install -Dmaven.test.skip=true'
+                echo "<---------------- Build completed --------------->"
+            }
+            
+        }
     
         stage('Build Docker Image') {
             steps {

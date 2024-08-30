@@ -1,8 +1,5 @@
 # Stage 1: Build the Java application
-FROM openjdk:17-jdk-slim AS build
-
-# Copy the Java application JAR to the image
-#COPY jarstaging/com/example/ced-webpage/1.0-SNAPSHOT/*.jar app.jar
+FROM openjdk:21-jdk-slim AS build
 
 # Copy the Java application JAR to the image
 COPY target/*.jar app.jar

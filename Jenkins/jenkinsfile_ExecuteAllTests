@@ -40,13 +40,13 @@ pipeline {
                                 // Copy artifacts into job-specific directories
                                 copyArtifacts(
                                     projectName: "${jobName}",
-                                    filter: 'reports/**/*',
+                                    filter: '*report.xml',
                                     selector: lastCompleted(),
                                     target: reportDir
                                 )
                                 
                                 // Publish JUnit test results from the specific directory
-                                junit "${reportDir}/**/*"
+                                junit "${reportDir}/${jobName}/*"
                                 
                                 echo "<-------------------- End of build ${jobName} -------------------->"
                             }

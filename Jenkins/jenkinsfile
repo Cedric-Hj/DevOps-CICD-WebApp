@@ -80,7 +80,7 @@ pipeline {
             steps {
                 script {
                     echo '<--------------- Saving Version Tag --------------->'
-                    writeFile file: 'version.txt', text: params.appVersion
+                    writeFile file: 'version.txt', text: env.appVersion
                     archiveArtifacts artifacts: 'version.txt'
                     echo '<--------------- Version Tag Saved--------------->'
                 }

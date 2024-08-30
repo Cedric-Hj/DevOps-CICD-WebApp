@@ -1,17 +1,13 @@
 pipeline {
     agent any
-
     environment {
-        dockerRepo = "cedrichj/devops_cicd"
-        KUBECONFIG = '/var/lib/jenkins/.kube/kubeconfig'
-        FolderName = 'Tests'
-        ViewName = '5_Pipelines'
+        def components = "${JOB_NAME}".split('/')
+        def JobDir = "${JENKINS_HOME}/jobs/${components[0]}/jobs/${components[1]}"
+        def destDirLogs = "$JobDir/builds/${BUILD_NUMBER}/Joblogs"
     }
 
     stages {
-
         stage('Get jobs') {
-           
             steps {
                 script {
                     deleteDir()
@@ -28,6 +24,7 @@ pipeline {
                 script {
                     for (int i = 0; i < list.size(); i++) {
                         def jobName = "${FolderName}/${list[i]}"
+                        def reportDir = "reports/${list[i]}"  // Directory for each job's reports
                         
                         stage(jobName) {
                             echo "Element: ${jobName}"
@@ -37,15 +34,16 @@ pipeline {
                                 
                                 build job: "${jobName}", wait: true
                                 
-                                    // Copy artifacts from Job2 to the current job
-                                    copyArtifacts(
-                                        projectName: '${jobName}',
-                                        filter: 'reports/**/*',
-                                        selector: lastCompleted(),
-                                    )
-                    
-                                    // Optionally, you can publish the JUnit results if needed
-                                    junit '**/reports/**/*.xml'
+                                // Copy artifacts into job-specific directories
+                                copyArtifacts(
+                                    projectName: "${jobName}",
+                                    filter: '*report.xml',
+                                    selector: lastCompleted(),
+                                    target: reportDir
+                                )
+                                
+                                // Publish JUnit test results from the specific directory
+                                junit "${reportDir}/report.xml"
                                 
                                 echo "<-------------------- End of build ${jobName} -------------------->"
                             }
@@ -59,11 +57,11 @@ pipeline {
     post {
         success {
             echo 'Pipeline completed successfully'
-            archiveArtifacts artifacts: '*.xml', allowEmptyArchive: true 
+            archiveArtifacts artifacts: 'reports/**/*', allowEmptyArchive: true
         }
         failure {
             echo 'Pipeline failed'
-            archiveArtifacts artifacts: '*.xml', allowEmptyArchive: true 
+            archiveArtifacts artifacts: 'reports/**/*', allowEmptyArchive: true 
         }
     }
 }

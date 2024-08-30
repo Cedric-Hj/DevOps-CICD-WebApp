@@ -75,6 +75,17 @@ pipeline {
                 }
             }
         }
+
+        stage('Save Version Tag') {
+            steps {
+                script {
+                    echo '<--------------- Saving Version Tag --------------->'
+                    writeFile file: 'version.txt', text: params.appVersion
+                    archiveArtifacts artifacts: 'version.txt'
+                    echo '<--------------- Version Tag Saved--------------->'
+                }
+            }
+        }
     
         stage("Deploy to dev environment") {
             steps {

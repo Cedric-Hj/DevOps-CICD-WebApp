@@ -4,24 +4,25 @@ pipeline {
     environment {
         dockerRepo = "cedrichj/devops_cicd"
         KUBECONFIG = '/var/lib/jenkins/.kube/kubeconfig'
+        appVersion = "2.0.${env.BUILD_NUMBER}"
     }
 
     stages {
 
-        stage('Checkout') {
+        stage('Clean workspace and Checkout git repo') 
             steps {
                 deleteDir()
                 git branch: 'test', url: 'https://github.com/Cedric-Hj/DevOps-CICD-WebApp.git'
             }
         }
 
-        stage('Build and Test') {
+        stage('Install') {
             parallel {
                 stage('Build') {
                     steps {
                          echo "$appVersion"
                         echo "<---------------- Build started --------------->"
-                        sh 'mvn clean deploy -Dmaven.test.skip=true'
+                        sh 'mvn clean Install -Dmaven.test.skip=true'
                         echo "<---------------- Build completed --------------->"
                     }
                 }
@@ -67,6 +68,7 @@ pipeline {
                 }
             }
         }
+        
         stage('Integration Tests') {
             steps {
                 script {
@@ -88,6 +90,7 @@ pipeline {
                         }
                     }
                 }
+
                 stage('Performance Tests') {
                     steps {
                         script {
@@ -106,15 +109,6 @@ pipeline {
                     echo "<------------------ started building SecurityTests_Pipeline ------------------>"
                     build job: "Tests/SecurityTests_Pipeline", wait: true
                     echo "<-------------------- End of build PSecurityTests_Pipeline -------------------->"
-                }
-            }
-        }
-        stage('Send Code To Main Branch') {
-            steps {
-                script {
-                    echo '<--------------- Merging Source code to test branch --------------->'
-                    build job: 'git_merge_SourceCode_Test_to_Prod'
-                    echo '<--------------- Source code Merged to test branch --------------->'
                 }
             }
         }

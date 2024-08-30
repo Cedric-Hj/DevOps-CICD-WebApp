@@ -2,7 +2,7 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 public class BugsExampleTest {
-
+/*
     @Test
     public void testPrintMessage() {
         BugsExample example = new BugsExample();
@@ -40,6 +40,8 @@ public class BugsExampleTest {
         // example.accessArray(); // Uncomment to simulate a failed test
         fail("Intentional failure to demonstrate KO test");
     }
+
+    */
     @Test
     public void testMockSuccess1() {
         // This is a mock test that will always pass

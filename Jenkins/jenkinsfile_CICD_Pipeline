@@ -4,6 +4,8 @@ pipeline {
     environment {
         dockerRepo = "cedrichj/devops_cicd"
         KUBECONFIG = '/var/lib/jenkins/.kube/kubeconfig'
+        FolderName = 'Tests'
+        ViewName = '5_Pipelines'
     }
 
     stages {

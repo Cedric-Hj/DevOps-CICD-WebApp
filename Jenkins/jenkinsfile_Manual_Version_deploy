@@ -74,14 +74,6 @@ pipeline {
             }
         }
 
-            stage('Build') {
-                steps {
-                    echo "<---------------- Build started --------------->"
-                    sh 'mvn clean deploy -Dmaven.test.skip=true'
-                    echo "<---------------- Build completed --------------->"
-                }
-            }
-
 
         stage("Deploy App") {
             steps {

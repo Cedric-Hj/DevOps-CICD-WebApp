@@ -5,99 +5,87 @@ pipeline {
         dockerRepo = "cedrichj/devops_cicd"
         appVersion = "2.0.${env.BUILD_NUMBER}"
         KUBECONFIG = '/var/lib/jenkins/.kube/kubeconfig'
+        scannerHome = tool 'sonar-scanner'
     }
 
     stages {
-        stage('Cleanup') {
-            steps {
-                deleteDir()
-            }
-        }
-
         stage('Checkout') {
             steps {
-                git branch: 'dev', url: 'https://github.com/Cedric-Hj/DevOps-CICD-WebApp.git'
+                deleteDir()
+                git branch: 'main', url: 'https://github.com/Cedric-Hj/DevOps-CICD-WebApp.git'
             }
         }
-
-
-        stage('Build and Test') {
-            parallel {
-                stage('Build') {
-                    steps {
-                        echo "<---------------- Build started --------------->"
-                        sh 'mvn clean deploy -Dmaven.test.skip=true'
-                        echo "<---------------- Build completed --------------->"
-                    }
-                }
-                stage('Unit Test') {
-                    steps {
-                        echo "<--------------- Unit test started --------------->"
-                        sh 'mvn surefire-report:report'
-                        echo "<--------------- Unit test completed --------------->"
-                    }
-                }
+    
+        stage('Build') {
+            steps {
+                echo "<---------------- Build started --------------->"
+                sh 'mvn clean install -Dmaven.test.skip=true'
+                echo "<---------------- Build completed --------------->"
             }
         }
-
+       
+        stage('Unit Tests') {
+            steps {
+                sh 'mvn test'
+                junit '**/target/surefire-reports/*.xml'
+                archiveArtifacts artifacts: '**/target/surefire-reports/*.xml', allowEmptyArchive: true
+            }
+        }
+    
         stage('SonarQube Analysis') {
-            environment {
-                scannerHome = tool 'sonar-scanner'
-            }
             steps {
                 echo '<--------------- SonarQube Analysis started  --------------->'
                 withSonarQubeEnv('sonar-server') {
                     sh "${scannerHome}/bin/sonar-scanner"
                 }
-                echo '<--------------- SonarQube Analysis completed  --------------->'
             }
         }
-
+    
         stage('Quality Gate') {
             steps {
                 script {
                     def qg = waitForQualityGate()
                     if (qg.status != 'OK') {
                         error "Pipeline aborted due to Quality Gate failure: ${qg.status}"
-                        
                     }
+                    echo '<--------------- SonarQube Analysis completed  --------------->'
                 }
             }
         }
-
+    
         stage('Build Docker Image') {
             steps {
                 script {
                     echo '<--------------- Start of Build Docker Image  --------------->'
-                    echo "Building Docker image with tag: ${dockerRepo}:dev${appVersion}"
-                    docker.build("${dockerRepo}:dev${appVersion}")
+                    echo "Building Docker image with tag: ${dockerRepo}:${appVersion}"
+                    docker.build("${dockerRepo}:v${appVersion}")
                     echo '<--------------- End of Build Docker Image  --------------->'
                 }
             }
         }
-
+    
         stage('Push Docker Image') {
             steps {
                 script {
                     echo '<--------------- Start of Push Docker Image  --------------->'
                     docker.withRegistry('', 'DockerCredencials') {
-                        sh "docker push ${dockerRepo}:dev${appVersion}" 
+                        sh "docker push ${dockerRepo}:v${appVersion}" 
                     echo '<--------------- End of Push Docker Image  --------------->'
                     }
                 }
             }
         }
-
-        stage("Deploy") {
+    
+        stage("Deploy to dev environment") {
             steps {
                 script {
                     echo '<--------------- Start of Helm Upgrade/Install --------------->'
                     sh '''
-                        sudo sed -i "s|image: ${dockerRepo}:dev.*|image: ${dockerRepo}:dev$appVersion|" /var/lib/jenkins/helm/Ced_Devops_Webapp-dev/templates/deployment.yaml 
-                        sudo sed -i "s/^appVersion: .*/appVersion: \"$appVersion\"/" /var/lib/jenkins/helm/Ced_Devops_Webapp-dev/Chart.yaml
-                        sudo sed -i "s/^version: .*/version: $appVersion/" /var/lib/jenkins/helm/Ced_Devops_Webapp-dev/Chart.yaml                   
-                        helm upgrade --install ced-devops-webapp-dev /var/lib/jenkins/helm/Ced_Devops_Webapp-dev \
-                        --namespace ced-devops-cicd-dev \
+                        sudo sed -i "s|image: cedrichj/devops_cicd:v.*|image: cedrichj/devops_cicd:v$appVersion|" /var/lib/jenkins/helm/Ced_Devops_Webapp/templates/deployment.yaml 
+                        sudo sed -i "s/^appVersion: .*/appVersion: \"$appVersion\"/" /var/lib/jenkins/helm/Ced_Devops_Webapp/Chart.yaml
+                        sudo sed -i "s/^version: .*/version: $appVersion/" /var/lib/jenkins/helm/Ced_Devops_Webapp/Chart.yaml                   
+                        helm upgrade --install ced-devops-webapp /var/lib/jenkins/helm/Ced_Devops_Webapp \
+                        --namespace ced-devops-cicd \
                         --kubeconfig=$KUBECONFIG \
                         --set image.tag=$appVersion \
                         --wait
@@ -106,19 +94,8 @@ pipeline {
                 }
             }
         }
-
-        stage('Save Version Tag') {
-            steps {
-                script {
-                    echo '<--------------- Saving Version Tag --------------->'
-                    writeFile file: 'version.txt', text: params.appVersion
-                    archiveArtifacts artifacts: 'version.txt'
-                    echo '<--------------- Version Tag Saved--------------->'
-                }
-            }
-        }
-
     }
+
     post {
         success {
             echo 'Pipeline completed successfully'

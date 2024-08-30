@@ -24,6 +24,7 @@ pipeline {
                     // Correct variable assignment
                     def appVersion = readFile('version.txt').trim()
                     echo "Recovered Version: ${appVersion}"
+                    echo "${dockerRepo}:v${appVersion}"
                 }
             }
         }

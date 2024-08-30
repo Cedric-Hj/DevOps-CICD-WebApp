@@ -32,7 +32,7 @@ pipeline {
                             catchError(buildResult: 'UNSTABLE', message: 'Job has Failed or is Unstable', stageResult: 'UNSTABLE') {
                                 echo "<------------------ started building ${jobName} ------------------>"
                                 build job: "${jobName}", wait: true                
-                                copyArtifacts filter: '*.xml', selector: lastCompleted()      
+                                copyArtifacts filter: '*.xml', projectName: '$jobName', selector: lastCompleted()      
                                 junit '*.xml'
                                  
                                 echo "<-------------------- End of build ${jobName} -------------------->"

@@ -4,7 +4,6 @@ pipeline {
     environment {
         dockerRepo = "cedrichj/devops_cicd"
         KUBECONFIG = '/var/lib/jenkins/.kube/kubeconfig'
-        appVersion =""
     }
 
     stages {
@@ -18,9 +17,12 @@ pipeline {
 
         stage('Retrieve latest version tag') {
             steps {
+                // Copy the version.txt artifact from the upstream job
                 copyArtifacts projectName: 'Webapp_Dev_Build_UnitTest_Push_Deploy', filter: 'version.txt'
+                
                 script {
-                    $appVersion = readFile('version.txt').trim()
+                    // Correct variable assignment
+                    def appVersion = readFile('version.txt').trim()
                     echo "Recovered Version: ${appVersion}"
                 }
             }

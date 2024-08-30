@@ -28,7 +28,6 @@ pipeline {
                 script {
                     for (int i = 0; i < list.size(); i++) {
                         def jobName = "${FolderName}/${list[i]}"
-                        def reportDir = "reports/${list[i]}"  // Directory for each job's reports
                         
                         stage(jobName) {
                             echo "Element: ${jobName}"
@@ -38,16 +37,14 @@ pipeline {
                                 
                                 build job: "${jobName}", wait: true
                                 
-                                // Copy artifacts into job-specific directories
                                 copyArtifacts(
                                     projectName: "${jobName}",
                                     filter: '*.xml',
                                     selector: lastCompleted(),
-                                    target: reportDir
                                 )
                                 
                                 // Publish JUnit test results from the specific directory
-                                junit "${reportDir}/report.xml"
+                                junit "*.xml"
                                 
                                 echo "<-------------------- End of build ${jobName} -------------------->"
                             }
@@ -61,11 +58,11 @@ pipeline {
     post {
         success {
             echo 'Pipeline completed successfully'
-            archiveArtifacts artifacts: 'reports/**/*', allowEmptyArchive: true 
+            archiveArtifacts artifacts: '*.xml', allowEmptyArchive: true 
         }
         failure {
             echo 'Pipeline failed'
-            archiveArtifacts artifacts: 'reports/**/*', allowEmptyArchive: true 
+            archiveArtifacts artifacts: '*.xml', allowEmptyArchive: true 
         }
     }
 }

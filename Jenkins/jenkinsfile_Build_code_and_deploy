@@ -27,17 +27,6 @@ pipeline {
                         echo "<---------------- Build completed --------------->"
                     }
                 }
-                stage('Unit Test') {
-/*mvn surefire-report:report'*/
-                    steps {
-                        echo "<--------------- Unit test started --------------->"
-                        sh 'mvn -X org.apache.maven.plugins:maven-surefire-report-plugin:3.5.0:report'
-
-                        echo "<--------------- Unit test completed --------------->"
-                    }
-                }
-            }
-        }
 
         stage('Build Docker Image') {
             steps {

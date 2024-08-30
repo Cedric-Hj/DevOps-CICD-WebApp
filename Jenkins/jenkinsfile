@@ -11,7 +11,7 @@ pipeline {
 
     stages {
 
-        stage('Clean workspace and Checkout git repo') 
+        stage('Clean workspace and Checkout git repo') {
             steps {
                 deleteDir()
                 git branch: 'test', url: 'https://github.com/Cedric-Hj/DevOps-CICD-WebApp.git'
@@ -19,15 +19,15 @@ pipeline {
         }
 
         stage('Install') {
-            parallel {
-                stage('Build') {
-                    steps {
-                         echo "$appVersion"
-                        echo "<---------------- Build started --------------->"
-                        sh 'mvn clean Install -Dmaven.test.skip=true'
-                        echo "<---------------- Build completed --------------->"
-                    }
+            stage('Build') {
+                steps {
+                        echo "$appVersion"
+                    echo "<---------------- Build started --------------->"
+                    sh 'mvn clean install -Dmaven.test.skip=true'
+                    echo "<---------------- Build completed --------------->"
                 }
+            }
+        }
 
         stage('Build Docker Image') {
             steps {
@@ -50,7 +50,6 @@ pipeline {
                     }
                 }
             }
-        }
 
         stage("Deploy App") {
             steps {
@@ -70,10 +69,10 @@ pipeline {
                 }
             }
         }
+
         stage('Get jobs') {
             steps {
                 script {
-                    deleteDir()
                     dir('/var/lib/jenkins/utility') {
                         def generatedList = sh(script: "python3 ScanJenkinsTest.py ${FolderName} ${ViewName}", returnStdout: true).trim()
                         list = generatedList.split('\n')

@@ -5,6 +5,10 @@ pipeline {
         deploymentsourceFile = 'deployment.yaml'
         namespacesourceFile = 'namespace.yaml'
         serviceFilesourceFile = 'service.yaml'
+        //parametrized properties
+        appVersion = ${VersionNumber}
+        name = = ${VersionName}
+        port = ${PortNumber}
 
         deploymentFile = '/var/lib/jenkins/helm/Ced_Devops_Webapp-test-${name}/templates/deployment.yaml'
         namespaceFile = '/var/lib/jenkins/helm/Ced_Devops_Webapp-test-${name}/templates/namespace.yaml'

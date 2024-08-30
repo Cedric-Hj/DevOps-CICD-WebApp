@@ -19,14 +19,13 @@ pipeline {
         }
 
         stage('Install') {
-            stage('Build') {
-                steps {
-                    echo "$appVersion"
-                    echo "<---------------- Build started --------------->"
-                    sh 'mvn clean install -Dmaven.test.skip=true'
-                    echo "<---------------- Build completed --------------->"
-                }
+            steps {
+                echo "$appVersion"
+                echo "<---------------- Build started --------------->"
+                sh 'mvn clean install -Dmaven.test.skip=true'
+                echo "<---------------- Build completed --------------->"
             }
+            
         }
 
         stage('Build Docker Image') {

@@ -3,7 +3,6 @@ pipeline {
 
     environment {
         dockerRepo = "cedrichj/devops_cicd"
-        appVersion = "2.0.${env.BUILD_NUMBER}"
         KUBECONFIG = '/var/lib/jenkins/.kube/kubeconfig'
     }
 
@@ -15,7 +14,6 @@ pipeline {
                 git branch: 'test', url: 'https://github.com/Cedric-Hj/DevOps-CICD-WebApp.git'
             }
         }
-
 
         stage('Build and Test') {
             parallel {

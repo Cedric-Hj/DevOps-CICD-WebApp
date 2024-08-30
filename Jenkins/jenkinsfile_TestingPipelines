@@ -33,7 +33,7 @@ pipeline {
                                 echo "<------------------ started building ${jobName} ------------------>"
                                 echo "${jobName}"
                                 build job: "${jobName}", wait: true                
-                                copyArtifacts filter: '*.xml', projectName: "${jobName}", selector: lastCompleted()      
+                                copyArtifacts filter: '*.xml', projectName: '${jobName}', selector: lastCompleted()      
                                 junit '*.xml'
                                  
                                 echo "<-------------------- End of build ${jobName} -------------------->"

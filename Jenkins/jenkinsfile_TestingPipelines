@@ -60,13 +60,11 @@ pipeline {
     post {
         success {
             echo 'Pipeline completed successfully'
-            junit "${JOB_NAME}/report.xml" 
             archiveArtifacts artifacts: 'reports/**/*', allowEmptyArchive: true
 
         }
         failure {
             echo 'Pipeline failed'
-            junit "${JOB_NAME}/report.xml" 
             archiveArtifacts artifacts: 'reports/**/*', allowEmptyArchive: true 
 
         }

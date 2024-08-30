@@ -20,7 +20,7 @@ pipeline {
                 copyArtifacts projectName: 'Webapp_Dev_Build_UnitTest_Push_Deploy', filter: 'version.txt'
                 script {
                     def appVersion = readFile('version.txt').trim()
-                    echo "Recovered Version: ${version}"
+                    echo "Recovered Version: ${appVersion}"
                 }
             }
         }

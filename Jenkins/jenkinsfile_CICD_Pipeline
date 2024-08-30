@@ -16,21 +16,20 @@ pipeline {
         }
 
         stage('Retrieve latest version tag') {
-                    steps {
-                        // Copies version.txt from the latest successful build of the specified job
-                        copyArtifacts(
-                            projectName: 'Webapp_Dev_Build_UnitTest_Push_Deploy',
-                            filter: 'version.txt',
-                            selector: lastSuccessful()
-                        )
-                        script {
-                            // Read the version from the retrieved file
-                            def appVersion = readFile('version.txt').trim()
-                            echo "Recovered Version: ${appVersion}"
-                        }
-                    }
+            steps {
+                // Copies version.txt from the latest successful build of the specified job
+                copyArtifacts(
+                    projectName: 'Webapp_Dev_Build_UnitTest_Push_Deploy',
+                    filter: 'version.txt',
+                    selector: lastSuccessful()
+                )
+                script {
+                    // Read the version from the retrieved file
+                    def appVersion = readFile('version.txt').trim()
+                    echo "Recovered Version: ${appVersion}"
                 }
             }
+        }
 
         stage('Pull Docker Image') {
             steps {

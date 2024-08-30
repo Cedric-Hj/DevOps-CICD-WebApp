@@ -51,7 +51,7 @@ pipeline {
                 '''
                 //Change the value of the port for the service yaml
                 sh '''
-                    sudo sed -i "s|image: ${dockerRepo}:test.*|image: ${dockerRepo}:test$appVersion|" /var/lib/jenkins/helm/Ced_Devops_Webapp-test-${name}/templates/deployment.yaml 
+                    sudo sed -i "s|image: ${dockerRepo}:.*|image: ${dockerRepo}:v$appVersion|" /var/lib/jenkins/helm/Ced_Devops_Webapp-test-${name}/templates/deployment.yaml 
                     sudo sed -i "s|namespace:.*|namespace: ced-devops-cicd-test-${name}|" /var/lib/jenkins/helm/Ced_Devops_Webapp-test-${name}/templates/deployment.yaml 
                     sudo sed -i "s|name:.*|name: ced-devops-cicd-test-${name}|" /var/lib/jenkins/helm/Ced_Devops_Webapp-test-${name}/templates/namespace.yaml
                     sudo sed -i "s|namespace:.*|namespace: ced-devops-cicd-test-${name}|" /var/lib/jenkins/helm/Ced_Devops_Webapp-test-${name}/templates/service.yaml 
@@ -82,28 +82,6 @@ pipeline {
                 }
             }
 
-        stage('Build Docker Image') {
-            steps {
-                script {
-                    echo '<--------------- Start of Build Docker Image  --------------->'
-                    echo "Building Docker image with tag: ${dockerRepo}:test${appVersion}"
-                    docker.build("${dockerRepo}:test${appVersion}")
-                    echo '<--------------- End of Build Docker Image  --------------->'
-                }
-            }
-        }
-
-        stage('Push Docker Image') {
-            steps {
-                script {
-                    echo '<--------------- Start of Push Docker Image  --------------->'
-                    docker.withRegistry('', 'DockerCredencials') {
-                        sh "docker push ${dockerRepo}:test${appVersion}" 
-                    echo '<--------------- End of Push Docker Image  --------------->'
-                    }
-                }
-            }
-        }
 
         stage("Deploy App") {
             steps {

@@ -4,7 +4,7 @@
 cat <<EOF > report.xml
 <?xml version="1.0" encoding="UTF-8"?>
 <testsuites>
-    <testsuite name="System Test Suite 1" tests="2" failures="0" errors="0">
+    <testsuite name="System Test Suite 3" tests="2" failures="0" errors="0">
         <testcase name="Test Case 1" />
         <testcase name="Test Case 2" />
 

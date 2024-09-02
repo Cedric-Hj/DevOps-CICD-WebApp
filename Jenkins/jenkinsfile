@@ -48,10 +48,7 @@ pipeline {
                 }
             }
         }
-    /*
-                        sudo sed -i "s|image: cedrichj/devops_cicd:v.*|image: cedrichj/devops_cicd:v$appVersion|" /var/lib/jenkins/helm/Ced_Devops_Webapp/templates/deployment.yaml 
-                        sudo sed -i "s/^appVersion: .*/appVersion: \"$appVersion\"/" /var/lib/jenkins/helm/Ced_Devops_Webapp/Chart.yaml
-*/
+
         stage("Deploy to prod environment") {
             steps {
                 script {

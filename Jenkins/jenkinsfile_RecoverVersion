@@ -28,11 +28,13 @@ pipeline {
                     echo '<--------------- Checking Docker Image --------------->'
                     echo "${dockerRepo}:v${appVersion}"
                     try {
-                        sh '''
-                            if ! docker pull ${dockerRepo}:v${appVersion} >/dev/null 2>&1; then
-                                echo "Docker image ${dockerRepo}:v${appVersion} does not exist."
-                                exit 1
-                            fi
+                       ssh '''
+                        if ! docker images -q ${dockerRepo}:v${appVersion} >/dev/null 2>&1; then
+                            echo "Docker image ${dockerRepo}:v${appVersion} does not exist."
+                            exit 1
+                        else
+                            echo "Docker image ${dockerRepo}:v${appVersion} exists."
+                        fi
                         '''
                     } catch (Exception e) {
                         echo "Error checking Docker image: ${e.message}"

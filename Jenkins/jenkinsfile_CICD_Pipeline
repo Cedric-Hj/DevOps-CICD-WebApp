@@ -31,6 +31,27 @@ pipeline {
             }
         }
 
+        stage('Check Docker Image') {
+            steps {
+                script {
+                    echo '<--------------- Checking Docker Image --------------->'
+                    echo "${dockerRepo}:v${appVersion}"
+                    try {
+                        sh '''
+                            if ! docker image inspect ${dockerRepo}:v${appVersion} >/dev/null 2>&1; then
+                                echo "Docker image ${dockerRepo}:v${appVersion} does not exist."
+                                exit 1
+                            fi
+                        '''
+                    } catch (Exception e) {
+                        echo "Error checking Docker image: ${e.message}"
+                        currentBuild.result = 'FAILURE'
+                        error("Docker image ${dockerRepo}:v${appVersion} does not exist.")
+                    }
+                }
+            }
+        }
+
         stage("Deploy App") {
             steps {
                 script {

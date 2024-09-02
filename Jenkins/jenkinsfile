@@ -61,7 +61,6 @@ pipeline {
                         --set appVersion=$appVersion \
                         --namespace ced-devops-cicd \
                         --kubeconfig=$KUBECONFIG \
-                        --set image.tag=$appVersion \
                         --wait
                     '''
                     echo '<--------------- End of Helm Deploy --------------->'

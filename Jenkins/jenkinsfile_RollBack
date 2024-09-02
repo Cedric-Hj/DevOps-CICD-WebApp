@@ -28,7 +28,6 @@ pipeline {
                     echo '<--------------- RollBack to revision number: ${revision}  --------------->'
                     sh '''                  
                         helm rollback ced-devops-webapp ${revision} --namespace ced-devops-cicd
-                        --wait
                     '''
                     echo '<--------------- End of Helm Deploy --------------->'
                 }

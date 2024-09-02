@@ -1,9 +1,6 @@
 pipeline {
     agent any
     environment {
-         components = "${JOB_NAME}".split('/')
-         JobDir = "${JENKINS_HOME}/jobs/${components[0]}/jobs/${components[1]}"
-         destDirLogs = "$JobDir/builds/${BUILD_NUMBER}/Joblogs"
         FolderName = 'Tests'
         ViewName = '5_Pipelines'
         

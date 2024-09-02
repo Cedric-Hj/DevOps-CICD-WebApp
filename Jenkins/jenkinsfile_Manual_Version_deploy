@@ -34,7 +34,7 @@ pipeline {
                     echo "${dockerRepo}:v${appVersion}"
                     try {
                         sh '''
-                            if ! docker pull ${dockerRepo}:v${appVersion} >/dev/null 2>&1; then
+                            if ! docker image ${dockerRepo}:v${appVersion} >/dev/null 2>&1; then
                                 echo "Docker image ${dockerRepo}:v${appVersion} does not exist."
                                 exit 1
                             fi

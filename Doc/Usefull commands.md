@@ -221,7 +221,7 @@ Helm
 
 - List all Helm releases across all namespaces
     ```sh
-    helm list -a
+    helm list --all-namespaces
     ```
 
 - List Helm releases in a specific namespace

@@ -1,0 +1,47 @@
+pipeline {
+    agent any
+
+    environment {
+        dockerRepo = "cedrichj/devops_cicd"
+        KUBECONFIG = '/var/lib/jenkins/.kube/kubeconfig'
+        //Parametrized
+        revision = $RevisionNumber
+    }
+
+    stages {
+
+        stage('Cleanup') {
+            steps {
+                deleteDir()
+            }
+        }
+
+        stage('Checkout') {
+            steps {
+                git branch: 'main', url: 'https://github.com/Cedric-Hj/DevOps-CICD-WebApp.git'
+            }
+        }
+
+        stage("Rollback version") {
+            steps {
+                script {
+                    echo '<--------------- RollBack to version: $appVersion  --------------->'
+                    sh '''                  
+                        helm rollback ced-devops-webapp ${revision} --namespace ced-devops-cicd
+                        --wait
+                    '''
+                    echo '<--------------- End of Helm Deploy --------------->'
+                }
+            }
+        }
+    }
+
+    post {
+        success {
+            echo 'Pipeline completed successfully'
+        }
+        failure {
+            echo 'Pipeline failed'
+        }
+    }
+}

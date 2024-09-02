@@ -4,8 +4,6 @@ pipeline {
     environment {
         dockerRepo = "cedrichj/devops_cicd"
         KUBECONFIG = '/var/lib/jenkins/.kube/kubeconfig'
-        FolderName = 'Tests'
-        ViewName = '5_Pipelines'
     }
 
     stages {
@@ -13,7 +11,7 @@ pipeline {
         stage('Clean workspace and Checkout git repo') {
             steps {
                 deleteDir()
-                git branch: 'test', url: 'https://github.com/Cedric-Hj/DevOps-CICD-WebApp.git'
+                git branch: 'main', url: 'https://github.com/Cedric-Hj/DevOps-CICD-WebApp.git'
             }
         }
 

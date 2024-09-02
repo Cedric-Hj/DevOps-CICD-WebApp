@@ -5,7 +5,7 @@ pipeline {
         dockerRepo = "cedrichj/devops_cicd"
         KUBECONFIG = '/var/lib/jenkins/.kube/kubeconfig'
         //Parametrized
-        revision = $RevisionNumber
+        revision = ${RevisionNumber}
     }
 
     stages {

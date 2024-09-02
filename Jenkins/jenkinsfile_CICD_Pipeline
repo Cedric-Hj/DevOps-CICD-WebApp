@@ -1,1 +1,121 @@
+pipeline {
+    agent any
 
+    environment {
+        dockerRepo = "cedrichj/devops_cicd"
+        appVersion = "2.0.${env.BUILD_NUMBER}"
+        KUBECONFIG = '/var/lib/jenkins/.kube/kubeconfig'
+        scannerHome = tool 'sonar-scanner'
+    }
+
+    stages {
+        stage('Checkout') {
+            steps {
+                deleteDir()
+                git branch: 'dev', url: 'https://github.com/Cedric-Hj/DevOps-CICD-WebApp.git'
+            }
+        }
+    
+        stage('Build') {
+            steps {
+                echo "<---------------- Build started --------------->"
+                sh 'mvn clean install -Dmaven.test.skip=true'
+                echo "<---------------- Build completed --------------->"
+            }
+        }
+       
+        stage('Unit Tests') {
+            steps {
+                sh 'mvn test'
+                junit '**/target/surefire-reports/*.xml'
+                archiveArtifacts artifacts: '**/target/surefire-reports/*.xml', allowEmptyArchive: true
+            }
+        }
+    
+        stage('SonarQube Analysis') {
+            steps {
+                echo '<--------------- SonarQube Analysis started  --------------->'
+                withSonarQubeEnv('sonar-server') {
+                    sh "${scannerHome}/bin/sonar-scanner"
+                }
+            }
+        }
+    
+        stage('Quality Gate') {
+            steps {
+                script {
+                    def qg = waitForQualityGate()
+                    if (qg.status != 'OK') {
+                        error "Pipeline aborted due to Quality Gate failure: ${qg.status}"
+                    }
+                    echo '<--------------- SonarQube Analysis completed  --------------->'
+                }
+            }
+        }
+    
+        stage('Build Docker Image') {
+            steps {
+                script {
+                    echo '<--------------- Start of Build Docker Image  --------------->'
+                    echo "Building Docker image with tag: ${dockerRepo}:v${appVersion}"
+                    docker.build("${dockerRepo}:v${appVersion}")
+                    echo '<--------------- End of Build Docker Image  --------------->'
+                }
+            }
+        }
+
+        stage('Push Docker Image') {
+            steps {
+                script {
+                    echo '<--------------- Start of Push Docker Image  --------------->'
+                    docker.withRegistry('', 'DockerCredencials') {
+                        sh "docker push ${dockerRepo}:v${appVersion}" 
+                    echo '<--------------- End of Push Docker Image  --------------->'
+                    }
+                }
+            }
+        }
+
+        stage('Save Version Tag') {
+            steps {
+                script {
+                    echo '<--------------- Saving Version Tag --------------->'
+                    writeFile file: 'version.txt', text: env.appVersion
+                    archiveArtifacts artifacts: 'version.txt'
+                    echo '<--------------- Version Tag Saved--------------->'
+                }
+            }
+        }
+
+        stage("Deploy") {
+            steps {
+                script {
+                    echo '<--------------- Start of Helm Upgrade/Install --------------->'
+                    sh '''
+                        sudo sed -i "s|image: ${dockerRepo}:.*|image: ${dockerRepo}:v$appVersion|" /var/lib/jenkins/helm/Ced_Devops_Webapp-dev/templates/deployment.yaml 
+                        sudo sed -i "s/^appVersion: .*/appVersion: \"$appVersion\"/" /var/lib/jenkins/helm/Ced_Devops_Webapp-dev/Chart.yaml
+                        sudo sed -i "s/^version: .*/version: $appVersion/" /var/lib/jenkins/helm/Ced_Devops_Webapp-dev/Chart.yaml                   
+                        helm upgrade --install ced-devops-webapp-dev /var/lib/jenkins/helm/Ced_Devops_Webapp-dev \
+                        --namespace ced-devops-cicd-dev \
+                        --kubeconfig=$KUBECONFIG \
+                        --wait
+                    '''
+                    echo '<--------------- End of Helm Deploy --------------->'
+                }
+            }
+        }
+    }
+
+
+    
+
+
+    post {
+        success {
+            echo 'Pipeline completed successfully'
+        }
+        failure {
+            echo 'Pipeline failed'
+        }
+    }
+}

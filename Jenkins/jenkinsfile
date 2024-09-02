@@ -60,7 +60,7 @@ pipeline {
                         sudo sed -i "s/^version: .*/version: $appVersion/" /var/lib/jenkins/helm/Ced_Devops_Webapp/Chart.yaml                   
                         helm upgrade --install ced-devops-webapp /var/lib/jenkins/helm/Ced_Devops_Webapp \
                         --set image.tag=v$appVersion \
-                        --set appVersion=$appVersion
+                        --set appVersion=$appVersion \
                         --namespace ced-devops-cicd \
                         --kubeconfig=$KUBECONFIG \
                         --set image.tag=$appVersion \

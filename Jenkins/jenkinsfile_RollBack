@@ -25,7 +25,7 @@ pipeline {
         stage("Rollback version") {
             steps {
                 script {
-                    echo '<--------------- RollBack to version: $appVersion  --------------->'
+                    echo '<--------------- RollBack to revision number: ${revision}  --------------->'
                     sh '''                  
                         helm rollback ced-devops-webapp ${revision} --namespace ced-devops-cicd
                         --wait

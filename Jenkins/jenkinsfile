@@ -98,7 +98,6 @@ pipeline {
                         helm upgrade --install ced-devops-webapp-dev /var/lib/jenkins/helm/Ced_Devops_Webapp-dev \
                         --namespace ced-devops-cicd-dev \
                         --kubeconfig=$KUBECONFIG \
-                        --set image.tag=$appVersion \
                         --wait
                     '''
                     echo '<--------------- End of Helm Deploy --------------->'

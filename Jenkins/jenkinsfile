@@ -54,7 +54,8 @@ pipeline {
                 script {
                     echo '<--------------- Start of Helm Upgrade/Install --------------->'
                     sh '''
-                        sudo sed -i "s/^version: .*/version: $appVersion/" /var/lib/jenkins/helm/Ced_Devops_Webapp/Chart.yaml                   
+                        sudo sed -i "s/^version: .*/version: $appVersion/" /var/lib/jenkins/helm/Ced_Devops_Webapp/Chart.yaml
+                        sudo sed -i "s/^appVersion: .*/appVersion: \"$appVersion\"/" /var/lib/jenkins/helm/Ced_Devops_Webapp/Chart.yaml                   
                         helm upgrade --install ced-devops-webapp /var/lib/jenkins/helm/Ced_Devops_Webapp \
                         --set image.tag=v$appVersion \
                         --set appVersion=$appVersion \

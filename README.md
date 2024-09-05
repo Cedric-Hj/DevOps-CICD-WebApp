@@ -74,9 +74,9 @@ In a real-world scenario, it is generally advisable to use separate clusters for
 
 
 ## Branches
-- [**`dev`**](https://github.com/Cedric-Hj/DevOps-CICD-WebApp/tree/dev): The primary branch for ongoing development. Changes pushed to this branch will trigger a Jenkins job for initial deployment and testing.
-- [**`test`**](https://github.com/Cedric-Hj/DevOps-CICD-WebApp/tree/test/): The branch where code is merged after successful deployment in the dev environment. It undergoes additional testing before being promoted to main.
-- [**`main`**](https://github.com/Cedric-Hj/DevOps-CICD-WebApp/tree/main/): The branch for stable, production-ready code. Merges into this branch trigger the final deployment to the production environment.
+- [**`dev`**](https://github.com/Cedric-Hj/DevOps-CICD-WebApp/tree/dev): The primary branch for ongoing development. Changes pushed to this branch will trigger a Jenkins job to check for code quality, execute unit tests, build the application, dockerize it and save it in a repo.
+- [**`test`**](https://github.com/Cedric-Hj/DevOps-CICD-WebApp/tree/test/): The docker image created from dev is recovered from the repo and gets deployed onto the testing environments and undergoes non-regression testing from this branch before being ready for prod.
+- [**`main`**](https://github.com/Cedric-Hj/DevOps-CICD-WebApp/tree/main/): If dev and test pipelines are successful, the webapp is stable and production-ready. The app is deployed to the world using this branch.
 
 ## Infrastructure and Setup
 

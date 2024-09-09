@@ -7,7 +7,7 @@ The project provisions three virtual machines, demonstrating Infrastructure as C
 
 The project also includes a CI/CD pipeline implemented as a series of Jenkins jobs, designed to automate the deployment lifecycle across Development, Testing, and Production environments. 
 
-All setup instructions and documentation for comprehensive guidance on configuring and deploying the project are available in the [**doc folder**](https://github.com/Cedric-Hj/DevOps-CICD-WebApp/tree/main/doc/).
+All setup instructions and documentation for comprehensive guidance on configuring and deploying the project are available in the [**doc folder**](https://github.com/Cedric-Hj/DevOps-CICD-WebApp/tree/main/Doc).
 
 ## Technology Stack Overview
 <table>

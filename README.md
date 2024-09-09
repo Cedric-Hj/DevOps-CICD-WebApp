@@ -98,7 +98,7 @@ In a real-world scenario, it is generally advisable to use separate clusters for
 
  **[Jenkins Job](https://github.com/Cedric-Hj/DevOps-CICD-WebApp/tree/dev/Jenkins/jenkinsfile_CICD_Pipeline)**
 
-- Clean install: The application is built using Maven.
+- Clean install: The source code in github is built using Maven.
 - Unit test with Maven
 - Code Analysis: SonarQube performs code analysis and enforces quality gates.
 - Docker: An image is created and pushed to the Docker repository.
@@ -110,7 +110,6 @@ In a real-world scenario, it is generally advisable to use separate clusters for
 - Docker: Verify if the given docker image exists
 - Kubernetes Deployment: The application is deployed to the Test pod with helm.
 - Testing: A suite of tests is executed to ensure the application functions correctly.
-- Multi-Version Testing: A parametrized Jenkins job allows for deploying multiple versions of the application to different pods in the Testing environment. This enables simultaneous testing of different versions.
 
 ### Production Workflow
  **[Jenkins Job](https://github.com/Cedric-Hj/DevOps-CICD-WebApp/tree/main/Jenkins/jenkinsfile_CICD_Pipeline)**
@@ -127,6 +126,9 @@ In the test branch, a [parametrized jenkins pipeline job](https://github.com/Ced
 
 ## Execute all tests
 In the test branch, a [parametrized jenkins pipeline job](https://github.com/Cedric-Hj/DevOps-CICD-WebApp/tree/test/Jenkins/jenkinsfile_ExecuteAllTests) will execute a [python script](https://github.com/Cedric-Hj/DevOps-CICD-WebApp/tree/test/Test/ScanJenkinsTest.py). This script communicates with Jenkins to retrieve all jobs available in the folder and view specified by the parameters in the Jenkinsfile, returning a list of these jobs. The Jenkins pipeline job then executes all the jobs from the returned list. In this case, the folder and view should include a pipeline job for each test type (Integration, System, Load, or Security). For more details, refer to [Execute all test from a specific type](#Execute-all-test-from-a-specific-type). Consequently, the job will run all pipelines that handle the execution of each test type.
+
+## Deploy Version to Specific Pod
+In a testing environment, multiple versions of the application may need to be tested simultaneously. To facilitate this, each version must be deployed on a separate pod, ensuring isolated testing environments. This [Jenkins job](https://github.com/Cedric-Hj/DevOps-CICD-WebApp/tree/test/Jenkins/jenkinsfile_ExecuteAllTests) enables the deployment of a specific version of the application on a designated pod by allowing the user to specify both the version and the port for deployment. By parameterizing the version and port, the job ensures flexible and concurrent testing across different pods without conflict, providing a streamlined solution for managing multiple test environments in parallel.
 
 ## Rollback Functionality
 A parametrized [Jenkins Job](https://github.com/Cedric-Hj/DevOps-CICD-WebApp/tree/main/Jenkins/jenkinsfile_RollBack) is available to roll back the application to a previous version for each environment. This job retrieves the desired Docker image of a previous version and redeploys it onto the appropriate pod.

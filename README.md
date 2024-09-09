@@ -3,7 +3,7 @@
 # Overview
 This repository contains a DevOps project created for learning purposes, aimed at building a cost-free, resource-efficient infrastructure capable of running on low-spec host machines to support an unrestricted learning environment.
 
-The project provisions three virtual machines, demonstrating Infrastructure as Code (IaC) principles while efficiently managing limited local resources. This setup serves as a hands-on platform for exploring CI/CD practices, deployment strategies, and monitoring tools such as Vagrant, Ansible, Jenkins, Maven, SonarQube, Docker, Helm, Kubernetes, Prometheus, and Grafana.
+The project provisions three virtual machines, demonstrating Infrastructure as Code (IaC) principles while efficiently managing limited local resources. This setup serves as a hands-on platform for exploring CI/CD practices, deployment strategies and monitoring tools such as Vagrant, Ansible, Jenkins, Maven, SonarQube, Docker, Helm, Kubernetes, Prometheus, and Grafana.
 
 The project also includes a CI/CD pipeline implemented as a series of Jenkins jobs, designed to automate the deployment lifecycle across Development, Testing, and Production environments. 
 

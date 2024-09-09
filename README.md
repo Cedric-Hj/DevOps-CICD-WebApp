@@ -1,9 +1,11 @@
 <p><a target="_blank" href="https://app.eraser.io/workspace/thllnGtosn8VVMRPxttC" id="edit-in-eraser-github-link"><img alt="Edit in Eraser" src="https://firebasestorage.googleapis.com/v0/b/second-petal-295822.appspot.com/o/images%2Fgithub%2FOpen%20in%20Eraser.svg?alt=media&amp;token=968381c8-a7e7-472a-8ed6-4a6626da5501"></a></p>
 
 # Overview
-This repository contains a DevOps project that is designed to manage the deployment lifecycle of an application through a robust CI/CD pipeline. The pipeline ensures continuous integration and deployment across multiple environments -Development, Testing, and Production- leveraging tools such as Vagrant, Ansible, Jenkins, Maven, SonarQube, Docker, Helm, and Kubernetes, Prometheus, and Grafana.
+This repository contains a DevOps project created for learning purposes, aimed at building a cost-free, resource-efficient infrastructure capable of running on low-spec host machines to support an unrestricted learning environment.
 
-The infrastructure was deliberately designed to enhance learning while efficiently managing resource constraints. By provisioning and utilizing three virtual machines, the project effectively demonstrates Infrastructure as Code (IaC) principles. This setup not only adheres to local resource limitations but also provides a robust platform for exploring CI/CD practices, deployment strategies, and monitoring. It strikes a balance between practical, hands-on experience and efficient use of a constrained development environment.
+The project provisions three virtual machines, demonstrating Infrastructure as Code (IaC) principles while efficiently managing limited local resources. This setup serves as a hands-on platform for exploring CI/CD practices, deployment strategies, and monitoring tools such as Vagrant, Ansible, Jenkins, Maven, SonarQube, Docker, Helm, Kubernetes, Prometheus, and Grafana.
+
+The project also includes a CI/CD pipeline implemented as a series of Jenkins jobs, designed to automate the deployment lifecycle across Development, Testing, and Production environments. 
 
 All setup instructions and documentation for comprehensive guidance on configuring and deploying the project are available in the [**doc folder**](https://github.com/Cedric-Hj/DevOps-CICD-WebApp/tree/main/doc/).
 
@@ -67,7 +69,7 @@ All setup instructions and documentation for comprehensive guidance on configuri
 
 
 ## Pipeline Diagram
-![diagram-export-8-29-2024-10_25_04-AM.png](Doc/Screenshots/thllnGtosn8VVMRPxttC___3en0Fu49T2aSwTqzDKvcWrfcO6C2___pSncCFug52WX1G1jWLjRL.png)
+![diagram-export-9-9-2024-2_45_30-PM.png](Doc/Screenshots/diagram-export-9-9-2024-2_45_30-PM.png)
 
 The current setup includes dedicated pods for Development, Testing, and Production to limit resource usage and ensure efficient operation within the constraints of a local environment.
 In a real-world scenario, it is generally advisable to use separate clusters for Development, Testing, and Production environments.
@@ -79,7 +81,7 @@ In a real-world scenario, it is generally advisable to use separate clusters for
 - [**`main`**](https://github.com/Cedric-Hj/DevOps-CICD-WebApp/tree/main/): If dev and test pipelines are successful, the webapp is stable and production-ready. The app is deployed to the world using this branch.
 
 ## Infrastructure and Setup
-
+![diagram-export-9-9-2024-2_48_54-PM.png](Doc/Screenshots/diagram-export-9-9-2024-2_48_54-PM.png)
 ### Virtual Machines:
 Three VMs were provisioned to optimize resource usage:
 
@@ -94,26 +96,24 @@ Three VMs were provisioned to optimize resource usage:
 ### Development Workflow
  **Jenkins Job:**
 
-- Clean Deploy: The application is built using Maven.
+- Clean install: The application is built using Maven.
+- Unit test with Maven
 - Code Analysis: SonarQube performs code analysis and enforces quality gates.
-- Docker Build: An application image is created and pushed to the Docker repository.
+- Docker: An image is created and pushed to the Docker repository.
 - Kubernetes Deployment: The application is deployed to the Development pod in the Kubernetes cluster using Helm.
 - Merge to Test: Upon successful deployment and testing in the Development environment, code is automatically merged into the test branch.
 ### Testing Workflow
 **Jenkins Job:**
 
-- Clean Deploy: The application is rebuilt using Maven.
-- Docker Build: The updated image is created and pushed to the Docker repository.
-- Kubernetes Deployment: The application is deployed to the Testing pod.
+- Docker: Verify if the given docker image exists
+- Kubernetes Deployment: The application is deployed to the Test pod with helm.
 - Testing: A suite of tests is executed to ensure the application functions correctly.
 - Multi-Version Testing: A parametrized Jenkins job allows for deploying multiple versions of the application to different pods in the Testing environment. This enables simultaneous testing of different versions.
-- Merge to Prod: If tests are successful, code is automatically merged into the prod branch.
+
 ### Production Workflow
 **Jenkins Job:**
 
-- Clean Deploy: The application is rebuilt using Maven.
-- Code Analysis: SonarQube performs code analysis and enforces quality gates.
-- Docker Build: An updated application image is created and pushed to the Docker repository.
+- Docker: Verify if the given docker image exists
 - Kubernetes Deployment: The application is deployed to the Production pod in the Kubernetes cluster using Helm.
 - End User Access: The application becomes available to end users.
 ## Rollback Functionality

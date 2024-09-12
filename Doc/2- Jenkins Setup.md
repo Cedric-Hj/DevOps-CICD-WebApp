@@ -24,7 +24,7 @@ sudo systemctl enable jenkins
 ```
 ### Configure Firewall (if applicable)
 ```  sh
-sudo ufw allow 8080
+sudo ufw allow 8081
 sudo ufw status
 ```
 

@@ -107,11 +107,11 @@ The K8's VM will be provisioned later with Ansible
     ```
    - To restore a snapshot of the entire infrastructure
    ```bash
-   vagrant restore save <snapshot_name>
+   vagrant restore  <snapshot_name>
     ```
    - To delete a snapshot of the entire infrastructure
    ```bash
-   vagrant delete save <snapshot_name>
+   vagrant delete  <snapshot_name>
     ```
 
 

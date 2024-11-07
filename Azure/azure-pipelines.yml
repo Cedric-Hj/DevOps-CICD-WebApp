@@ -4,9 +4,7 @@ trigger:
       - test  # You can change this to your desired branch
 
 pool:
-  name: 'Default'  # Specify your agent pool
-  demands:
-    - Agent.Version -gtVersion 2.163.1  # Remove or adjust this line
+  vmImage: 'ubuntu-latest' 
 
 steps:
   - task: UseNode@1

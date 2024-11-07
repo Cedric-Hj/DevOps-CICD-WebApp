@@ -1,0 +1,16 @@
+{
+  "name": "playwright-project",
+  "version": "1.0.0",
+  "description": "Playwright tests for website page",
+  "scripts": {
+    "install:playwright": "npx playwright install",  // Install Playwright browsers
+    "test": "npx playwright test Azure/tests",        // Run tests from the Azure/tests folder
+
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.30.0"  // Playwright dependency for testing
+  },
+  "engines": {
+    "node": ">=16.0.0"
+  }
+}

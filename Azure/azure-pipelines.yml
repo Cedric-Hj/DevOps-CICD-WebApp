@@ -6,25 +6,24 @@ trigger:
 pool:
   vmImage: ubuntu-latest
 
-steps:
-  - task: UseNode@1
-    inputs:
-      versionSpec: '16.x'  # Use Node version 16.x (adjust if necessary)
+jobs:
+  - job: InstallAndTest
+    steps:
+      - task: UseNode@1
+        inputs:
+          versionSpec: '16.x'
 
-  # Step 1: Change directory to 'Azure' to access package.json
-  - script: |
-      cd Azure  # Change directory to where package.json is located
-      npm install  # Install dependencies
-    displayName: 'Install dependencies'
+      - script: |
+          cd Azure
+          npm install
+        displayName: 'Install dependencies'
 
-  # Step 2: Install Playwright Browsers
-  - script: |
-      cd Azure  # Ensure we are in the correct directory
-      npx playwright install  # Install Playwright browsers
-    displayName: 'Install Playwright Browsers'
+      - script: |
+          cd Azure
+          npx playwright install
+        displayName: 'Install Playwright Browsers'
 
-  # Step 3: Run Playwright Tests
-  - script: |
-      cd Azure  # Ensure we are in the correct directory
-      npm test  # Run the tests (npm test should run Playwright tests)
-    displayName: 'Run Playwright Tests'
+      - script: |
+          cd Azure
+          npm test
+        displayName: 'Run Playwright Tests'

@@ -6,7 +6,9 @@ trigger:
       - test  # You can change this to your desired branch
 
 pool:
-  vmImage: 'ubuntu-latest'  # or any other image you prefer
+  vmImage: 'ubuntu-latest'
+  demands:
+    - agent.os -equals Linux
 
 steps:
   - task: UseNode@1

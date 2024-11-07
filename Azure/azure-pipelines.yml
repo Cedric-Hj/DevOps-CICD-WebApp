@@ -6,16 +6,15 @@ trigger:
 pool:
   vmImage: ubuntu-latest
 
-    steps:
-      - task: UseNode@1
-        inputs:
-          versionSpec: '16.x'
+steps:
+  - task: UseNode@1
+    inputs:
+      versionSpec: '16.x'  # Use Node version 16.x (adjust if necessary)
 
-      - script: |
-          cd Azure
-          npm install
-          npx playwright install
-          npm test
-        displayName: 'Install dependencies'
-
-
+  # Step 1: Change directory to 'Azure' to access package.json
+  - script: |
+      cd Azure  # Change directory to where package.json is located
+      npm install  # Install dependencies
+      npx playwright install  # Install Playwright browsers
+      npm test  # Run the tests (npm test should run Playwright tests)
+    displayName: 'Run Playwright Tests'

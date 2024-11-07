@@ -16,14 +16,8 @@ jobs:
       - script: |
           cd Azure
           npm install
+          npx playwright install
+          npm test
         displayName: 'Install dependencies'
 
-      - script: |
-          cd Azure
-          npx playwright install
-        displayName: 'Install Playwright Browsers'
 
-      - script: |
-          cd Azure
-          npm test
-        displayName: 'Run Playwright Tests'

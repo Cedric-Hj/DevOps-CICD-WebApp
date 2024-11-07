@@ -6,8 +6,6 @@ trigger:
 pool:
   vmImage: ubuntu-latest
 
-jobs:
-  - job: InstallAndTest
     steps:
       - task: UseNode@1
         inputs:

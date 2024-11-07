@@ -4,7 +4,9 @@ trigger:
       - test  # You can change this to your desired branch
 
 pool:
-  name: 'Default'
+  name: 'Default'  # Specify your agent pool
+  demands:
+    - Agent.Version -gtVersion 2.163.1  # Remove or adjust this line
 
 steps:
   - task: UseNode@1

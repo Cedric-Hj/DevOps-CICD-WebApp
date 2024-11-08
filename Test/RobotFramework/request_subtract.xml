@@ -1,0 +1,8 @@
+<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+  <soap:Body>
+    <Subtract xmlns="http://tempuri.org/">
+      <intA>10</intA>
+      <intB>5</intB>
+    </Subtract>
+  </soap:Body>
+</soap:Envelope>

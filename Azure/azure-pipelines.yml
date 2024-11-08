@@ -1,7 +1,7 @@
 trigger:
   branches:
     include:
-      - test  # You can change this to your desired branch
+      - test  # Change this to your desired branch
 
 pool:
   name: jenkins
@@ -14,7 +14,7 @@ steps:
   # Step 1: Install dependencies and run Playwright tests
   - script: |
       cd Azure  # Change directory to where package.json is located
-      npm ci  # Use 'npm ci' for a clean, faster install in CI environments
+      npm install  # Use npm install if no package-lock.json exists
       npx playwright install  # Install Playwright browsers
       npm test  # Run the tests (npm test should run Playwright tests)
     displayName: 'Install Dependencies and Run Playwright Tests'

@@ -6,11 +6,8 @@ pipeline {
         def destDirLogs = "$JobDir/builds/${BUILD_NUMBER}/Joblogs"
     }
 
-    stages ("Building ${JOB_NAME}"){
-
-
+    stages {
         stage('Get jobs') {
-           
             steps {
                 script {
                     deleteDir()
@@ -35,18 +32,19 @@ pipeline {
                                 echo "<------------------ started building ${jobName} ------------------>"
                                 echo "${jobName}"
                                 
+                                // Trigger the Freestyle job and wait for its completion
                                 build job: "${jobName}", wait: true
                                 
-                                // Copy artifacts into job-specific directories
+                                // Copy the `output.xml` artifact from the Freestyle job
                                 copyArtifacts(
                                     projectName: "${jobName}",
-                                    filter: '*output.xml',
+                                    filter: 'output.xml',  // Ensure output.xml is the correct artifact
                                     selector: lastCompleted(),
                                     target: reportDir
                                 )
                                 
                                 // Publish JUnit test results from the specific directory
-                                junit "${reportDir}/output.xml"
+                                junit allowEmptyResults: true, testResults: "${reportDir}/output.xml"
                                 
                                 echo "<-------------------- End of build ${jobName} -------------------->"
                             }
@@ -61,12 +59,10 @@ pipeline {
         success {
             echo 'Pipeline completed successfully'
             archiveArtifacts artifacts: 'reports/**/*', allowEmptyArchive: true
-
         }
         failure {
             echo 'Pipeline failed'
-            archiveArtifacts artifacts: 'reports/**/*', allowEmptyArchive: true 
-
+            archiveArtifacts artifacts: 'reports/**/*', allowEmptyArchive: true
         }
     }
 }

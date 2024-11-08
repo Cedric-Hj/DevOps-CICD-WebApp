@@ -4,7 +4,7 @@ trigger:
       - test  # You can change this to your desired branch
 
 pool:
-  vmImage: ubuntu-latest
+  name: jenkins
 
 steps:
   - task: UseNode@1

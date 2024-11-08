@@ -7,7 +7,7 @@ trigger:
 - main
 
 pool:
-  vmImage: jenkins
+  name: jenkins
 
 steps:
 - script: echo Hello, world!

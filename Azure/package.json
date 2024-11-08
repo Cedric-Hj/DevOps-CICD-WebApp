@@ -4,8 +4,7 @@
   "description": "Playwright tests for website page",
   "scripts": {
     "install:playwright": "npx playwright install", 
-    "test": "npx playwright test Azure/tests",       
-
+    "test": "npx playwright test Azure/tests"
   },
   "devDependencies": {
     "@playwright/test": "^1.30.0"  

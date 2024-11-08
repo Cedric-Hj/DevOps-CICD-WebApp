@@ -9,8 +9,7 @@ pool:
 steps:
   - task: UseNode@1
     inputs:
-      versionSpec: '23.x'  # Use Node version 16.x (adjust if necessary)
-
+      versionSpec: '23.x'
   # Step 1: Change directory to 'Azure' to access package.json
   - script: |
       cd Azure  # Change directory to where package.json is located

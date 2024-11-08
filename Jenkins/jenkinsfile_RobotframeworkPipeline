@@ -38,13 +38,13 @@ pipeline {
                                 // Copy the `output.xml` artifact from the Freestyle job
                                 copyArtifacts(
                                     projectName: "${jobName}",
-                                    filter: 'output.xml',  // Ensure output.xml is the correct artifact
+                                    filter: 'report.xml', report.html, log.html', // 
                                     selector: lastCompleted(),
                                     target: reportDir
                                 )
                                 
                                 // Publish JUnit test results from the specific directory
-                                junit allowEmptyResults: true, testResults: "${reportDir}/output.xml"
+                                junit allowEmptyResults: true, testResults: "${reportDir}/report.xml"
                                 
                                 echo "<-------------------- End of build ${jobName} -------------------->"
                             }

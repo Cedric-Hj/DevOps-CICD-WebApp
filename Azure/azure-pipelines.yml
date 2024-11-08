@@ -9,11 +9,12 @@ pool:
 steps:
   - task: UseNode@1
     inputs:
-      versionSpec: '23.x'
-  # Step 1: Change directory to 'Azure' to access package.json
+      versionSpec: '23.x'  # Ensure Node.js version 23.x is used
+
+  # Step 1: Install dependencies and run Playwright tests
   - script: |
       cd Azure  # Change directory to where package.json is located
-      npm install  # Install dependencies
+      npm ci  # Use 'npm ci' for a clean, faster install in CI environments
       npx playwright install  # Install Playwright browsers
       npm test  # Run the tests (npm test should run Playwright tests)
-    displayName: 'Run Playwright Tests'
+    displayName: 'Install Dependencies and Run Playwright Tests'

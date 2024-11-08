@@ -38,7 +38,7 @@ pipeline {
                                 // Copy the `output.xml` artifact from the Freestyle job
                                 copyArtifacts(
                                     projectName: "${jobName}",
-                                    filter: 'report.xml, report.html, log.html'
+                                    filter: 'report.xml, report.html, log.html',
                                     selector: lastCompleted(),
                                     target: reportDir
                                 )

@@ -41,7 +41,7 @@ pipeline {
                                 copyArtifacts(
                                     projectName: "${jobName}",
                                     filter: '*report.xml',
-                                    selector: specific("lastCompletedBuild")
+                                    selector: specific("lastCompletedBuild"),
                                     target: reportDir
                                 )
                                 

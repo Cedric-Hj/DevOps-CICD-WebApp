@@ -2,7 +2,7 @@ pipeline {
     agent any
     environment {
         FolderName = 'Tests'
-        ViewName = '5_Pipelines'
+        ViewName = '6_Pipelines'
         
     }
 

@@ -4,5 +4,5 @@ console.log('Playwright configuration loaded');
 
 export default defineConfig({
   reporter: [['junit', { outputFile: 'results.xml' }]],
-  testDir: './Azure/tests', // Ensure this points to the correct directory
+  testDir: '.Azure/tests', // Ensure this points to the correct directory
 });

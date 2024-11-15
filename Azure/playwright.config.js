@@ -1,7 +1,8 @@
-const { run } = require('@playwright/test');
+const { test, expect } = require('@playwright/test');
 
 (async () => {
-  const result = await run({
+  const result = await test.run({
+    testDir: './Azure/tests', 
     reporter: [['junit', { outputFile: 'results.xml' }]],
   });
 

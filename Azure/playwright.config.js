@@ -2,7 +2,7 @@ const { run } = require('@playwright/test');
 
 (async () => {
   const result = await run({
-    reporter: [['junit', { outputFile: './test-results/results.xml' }]],
+    reporter: [['junit', { outputFile: './results.xml' }]],
   });
 
   console.log(result);

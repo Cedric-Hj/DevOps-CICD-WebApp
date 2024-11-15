@@ -2,7 +2,7 @@ const { test, expect } = require('@playwright/test');
 
 test('Test Ced\'s Webpage', async ({ page }) => {
     // Navigate to the page
-    await page.goto('http://chdevops.online/4ABL');
+    await page.goto('http://192.168.0.101:31804');
     
     // Check if the heading is correct
     const heading = await page.locator('h1');

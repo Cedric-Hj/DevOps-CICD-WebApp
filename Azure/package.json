@@ -3,13 +3,13 @@
   "version": "1.0.0",
   "description": "Playwright tests for website page",
   "scripts": {
-    "install:playwright": "npx playwright install", 
+    "install:playwright": "npx playwright install",
     "test": "npx playwright test Azure/tests"
   },
   "devDependencies": {
-    "@playwright/test": "^1.46.0"  
+    "@playwright/test": "^1.48.2"
   },
   "engines": {
-    "node": ">='23.x'"
+    "node": ">=23.0.0"
   }
 }

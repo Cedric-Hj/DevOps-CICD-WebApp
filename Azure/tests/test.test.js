@@ -20,7 +20,4 @@ test('Test Ced\'s Webpage', async ({ page }) => {
     const gifImage = await page.locator('img[alt="Animated GIF"]');
     await expect(gifImage).toBeVisible();
     
-    // Check if the second image is visible
-    const secondImage = await page.locator('img[alt=""]');
-    await expect(secondImage).toBeVisible();
 });

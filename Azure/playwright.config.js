@@ -1,6 +1,9 @@
-const { defineConfig } = require('@playwright/test');
+const { run } = require('@playwright/test');
 
-module.exports = defineConfig({
-  testDir: './Azure/tests',  // Ensure this points to the correct directory
-  reporter: [['junit', { outputFile: 'results.xml' }]],
-});
+(async () => {
+  const result = await run({
+    reporter: [['junit', { outputFile: './test-results/results.xml' }]],
+  });
+
+  console.log(result);
+})();

@@ -1,15 +1,14 @@
 {
-  "name": "playwright-project",
+  "name": "my-project",
   "version": "1.0.0",
-  "description": "Playwright tests for website page",
+  "description": "A Playwright test project",
   "scripts": {
-    "install:playwright": "npx playwright install",
-    "test": "npx playwright test Azure/tests"
+    "test": "playwright test"
   },
-  "devDependencies": {
-    "@playwright/test": "^1.48.2"
+  "dependencies": {
+    "playwright": "^1.48.2"
   },
   "engines": {
-    "node": ">=18.0.0
+    "node": ">=18.0.0"
   }
 }

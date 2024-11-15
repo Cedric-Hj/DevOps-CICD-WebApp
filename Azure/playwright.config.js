@@ -1,6 +1,8 @@
-const { defineConfig } = require('@playwright/test');
+import { defineConfig } from '@playwright/test';
 
-module.exports = defineConfig({
-  testDir: './Azure/tests',  // Ensure this points to the correct directory
+export default defineConfig({
   reporter: [['junit', { outputFile: 'results.xml' }]],
+  testDir: './Azure/tests' // Ensure this points to the correct directory
 });
+
+

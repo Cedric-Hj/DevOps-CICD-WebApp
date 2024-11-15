@@ -1,8 +1,6 @@
-import { defineConfig } from '@playwright/test';
+const { defineConfig } = require('@playwright/test');
 
-console.log('Playwright configuration loaded');
-
-export default defineConfig({
+module.exports = defineConfig({
   reporter: [['junit', { outputFile: 'results.xml' }]],
-  testDir: '.Azure/tests', // Ensure this points to the correct directory
+  testDir: './Azure/tests', // Ensure this points to the correct directory
 });

@@ -1,6 +1,7 @@
 const { test, expect } = require('@playwright/test');
 
 test('Test Ced\'s Webpage', async ({ page }) => {
+    console.log('Running test: Test Ced\'s Webpage');
     // Navigate to the page
     await page.goto('http://192.168.0.101:31804');
     
@@ -19,5 +20,4 @@ test('Test Ced\'s Webpage', async ({ page }) => {
     // Check if the GIF image is visible
     const gifImage = await page.locator('img[alt="Animated GIF"]');
     await expect(gifImage).toBeVisible();
-    
 });

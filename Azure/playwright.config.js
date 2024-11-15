@@ -2,5 +2,5 @@
 const { defineConfig } = require('@playwright/test');
 
 module.exports = defineConfig({
-  testDir: './tests',  // Ensure Playwright looks in the correct directory
+  testDir: './Azure/tests',  // Make sure this points to your tests directory
 });

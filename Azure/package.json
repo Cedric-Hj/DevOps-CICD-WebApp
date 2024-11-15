@@ -5,9 +5,10 @@
   "scripts": {
     "test": "playwright test"
   },
-  "dependencies": {
-    "playwright": "^1.48.2"
-  },
+"dependencies": {
+  "@playwright/test": "^1.48.2",
+  "playwright": "^1.48.2"
+},
   "engines": {
     "node": ">=18.0.0"
   }

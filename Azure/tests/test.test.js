@@ -8,9 +8,9 @@ test('Test Ced\'s Webpage', async ({ page }) => {
     const heading = await page.locator('h1');
     await expect(heading).toHaveText('Hello there');
     
-    // Check if the paragraph text is correct
-    const paragraph = await page.locator('p');
-    await expect(paragraph).toHaveText('test  environment');
+    // Check if the paragraph text is correct (use a more specific locator)
+    const paragraph = await page.locator('p:has-text("test environment")');  // Adjust this
+    await expect(paragraph).toHaveText('test environment');
     
     // Check if the version ID is present and has correct text
     const version = await page.locator('#version');

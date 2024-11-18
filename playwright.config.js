@@ -1,15 +1,12 @@
-const { defineConfig } = require('@playwright/test');
-
-module.exports = defineConfig({
+const path = require('path');
+module.exports = {
   use: {
     recordVideo: {
-      dir: './Test/videos/',
-      size: { width: 1280, height: 720 },
+      dir: path.resolve(__dirname, './videos/'),
     },
   },
   reporter: [
-    ['junit', { outputFile: './Test/test-results/results.xml' }],
-    ['html', { outputFolder: './Test/html-report', open: 'never' }],
+    ['junit', { outputFile: path.resolve(__dirname, './test-results/results.xml') }],
+    ['html', { outputFolder: path.resolve(__dirname, './html-report'), open: 'never' }],
   ],
-});
-
+};

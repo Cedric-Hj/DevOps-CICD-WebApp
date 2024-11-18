@@ -10,6 +10,7 @@ module.exports = {
   },
   reporter: [
     ['junit', { outputFolder: '/var/lib/jenkins/workspace/Tests/Playw/playwright-report', open: 'never' }],
+    ['xml', { outputFolder: '/var/lib/jenkins/workspace/Tests/Playw/playwright-report', open: 'never' }],
     ['html', { outputFolder: '/var/lib/jenkins/workspace/Tests/Playw/playwright-report', open: 'never' }],
   ],
 };

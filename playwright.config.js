@@ -1,12 +1,13 @@
 const path = require('path');
+
 module.exports = {
   use: {
     recordVideo: {
-      dir: path.resolve(__dirname, './videos/'),
+      dir: '/var/lib/jenkins/workspace/Tests/Playw/videos',  // Absolute path for video recording
     },
   },
   reporter: [
-    ['junit', { outputFile: path.resolve(__dirname, './test-results/results.xml') }],
-    ['html', { outputFolder: path.resolve(__dirname, './html-report'), open: 'never' }],
+    ['junit', { outputFile: '/var/lib/jenkins/workspace/Tests/Playw/test-results/results.xml' }],  // Absolute path for JUnit report
+    ['html', { outputFolder: '/var/lib/jenkins/workspace/Tests/Playw/html-report', open: 'never' }],  // Absolute path for HTML report
   ],
 };

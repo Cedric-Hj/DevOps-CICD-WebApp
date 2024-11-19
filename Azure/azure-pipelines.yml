@@ -12,27 +12,27 @@ steps:
 
   - script: |
       # Give permissions and run Playwright Python tests in /AzureRepo
-      sudo chown -R $(whoami):$(whoami) /var/lib/jenkins/myagent/_work/2/s/Tests/Playwright_PY_TestSuite01/Test/Playwright
-      pytest /var/lib/jenkins/myagent/_work/2/s/Tests/Playwright_PY_TestSuite01/Test/Playwright/tests.py --junitxml=/var/lib/jenkins/myagent/_work/2/s/Tests/Playwright_PY_TestSuite01/reportPY.xml
+      sudo chown -R $(whoami):$(whoami) /var/lib/jenkins/myagent/_work/2/s/Test/Playwright
+      pytest /var/lib/jenkins/myagent/_work/2/s/Test/Playwright/tests.py --junitxml=/var/lib/jenkins/myagent/_work/2/s/Test/Playwright/reportPY.xml
     displayName: 'Run Playwright Python tests'
 
   - script: |
       # Give permissions and run Playwright JS tests in /AzureRepo
       source ~/.bashrc
-      cd /var/lib/jenkins/myagent/_work/2/s/Tests/Playwright_PY_TestSuite01/Test/Playwright
+      cd /var/lib/jenkins/myagent/_work/2/s/Test/Playwright
       PLAYWRIGHT_JUNIT_OUTPUT_NAME=reportJS.xml npx playwright test --reporter=junit
     displayName: 'Run Playwright .JS tests'
 
   - task: PublishBuildArtifacts@1
     inputs:
-      PathtoPublish: '/var/lib/jenkins/myagent/_work/2/s/Tests/Playwright_PY_TestSuite01/reportPY.xml'
+      PathtoPublish: '/var/lib/jenkins/myagent/_work/2/s/Test/Playwright/reportPY.xml'
       ArtifactName: 'PythonTestReports'
       publishLocation: 'Container'
     displayName: 'Publish Python Test Report'
 
   - task: PublishBuildArtifacts@1
     inputs:
-      PathtoPublish: '/var/lib/jenkins/myagent/_work/2/s/Tests/Playwright_PY_TestSuite01/reportJS.xml'
+      PathtoPublish: '/var/lib/jenkins/myagent/_work/2/s/Test/Playwright/reportJS.xml'
       ArtifactName: 'JavaScriptTestReports'
       publishLocation: 'Container'
     displayName: 'Publish JavaScript Test Report'

@@ -1,8 +1,8 @@
 import pytest
-from playwright.sync_api import sync_playwright
 import os
 from pathlib import Path
-
+from playwright.sync_api import sync_playwright
+from pytest_playwright.fixtures import browser, page, context
 
 video_dir = '/var/lib/jenkins/myagent/_work/2/s/'
 

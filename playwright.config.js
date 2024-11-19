@@ -1,11 +1,5 @@
-const { defineConfig } = require('@playwright/test');
+import { defineConfig } from '@playwright/test';
 
-module.exports = defineConfig({
-  use: {
-    video: 'on',
-  },
-  reporter: [
-    ['list'],
-    ['./xmlReporter.js']
-  ],
+export default defineConfig({
+  reporter: [['junit', { outputFile: 'results.xml' }]],
 });

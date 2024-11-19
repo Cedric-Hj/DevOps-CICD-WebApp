@@ -3,40 +3,36 @@ from playwright.sync_api import sync_playwright
 import os
 from pathlib import Path
 
-# Create a directory to store videos if it doesn't exist
-os.makedirs("videos", exist_ok=True)
+
+video_dir = '/var/lib/jenkins/myagent/_work/2/s/'
+
 
 @pytest.fixture(scope="function")
 def browser_context():
     with sync_playwright() as p:
         browser = p.chromium.launch(headless=True)
-        # Enable video recording by specifying a directory
+        # Enable video recording by specifying a directory and size
         context = browser.new_context(record_video={'dir': video_dir, 'size': {'width': 1280, 'height': 720}})
         yield context
         browser.close()
 
+
 def test_page_title(browser_context):
-    # Enable video recording for the browser context
-    video_dir = '/var/lib/jenkins/myagent/_work/2/s/'  # Directory to store the videos
-    context = browser_context.new_context(
-        record_video={'dir': video_dir, 'size': {'width': 1280, 'height': 720}}
-    )
-    
     # Now create a page and run the test as usual
-    page = context.new_page()
+    page = browser_context.new_page()
     page.goto('http://192.168.0.101:31804/')
     
     title = page.title()
     assert title == "Ced's Webpage"
 
     # Retrieve the video path
-    video_path = context.videos[0].path if context.videos else None
+    video_path = page.context.videos[0].path if page.context.videos else None
 
     print(f"Video saved to: {video_path}")
     
     # Clean up
     page.close()
-    context.close()
+
 
 def test_dev_environment_text(browser_context):
     # Test 2: Check if "dev environment" text is present
@@ -54,6 +50,7 @@ def test_dev_environment_text(browser_context):
     
     page.close()
 
+
 def test_version_text(browser_context):
     # Test 3: Verify the version text
     page = browser_context.new_page()
@@ -69,3 +66,5 @@ def test_version_text(browser_context):
         print("No video was recorded for 'test_version_text'.")
     
     page.close()
+
+    

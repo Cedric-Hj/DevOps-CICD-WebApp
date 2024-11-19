@@ -27,7 +27,7 @@ steps:
 
   - task: PublishBuildArtifacts@1
     inputs:
-      PathtoPublish: '/var/lib/jenkins/myagent/_work/2/s/Test/Playwright/reportPY.xml'
+      PathtoPublish: '/var/lib/jenkins/myagent/_work/2/s/Test/Playwright/reportPY.html'
       ArtifactName: 'PythonTestReports'
       publishLocation: 'Container'
     displayName: 'Publish Python Test Report'

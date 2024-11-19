@@ -11,41 +11,41 @@ steps:
 
   - script: |
       # Create the /Azure directory if it doesn't exist
-      sudo mkdir -p /Azure
+      sudo mkdir -p /AzureRepo
 
       # Move the repository from the default checkout directory to /Azure
-      sudo mv $(Build.SourcesDirectory)/* /Azure/
+      sudo mv $(Build.SourcesDirectory)/* /AzureRepo/
 
       # Verify the move and list the files in the new directory
-      echo "Repository moved to /Azure"
+      echo "Repository moved to /AzureRepo"
       ls /Azure
       pwd
-    displayName: 'Move Repository to /Azure'
+    displayName: 'Move Repository to /AzureRepo'
 
   - script: |
       # Give permissions and Run playwright Python tests
       sudo chown -R $(whoami):$(whoami) /Azure/Tests/Playwright_PY_TestSuite01/Test/Playwright
-      pytest /Azure/Tests/Playwright_PY_TestSuite01/Test/Playwright/tests.py --junitxml=/var/lib/jenkins/workspace/Tests/Playwright_PY_TestSuite01/reportPY.xml
+      pytest /var/lib/jenkins/myagent/_work/2/s/AzureRepo/Tests/Playwright_PY_TestSuite01/Test/Playwright/tests.py --junitxml=/var/lib/jenkins/workspace/Tests/Playwright_PY_TestSuite01/reportPY.xml
     displayName: 'Run Playwright Python tests'
 
 
   - script: |
       # Give permissions and Run playwright .JS tests
       source ~/.bashrc
-      cd /Azure/Tests/Playwright_PY_TestSuite01/Test/Playwright
+      cd /var/lib/jenkins/myagent/_work/2/s/AzureRepo/Tests/Playwright_PY_TestSuite01/Test/Playwright
       PLAYWRIGHT_JUNIT_OUTPUT_NAME=reportJS.xml npx playwright test --reporter=junit
     displayName: 'Run Playwright .JS tests'
 
   - task: PublishBuildArtifacts@1
     inputs:
-      PathtoPublish: '/Azure/Tests/Playwright_PY_TestSuite01/reportPY.xml'
+      PathtoPublish: '/var/lib/jenkins/myagent/_work/2/s/AzureRepo/Tests/Playwright_PY_TestSuite01/reportPY.xml'
       ArtifactName: 'PythonTestReports'
       publishLocation: 'Container'
     displayName: 'Publish Python Test Report'
 
   - task: PublishBuildArtifacts@1
     inputs:
-      PathtoPublish: '/Azure/Tests/Playwright_PY_TestSuite01/reportJS.xml'
+      PathtoPublish: '/var/lib/jenkins/myagent/_work/2/s/AzureRepo/Tests/Playwright_PY_TestSuite01/reportJS.xml'
       ArtifactName: 'JavaScriptTestReports'
       publishLocation: 'Container'
     displayName: 'Publish JavaScript Test Report'

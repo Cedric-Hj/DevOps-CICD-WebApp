@@ -21,16 +21,16 @@ steps:
       PLAYWRIGHT_JUNIT_OUTPUT_NAME=reportJS.xml npx playwright test --reporter=junit
     displayName: 'Run Playwright .JS tests'
 
-- task: PublishBuildArtifacts@1
-  inputs:
-    PathtoPublish: '/var/lib/jenkins/workspace/Tests/Playwright_PY_TestSuite01/reportPY.xml'
-    ArtifactName: 'PythonTestReports'
-    publishLocation: 'Container'
-  displayName: 'Publish Python Test Report'
+  - task: PublishBuildArtifacts@1
+    inputs:
+      PathtoPublish: '/var/lib/jenkins/workspace/Tests/Playwright_PY_TestSuite01/reportPY.xml'
+      ArtifactName: 'PythonTestReports'
+      publishLocation: 'Container'
+    displayName: 'Publish Python Test Report'
 
-- task: PublishBuildArtifacts@1
-  inputs:
-    PathtoPublish: '/var/lib/jenkins/workspace/Tests/Playwright_PY_TestSuite01/reportJS.xml'
-    ArtifactName: 'JavaScriptTestReports'
-    publishLocation: 'Container'
-  displayName: 'Publish JavaScript Test Report'
+  - task: PublishBuildArtifacts@1
+    inputs:
+      PathtoPublish: '/var/lib/jenkins/workspace/Tests/Playwright_PY_TestSuite01/reportJS.xml'
+      ArtifactName: 'JavaScriptTestReports'
+      publishLocation: 'Container'
+    displayName: 'Publish JavaScript Test Report'

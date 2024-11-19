@@ -10,7 +10,7 @@ def browser_context():
     with sync_playwright() as p:
         browser = p.chromium.launch(headless=True)
         # Enable video recording by specifying a directory
-        context = browser.new_context(record_video_dir="videos/")
+        context = browser.new_context(record_video={'dir': video_dir, 'size': {'width': 1280, 'height': 720}})
         yield context
         browser.close()
 
@@ -30,6 +30,7 @@ def test_page_title(browser_context):
 
     # Retrieve the video path
     video_path = context.videos[0].path if context.videos else None
+
     print(f"Video saved to: {video_path}")
     
     # Clean up

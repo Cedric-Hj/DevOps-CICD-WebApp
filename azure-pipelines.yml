@@ -7,10 +7,6 @@ pool:
   name: jenkins
 
 steps:
-  - task: UsePythonVersion@0
-    inputs:
-      versionSpec: '3.x'
-      addToPath: true
 
   - script: |
       # Ensure the correct permissions for the Playwright test folder

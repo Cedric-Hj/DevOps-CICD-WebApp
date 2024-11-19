@@ -7,13 +7,22 @@ from pathlib import Path
 video_dir = '/var/lib/jenkins/myagent/_work/2/s/'
 
 
-@pytest.fixture(scope="function")
+from playwright.sync_api import sync_playwright
+
 def browser_context():
     with sync_playwright() as p:
         browser = p.chromium.launch(headless=True)
-        # Enable video recording by specifying a directory and size
-        context = browser.new_context(record_video={'dir': video_dir, 'size': {'width': 1280, 'height': 720}})
-        yield context
+        
+        # Correct way to enable video recording
+        context = browser.new_context(
+            video={'dir': video_dir, 'size': {'width': 1280, 'height': 720}}
+        )
+        page = context.new_page()
+        
+        # Your test code here
+        
+        page.close()
+        context.close()
         browser.close()
 
 

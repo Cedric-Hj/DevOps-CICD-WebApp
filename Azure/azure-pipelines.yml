@@ -12,13 +12,20 @@ steps:
   - script: |
       # Create the /AzureRepo directory if it doesn't exist
       sudo mkdir -p /AzureRepo
-
+  
       # Move the repository from the default checkout directory to /AzureRepo
       sudo mv $(Build.SourcesDirectory)/* /AzureRepo/
-
+  
       # Verify the move and list the files in the new directory
       echo "Repository moved to /AzureRepo"
       ls /AzureRepo
+      pwd
+  
+      # Change to the /AzureRepo directory
+      cd /AzureRepo
+  
+      # Verify the new working directory
+      echo "Now in directory:"
       pwd
     displayName: 'Move Repository to /AzureRepo'
 

@@ -15,20 +15,26 @@ def browser_context():
         browser.close()
 
 def test_page_title(browser_context):
-    # Test 1: Check if the page title is "Ced's Webpage"
-    page = browser_context.new_page()
-    page.goto('http://192.168.0.101:31804/')  # Replace with your local server URL or path
-    title = page.title()
-    assert title == "Ced's Webpage"  # Verify the title matches the one in the HTML
-
-    # Retrieve the path to the recorded video
-    video_path = page.context.videos[0].path if page.context.videos else None
-    if video_path:
-        print(f"Video for 'test_page_title': {video_path}")  # Print the video path
-    else:
-        print("No video was recorded for 'test_page_title'.")
+    # Enable video recording for the browser context
+    video_dir = './videos'  # Directory to store the videos
+    context = browser_context.new_context(
+        record_video={'dir': video_dir, 'size': {'width': 1280, 'height': 720}}
+    )
     
+    # Now create a page and run the test as usual
+    page = context.new_page()
+    page.goto('http://192.168.0.101:31804/')
+    
+    title = page.title()
+    assert title == "Ced's Webpage"
+
+    # Retrieve the video path
+    video_path = context.videos[0].path if context.videos else None
+    print(f"Video saved to: {video_path}")
+    
+    # Clean up
     page.close()
+    context.close()
 
 def test_dev_environment_text(browser_context):
     # Test 2: Check if "dev environment" text is present

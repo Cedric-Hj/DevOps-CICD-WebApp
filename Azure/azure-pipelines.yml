@@ -7,18 +7,19 @@ pool:
   name: jenkins
 
 steps:
-  - checkout: self  # This step will checkout the repo by default
+  - checkout: self  # Default checkout of the repo into $(Build.SourcesDirectory)
 
   - script: |
+      # Create the /Azure directory if it doesn't exist
+      sudo mkdir -p /Azure
 
-      # Change to the custom directory
-      cd /Azure
+      # Move the repository from the default checkout directory to /Azure
+      sudo mv $(Build.SourcesDirectory)/* /Azure/
 
-      # Perform any operations, e.g., list files in the custom directory
-      echo "Checked out repository to: $(Build.SourcesDirectory)"
-      ls $(Build.SourcesDirectory)
-
-    displayName: 'Checkout to Specific Directory and List Files'
+      # Verify the move and list the files in the new directory
+      echo "Repository moved to /Azure"
+      ls /Azure
+    displayName: 'Move Repository to /Azure'
 
   - script: |
       # Give permissions and Run playwright Python tests

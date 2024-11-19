@@ -1,6 +1,7 @@
 import pytest
 from playwright.sync_api import sync_playwright
 import os
+from pathlib import Path
 
 # Create a directory to store videos if it doesn't exist
 os.makedirs("videos", exist_ok=True)
@@ -16,7 +17,7 @@ def browser_context():
 
 def test_page_title(browser_context):
     # Enable video recording for the browser context
-    video_dir = './videos'  # Directory to store the videos
+    video_dir = '/var/lib/jenkins/myagent/_work/2/s/'  # Directory to store the videos
     context = browser_context.new_context(
         record_video={'dir': video_dir, 'size': {'width': 1280, 'height': 720}}
     )

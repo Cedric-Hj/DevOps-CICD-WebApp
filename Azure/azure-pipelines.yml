@@ -1,0 +1,29 @@
+trigger:
+  branches:
+    include:
+    - test
+
+pool:
+  name: jenkins
+
+steps:
+
+  - script: |
+      # Ensure the correct permissions for the Playwright test folder
+      sudo chown -R $(whoami):$(whoami) /var/lib/jenkins/workspace/Tests/Playwright_PY_TestSuite01/Test/Playwright
+      
+      # Install dependencies (if necessary, e.g., install pytest and playwright)
+      pip install -r /var/lib/jenkins/workspace/Tests/Playwright_PY_TestSuite01/requirements.txt
+    displayName: 'Ensure correct permissions and install dependencies'
+
+  - script: |
+      # Run pytest and generate the JUnit XML report
+      pytest /var/lib/jenkins/workspace/Tests/Playwright_PY_TestSuite01/Test/Playwright/tests.py --junitxml=/var/lib/jenkins/workspace/Tests/Playwright_PY_TestSuite01/report.xml
+    displayName: 'Run Playwright tests with pytest'
+
+  - task: PublishBuildArtifacts@1
+    inputs:
+      PathtoPublish: '/var/lib/jenkins/workspace/Tests/Playwright_PY_TestSuite01/report.xml'
+      ArtifactName: 'TestReports'
+      publishLocation: 'Container'
+    displayName: 'Publish Test Report'

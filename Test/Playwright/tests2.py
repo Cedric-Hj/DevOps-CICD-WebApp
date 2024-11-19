@@ -20,8 +20,14 @@ def test_page_title(browser_context):
     page.goto('http://192.168.0.101:31804/')  # Replace with your local server URL or path
     title = page.title()
     assert title == "Ced's Webpage"  # Verify the title matches the one in the HTML
-    video_path = page.context.videos[0].path  # Get the path to the recorded video
-    print(f"Video for 'test_page_title': {video_path}")  # Print the video path
+
+    # Retrieve the path to the recorded video
+    video_path = page.context.videos[0].path if page.context.videos else None
+    if video_path:
+        print(f"Video for 'test_page_title': {video_path}")  # Print the video path
+    else:
+        print("No video was recorded for 'test_page_title'.")
+    
     page.close()
 
 def test_dev_environment_text(browser_context):
@@ -30,8 +36,14 @@ def test_dev_environment_text(browser_context):
     page.goto('http://192.168.0.101:31804/')
     dev_text_visible = page.locator("text=dev environment").is_visible()
     assert dev_text_visible  # Ensure the "dev environment" text is visible
-    video_path = page.context.videos[0].path  # Get the path to the recorded video
-    print(f"Video for 'test_dev_environment_text': {video_path}")  # Print the video path
+
+    # Retrieve the path to the recorded video
+    video_path = page.context.videos[0].path if page.context.videos else None
+    if video_path:
+        print(f"Video for 'test_dev_environment_text': {video_path}")  # Print the video path
+    else:
+        print("No video was recorded for 'test_dev_environment_text'.")
+    
     page.close()
 
 def test_version_text(browser_context):
@@ -40,6 +52,12 @@ def test_version_text(browser_context):
     page.goto('http://192.168.0.101:31804/')
     version_text = page.locator("#version").text_content()
     assert version_text == 'v2.0.3'  # Ensure the version is displayed correctly
-    video_path = page.context.videos[0].path  # Get the path to the recorded video
-    print(f"Video for 'test_version_text': {video_path}")  # Print the video path
+
+    # Retrieve the path to the recorded video
+    video_path = page.context.videos[0].path if page.context.videos else None
+    if video_path:
+        print(f"Video for 'test_version_text': {video_path}")  # Print the video path
+    else:
+        print("No video was recorded for 'test_version_text'.")
+    
     page.close()

@@ -19,6 +19,7 @@ steps:
       # Verify the move and list the files in the new directory
       echo "Repository moved to /Azure"
       ls /Azure
+      pwd
     displayName: 'Move Repository to /Azure'
 
   - script: |

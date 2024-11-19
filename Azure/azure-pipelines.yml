@@ -7,8 +7,6 @@ pool:
   name: jenkins
 
 steps:
-
-steps:
   - checkout: self  # This step will checkout the repo by default
 
   - script: |

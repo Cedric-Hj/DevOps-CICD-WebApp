@@ -1,47 +1,28 @@
 import pytest
+from playwright.sync_api import sync_playwright
 import os
-from pathlib import Path
-from playwright.sync_api import sync_playwright
-from pytest_playwright.fixtures import browser, page, context
 
-video_dir = '/var/lib/jenkins/myagent/_work/2/s/'
+# Create a directory to store videos if it doesn't exist
+os.makedirs("videos", exist_ok=True)
 
-
-from playwright.sync_api import sync_playwright
-
+@pytest.fixture(scope="function")
 def browser_context():
     with sync_playwright() as p:
         browser = p.chromium.launch(headless=True)
-        
-        # Correct way to enable video recording
-        context = browser.new_context(
-            video={'dir': video_dir, 'size': {'width': 1280, 'height': 720}}
-        )
-        page = context.new_page()
-        
-        # Your test code here
-        
-        page.close()
-        context.close()
+        # Enable video recording by specifying a directory
+        context = browser.new_context(record_video_dir="videos/")
+        yield context
         browser.close()
 
-
 def test_page_title(browser_context):
-    # Now create a page and run the test as usual
+    # Test 1: Check if the page title is "Ced's Webpage"
     page = browser_context.new_page()
-    page.goto('http://192.168.0.101:31804/')
-    
+    page.goto('http://192.168.0.101:31804/')  # Replace with your local server URL or path
     title = page.title()
-    assert title == "Ced's Webpage"
-
-    # Retrieve the video path
-    video_path = page.context.videos[0].path if page.context.videos else None
-
-    print(f"Video saved to: {video_path}")
-    
-    # Clean up
+    assert title == "Ced's Webpage"  # Verify the title matches the one in the HTML
+    video_path = page.context.videos[0].path  # Get the path to the recorded video
+    print(f"Video for 'test_page_title': {video_path}")  # Print the video path
     page.close()
-
 
 def test_dev_environment_text(browser_context):
     # Test 2: Check if "dev environment" text is present
@@ -49,16 +30,9 @@ def test_dev_environment_text(browser_context):
     page.goto('http://192.168.0.101:31804/')
     dev_text_visible = page.locator("text=dev environment").is_visible()
     assert dev_text_visible  # Ensure the "dev environment" text is visible
-
-    # Retrieve the path to the recorded video
-    video_path = page.context.videos[0].path if page.context.videos else None
-    if video_path:
-        print(f"Video for 'test_dev_environment_text': {video_path}")  # Print the video path
-    else:
-        print("No video was recorded for 'test_dev_environment_text'.")
-    
+    video_path = page.context.videos[0].path  # Get the path to the recorded video
+    print(f"Video for 'test_dev_environment_text': {video_path}")  # Print the video path
     page.close()
-
 
 def test_version_text(browser_context):
     # Test 3: Verify the version text
@@ -66,14 +40,6 @@ def test_version_text(browser_context):
     page.goto('http://192.168.0.101:31804/')
     version_text = page.locator("#version").text_content()
     assert version_text == 'v2.0.3'  # Ensure the version is displayed correctly
-
-    # Retrieve the path to the recorded video
-    video_path = page.context.videos[0].path if page.context.videos else None
-    if video_path:
-        print(f"Video for 'test_version_text': {video_path}")  # Print the video path
-    else:
-        print("No video was recorded for 'test_version_text'.")
-    
+    video_path = page.context.videos[0].path  # Get the path to the recorded video
+    print(f"Video for 'test_version_text': {video_path}")  # Print the video path
     page.close()
-
-    

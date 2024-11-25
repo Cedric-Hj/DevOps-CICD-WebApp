@@ -30,8 +30,8 @@ pipeline {
             steps {
                 script {
                     echo '<--------------- Start of Build Docker Image  --------------->'
-                    echo "Building Docker image with tag: ${dockerRepo}:${appVersion}"
-                    docker.build("${dockerRepo}:${appVersion}")
+                    echo "Building Docker image with tag: ${dockerRepo}:v${appVersion}"
+                    docker.build("${dockerRepo}:v${appVersion}")
                     echo '<--------------- End of Build Docker Image  --------------->'
                 }
             }
@@ -42,7 +42,7 @@ pipeline {
                 script {
                     echo '<--------------- Start of Push Docker Image  --------------->'
                     docker.withRegistry('', 'DockerCredencials') {
-                        sh "docker push ${dockerRepo}:${appVersion}" 
+                        sh "docker push ${dockerRepo}:v${appVersion}" 
                     echo '<--------------- End of Push Docker Image  --------------->'
                     }
                 }
@@ -54,7 +54,7 @@ pipeline {
                 script {
                     echo '<--------------- Start of Helm Upgrade/Install --------------->'
                     sh '''
-                        sudo sed -i "s|image: ${dockerRepo}:.*|image: ${dockerRepo}:$appVersion|" /var/lib/jenkins/helm/Ced_Devops_Webapp/templates/deployment.yaml 
+                        sudo sed -i "s|image: ${dockerRepo}:.*|image: ${dockerRepo}:v$appVersion|" /var/lib/jenkins/helm/Ced_Devops_Webapp/templates/deployment.yaml 
                         sudo sed -i "s/^appVersion: .*/appVersion: \"$appVersion\"/" /var/lib/jenkins/helm/Ced_Devops_Webapp/Chart.yaml
                         sudo sed -i "s/^version: .*/version: $appVersion/" /var/lib/jenkins/helm/Ced_Devops_Webapp/Chart.yaml                   
                         helm upgrade --install ced-devops-webapp /var/lib/jenkins/helm/Ced_Devops_Webapp \

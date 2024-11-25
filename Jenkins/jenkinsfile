@@ -12,7 +12,7 @@ pipeline {
         stage('Clean workspace and Checkout git repo') {
             steps {
                 deleteDir()
-                git branch: 'dev', url: 'https://github.com/Cedric-Hj/DevOps-CICD-WebApp.git'
+                git branch: 'main', url: 'https://github.com/Cedric-Hj/DevOps-CICD-WebApp.git'
             }
         }
 

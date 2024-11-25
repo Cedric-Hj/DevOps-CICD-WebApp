@@ -20,7 +20,7 @@ pipeline {
             steps {
                 echo "$appVersion"
                 echo "<---------------- Build started --------------->"
-                sh 'mvn clean install -Dmaven.skip=true'
+                sh 'mvn clean install -Dmaven.test.skip=true'
                 echo "<---------------- Build completed --------------->"
             }
             

@@ -5,8 +5,6 @@ pipeline {
         dockerRepo = "cedrichj/devops_cicd"
         KUBECONFIG = '/var/lib/jenkins/.kube/kubeconfig'
         appVersion = "2.0.0"
-        FolderName = 'Tests'
-        ViewName = '6_Pipelines'
     }
 
     stages {
@@ -65,51 +63,6 @@ pipeline {
                         --wait
                     '''
                     echo '<--------------- End of Helm Deploy --------------->'
-                }
-            }
-        }
-
-        stage('Get jobs') {
-            steps {
-                script {
-                    dir('/var/lib/jenkins/utility') {
-                        def generatedList = sh(script: "python3 ScanJenkinsTest.py ${FolderName} ${ViewName}", returnStdout: true).trim()
-                        list = generatedList.split('\n')
-                    }
-                }
-            }
-        }
-
-        stage('Building jobs') {
-            steps {
-                script {
-                    for (int i = 0; i < list.size(); i++) {
-                        def jobName = "${FolderName}/${list[i]}"
-                        def reportDir = "reports/${list[i]}"  // Directory for each job's reports
-                        
-                        stage(jobName) {
-                            echo "Element: ${jobName}"
-                            catchError(buildResult: 'UNSTABLE', message: 'Job has Failed or is Unstable', stageResult: 'UNSTABLE') {
-                                echo "<------------------ started building ${jobName} ------------------>"
-                                echo "${jobName}"
-                                
-                                build job: "${jobName}", wait: true
-                                
-                                // Copy artifacts into job-specific directories
-                                copyArtifacts(
-                                    projectName: "${jobName}",
-                                    filter: 'reports/**/*',
-                                    selector: lastCompleted(),
-                                    target: reportDir
-                                )
-                                
-                                // Publish JUnit test results from the specific directory
-                                junit "${reportDir}/**/*"
-                                
-                                echo "<-------------------- End of build ${jobName} -------------------->"
-                            }
-                        }
-                    }
                 }
             }
         }

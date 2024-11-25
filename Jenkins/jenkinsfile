@@ -30,8 +30,8 @@ pipeline {
             steps {
                 script {
                     echo '<--------------- Start of Build Docker Image  --------------->'
-                    echo "Building Docker image with tag: ${dockerRepo}:dev${appVersion}"
-                    docker.build("${dockerRepo}:dev${appVersion}")
+                    echo "Building Docker image with tag: ${dockerRepo}:${appVersion}"
+                    docker.build("${dockerRepo}:${appVersion}")
                     echo '<--------------- End of Build Docker Image  --------------->'
                 }
             }
@@ -42,7 +42,7 @@ pipeline {
                 script {
                     echo '<--------------- Start of Push Docker Image  --------------->'
                     docker.withRegistry('', 'DockerCredencials') {
-                        sh "docker push ${dockerRepo}:dev${appVersion}" 
+                        sh "docker push ${dockerRepo}:${appVersion}" 
                     echo '<--------------- End of Push Docker Image  --------------->'
                     }
                 }
@@ -54,11 +54,11 @@ pipeline {
                 script {
                     echo '<--------------- Start of Helm Upgrade/Install --------------->'
                     sh '''
-                        sudo sed -i "s|image: ${dockerRepo}:.*|image: ${dockerRepo}:dev$appVersion|" /var/lib/jenkins/helm/Ced_Devops_Webapp-dev/templates/deployment.yaml 
-                        sudo sed -i "s/^appVersion: .*/appVersion: \"$appVersion\"/" /var/lib/jenkins/helm/Ced_Devops_Webapp-dev/Chart.yaml
-                        sudo sed -i "s/^version: .*/version: $appVersion/" /var/lib/jenkins/helm/Ced_Devops_Webapp-dev/Chart.yaml                   
-                        helm upgrade --install ced-devops-webapp-dev /var/lib/jenkins/helm/Ced_Devops_Webapp-dev \
-                        --namespace ced-devops-cicd-dev \
+                        sudo sed -i "s|image: ${dockerRepo}:.*|image: ${dockerRepo}:$appVersion|" /var/lib/jenkins/helm/Ced_Devops_Webapp/templates/deployment.yaml 
+                        sudo sed -i "s/^appVersion: .*/appVersion: \"$appVersion\"/" /var/lib/jenkins/helm/Ced_Devops_Webapp/Chart.yaml
+                        sudo sed -i "s/^version: .*/version: $appVersion/" /var/lib/jenkins/helm/Ced_Devops_Webapp/Chart.yaml                   
+                        helm upgrade --install ced-devops-webapp /var/lib/jenkins/helm/Ced_Devops_Webapp \
+                        --namespace ced-devops-cicd \
                         --kubeconfig=$KUBECONFIG \
                         --wait
                     '''

@@ -6,7 +6,7 @@ pipeline {
         KUBECONFIG = '/var/lib/jenkins/.kube/kubeconfig'
         appVersion = "2.0.${env.BUILD_NUMBER}"
         FolderName = 'Tests'
-        ViewName = '5_Pipelines'
+        ViewName = '6_Pipelines'
     }
 
     stages {

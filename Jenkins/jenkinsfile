@@ -30,7 +30,7 @@ pipeline {
             steps {
                 script {
                     echo '<--------------- Start of Build Docker Image  --------------->'
-                    echo "Building Docker image with tag: ${dockerRepo}:${appVersion}"
+                    echo "Building Docker image with tag: ${dockerRepo}:v${appVersion}"
                     docker.build("${dockerRepo}:v${appVersion}")
                     echo '<--------------- End of Build Docker Image  --------------->'
                 }

@@ -3,13 +3,13 @@ pipeline {
 
     environment {
         dockerRepo = "cedrichj/devops_cicd"
-        appVersion = "2.0.0"
         KUBECONFIG = '/var/lib/jenkins/.kube/kubeconfig'
-        scannerHome = tool 'sonar-scanner'
+        appVersion = "2.0.0"
     }
 
     stages {
-        stage('Checkout') {
+
+        stage('Clean workspace and Checkout git repo') {
             steps {
                 deleteDir()
                 git branch: 'main', url: 'https://github.com/Cedric-Hj/DevOps-CICD-WebApp.git'
@@ -20,12 +20,12 @@ pipeline {
             steps {
                 echo "$appVersion"
                 echo "<---------------- Build started --------------->"
-                sh 'mvn clean install -Dmaven.test.skip=true'
+                sh 'mvn clean install -Dmaven.skip=true'
                 echo "<---------------- Build completed --------------->"
             }
             
         }
-    
+
         stage('Build Docker Image') {
             steps {
                 script {
@@ -36,7 +36,7 @@ pipeline {
                 }
             }
         }
-    
+
         stage('Push Docker Image') {
             steps {
                 script {
@@ -49,14 +49,14 @@ pipeline {
             }
         }
 
-        stage("Deploy to prod environment") {
+        stage("Deploy App") {
             steps {
                 script {
                     echo '<--------------- Start of Helm Upgrade/Install --------------->'
                     sh '''
-                        sudo sed -i "s|image: cedrichj/devops_cicd:v.*|image: cedrichj/devops_cicd:v$appVersion|" /var/lib/jenkins/helm/Ced_Devops_Webapp/templates/deployment.yaml 
-                        sudo sed -i "s/^version: .*/version: v$appVersion/" /var/lib/jenkins/helm/Ced_Devops_Webapp/Chart.yaml
-                        sudo sed -i "s/^appVersion: .*/appVersion: \"v$appVersion\"/" /var/lib/jenkins/helm/Ced_Devops_Webapp/Chart.yaml                  
+                        sudo sed -i "s|image: ${dockerRepo}:.*|image: ${dockerRepo}:v$appVersion|" /var/lib/jenkins/helm/Ced_Devops_Webapp/templates/deployment.yaml 
+                        sudo sed -i "s/^appVersion: .*/appVersion: \"$appVersion\"/" /var/lib/jenkins/helm/Ced_Devops_Webapp/Chart.yaml
+                        sudo sed -i "s/^version: .*/version: $appVersion/" /var/lib/jenkins/helm/Ced_Devops_Webapp/Chart.yaml                   
                         helm upgrade --install ced-devops-webapp /var/lib/jenkins/helm/Ced_Devops_Webapp \
                         --namespace ced-devops-cicd \
                         --kubeconfig=$KUBECONFIG \
@@ -66,14 +66,16 @@ pipeline {
                 }
             }
         }
-    }
 
+    
     post {
         success {
             echo 'Pipeline completed successfully'
+            archiveArtifacts artifacts: 'reports/**/*', allowEmptyArchive: true
         }
         failure {
             echo 'Pipeline failed'
+            archiveArtifacts artifacts: 'reports/**/*', allowEmptyArchive: true 
         }
     }
 }

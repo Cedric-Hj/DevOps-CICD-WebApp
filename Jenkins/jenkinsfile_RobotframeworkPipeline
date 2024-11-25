@@ -44,7 +44,7 @@ pipeline {
                                 )
                                 
                                 // Publish JUnit test results from the specific directory
-                                junit allowEmptyResults: true, testResults: "${reportDir}/**/*.xml"
+                                junit allowEmptyResults: true, testResults: "reports/report.xml"
 
                                 
                                 echo "<-------------------- End of build ${jobName} -------------------->"

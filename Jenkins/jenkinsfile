@@ -20,7 +20,7 @@ pipeline {
             steps {
                 echo "$appVersion"
                 echo "<---------------- Build started --------------->"
-                sh 'mvn clean install -Dmaven.skip=true'
+                sh 'mvn clean install -Dmaven.main.skip=true'
                 echo "<---------------- Build completed --------------->"
             }
             
@@ -67,16 +67,13 @@ pipeline {
             }
         }
     }
-
     
     post {
         success {
             echo 'Pipeline completed successfully'
-            archiveArtifacts artifacts: 'reports/**/*', allowEmptyArchive: true
         }
         failure {
             echo 'Pipeline failed'
-            archiveArtifacts artifacts: 'reports/**/*', allowEmptyArchive: true 
         }
     }
 }

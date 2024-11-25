@@ -4,7 +4,7 @@ pipeline {
     environment {
         dockerRepo = "cedrichj/devops_cicd"
         KUBECONFIG = '/var/lib/jenkins/.kube/kubeconfig'
-        appVersion = "2.0.${env.BUILD_NUMBER}"
+        appVersion = "2.0.0"
         FolderName = 'Tests'
         ViewName = '6_Pipelines'
     }

@@ -55,8 +55,8 @@ pipeline {
                     echo '<--------------- Start of Helm Upgrade/Install --------------->'
                     sh '''
                         sudo sed -i "s|image: cedrichj/devops_cicd:v.*|image: cedrichj/devops_cicd:v$appVersion|" /var/lib/jenkins/helm/Ced_Devops_Webapp/templates/deployment.yaml 
-                        sudo sed -i "s/^version: .*/version: $appVersion/" /var/lib/jenkins/helm/Ced_Devops_Webapp/Chart.yaml
-                        sudo sed -i "s/^appVersion: .*/appVersion: \"$appVersion\"/" /var/lib/jenkins/helm/Ced_Devops_Webapp/Chart.yaml                  
+                        sudo sed -i "s/^version: .*/version: v$appVersion/" /var/lib/jenkins/helm/Ced_Devops_Webapp/Chart.yaml
+                        sudo sed -i "s/^appVersion: .*/appVersion: \"v$appVersion\"/" /var/lib/jenkins/helm/Ced_Devops_Webapp/Chart.yaml                  
                         helm upgrade --install ced-devops-webapp /var/lib/jenkins/helm/Ced_Devops_Webapp \
                         --namespace ced-devops-cicd \
                         --kubeconfig=$KUBECONFIG \

@@ -201,6 +201,10 @@ After restoring the vm's, do the following in the k8s-control (kubernetes contro
 export KUBECONFIG=/etc/kubernetes/admin.conf 
 
 kubectl delete pods --all --all-namespaces
+```
+ctrl+C to exit and the:
+
+```sh
 
 kubectl apply -f https://raw.githubusercontent.com/projectcalico/calico/v3.28.1/manifests/calico.yaml
 

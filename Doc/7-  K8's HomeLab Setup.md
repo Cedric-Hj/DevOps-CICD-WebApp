@@ -210,6 +210,8 @@ sed -i 's/192\.168\.0\.0\/16/10.96.0.0\/16/g' custom-resources.yaml
 
 kubectl apply -f custom-resources.yaml
 
+watch kubectl get pods -A
+
 ```
 Doc: 
 https://docs.tigera.io/calico/latest/getting-started/kubernetes/quickstart

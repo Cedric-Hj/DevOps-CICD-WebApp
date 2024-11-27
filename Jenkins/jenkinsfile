@@ -4,7 +4,7 @@ pipeline {
     environment {
         dockerRepo = "cedrichj/devops_cicd"
         KUBECONFIG = '/var/lib/jenkins/.kube/kubeconfig'
-        appVersion = "2.0.0"
+        appVersion = "2.0.1"
     }
 
     stages {

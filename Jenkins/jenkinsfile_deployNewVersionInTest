@@ -1,0 +1,111 @@
+pipeline {
+    agent any
+
+    environment {
+        deploymentsourceFile = 'deployment.yaml'
+        namespacesourceFile = 'namespace.yaml'
+        serviceFilesourceFile = 'service.yaml'
+        //parametrized properties
+        appVersion = "${VersionNumber}"
+        name = "${VersionName}"
+        port = "${PortNumber}"
+
+        deploymentFile = '/var/lib/jenkins/helm/Ced_Devops_Webapp-test-${name}/templates/deployment.yaml'
+        namespaceFile = '/var/lib/jenkins/helm/Ced_Devops_Webapp-test-${name}/templates/namespace.yaml'
+        serviceFile = '/var/lib/jenkins/helm/Ced_Devops_Webapp-test-${name}/templates/service.yaml'
+
+        dockerRepo = "cedrichj/devops_cicd"
+        KUBECONFIG = '/var/lib/jenkins/.kube/kubeconfig'
+    }
+
+    stages {
+
+        stage('Checkout') {
+            steps {
+                deleteDir()
+                git branch: 'test', url: 'https://github.com/Cedric-Hj/DevOps-CICD-WebApp.git'
+            }
+        }
+
+        stage('Check Docker Image') {
+            steps {
+                script {
+                    echo '<--------------- Checking Docker Image --------------->'
+                    echo "${dockerRepo}:v${appVersion}"
+                    try {
+                        sh '''
+                            if ! docker image inspect ${dockerRepo}:v${appVersion} >/dev/null 2>&1; then
+                                echo "Docker image ${dockerRepo}:v${appVersion} does not exist."
+                                exit 1
+                            fi
+                        '''
+                    } catch (Exception e) {
+                        echo "Error checking Docker image: ${e.message}"
+                        currentBuild.result = 'FAILURE'
+                        error("Docker image ${dockerRepo}:v${appVersion} does not exist.")
+                    }
+                }
+            }
+        }
+
+        stage('Create Helm Chart') {
+            steps {
+                sh'''
+                    cd /var/lib/jenkins/helm
+
+                    sudo helm create /var/lib/jenkins/helm/Ced_Devops_Webapp-test-${name}
+
+                    cd /var/lib/jenkins/helm/Ced_Devops_Webapp-test-${name}/templates
+                    sudo rm -rf *
+
+                    sudo touch /var/lib/jenkins/helm/Ced_Devops_Webapp-test-${name}/templates/deployment.yaml
+                    sudo touch /var/lib/jenkins/helm/Ced_Devops_Webapp-test-${name}/templates/namespace.yaml
+                    sudo touch /var/lib/jenkins/helm/Ced_Devops_Webapp-test-${name}/templates/service.yaml
+                    '''
+                //Copy the content of the source file to the destination file
+                sh '''
+                    sudo cp ${deploymentsourceFile} /var/lib/jenkins/helm/Ced_Devops_Webapp-test-${name}/templates/deployment.yaml
+                    sudo cp ${namespacesourceFile} /var/lib/jenkins/helm/Ced_Devops_Webapp-test-${name}/templates/namespace.yaml
+                    sudo cp ${serviceFilesourceFile} /var/lib/jenkins/helm/Ced_Devops_Webapp-test-${name}/templates/service.yaml
+                '''
+                //Change the value of the port for the service yaml
+                sh '''
+                    sudo sed -i "s|image: ${dockerRepo}:.*|image: ${dockerRepo}:v$appVersion|" /var/lib/jenkins/helm/Ced_Devops_Webapp-test-${name}/templates/deployment.yaml  
+                    sudo sed -i "s|name:.*|name: ced-devops-cicd-test-${name}|" /var/lib/jenkins/helm/Ced_Devops_Webapp-test-${name}/templates/namespace.yaml
+                    sudo sed -i "s|name:.*|name: ced-devops-cicd-test-${name}|" /var/lib/jenkins/helm/Ced_Devops_Webapp-test-${name}/templates/deployment.yaml
+                    sudo sed -i "s|name:.*|name: ced-devops-cicd-test-${name}|" /var/lib/jenkins/helm/Ced_Devops_Webapp-test-${name}/templates/service.yaml 
+                    sudo sed -i "s|namespace:.*|namespace: ced-devops-cicd-test|" /var/lib/jenkins/helm/Ced_Devops_Webapp-test-${name}/templates/service.yaml 
+                    sudo sed -i "s|namespace:.*|namespace: ced-devops-cicd-test|" /var/lib/jenkins/helm/Ced_Devops_Webapp-test-${name}/templates/deployment.yaml
+                    sudo sed -i "s|namespace:.*|namespace: ced-devops-cicd-test|" /var/lib/jenkins/helm/Ced_Devops_Webapp-test-${name}/templates/namespace.yaml
+
+                    sudo sed -i "s|nodePort:.*|nodePort: $port|" /var/lib/jenkins/helm/Ced_Devops_Webapp-test-${name}/templates/service.yaml
+                    sudo sed -i "s/^appVersion: .*/appVersion: \"$appVersion\"/" /var/lib/jenkins/helm/Ced_Devops_Webapp-test-${name}/Chart.yaml
+                    sudo sed -i "s/^version: .*/version: $appVersion/" /var/lib/jenkins/helm/Ced_Devops_Webapp-test-${name}/Chart.yaml         
+                '''
+            }
+        }
+
+        stage("Deploy App") {
+            steps {
+                script {
+                    echo '<--------------- Start of Helm Upgrade/Install --------------->'
+                    sh '''
+                        helm upgrade --install ced-devops-webapp-test-${name} /var/lib/jenkins/helm/Ced_Devops_Webapp-test-${name} \
+                        --namespace ced-devops-cicd-test \
+                        --kubeconfig=$KUBECONFIG \
+                        --wait
+                    '''
+                    echo '<--------------- End of Helm Deploy --------------->'
+                }
+            }
+        }
+    }
+    post {
+        success {
+            echo 'Pipeline completed successfully'
+        }
+        failure {
+            echo 'Pipeline failed'
+        }
+    }
+}

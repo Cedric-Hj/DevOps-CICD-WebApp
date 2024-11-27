@@ -3,7 +3,8 @@ pipeline {
 
     environment {
         dockerRepo = "cedrichj/devops_cicd"
-        appVersion = "2.0.${env.BUILD_NUMBER}"
+        /*appVersion = "2.0.${env.BUILD_NUMBER}"*/
+        appVersion = "2.0.0"
         KUBECONFIG = '/var/lib/jenkins/.kube/kubeconfig'
         scannerHome = tool 'sonar-scanner'
     }

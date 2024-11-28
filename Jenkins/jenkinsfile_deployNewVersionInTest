@@ -61,7 +61,6 @@ pipeline {
                 //Copy the content of the source file to the destination file
                 sh '''
                     sudo cp ${deploymentFile} /var/lib/jenkins/helm/Ced_Devops_Webapp-${name}/templates/deployment.yaml
-                    sudo cp ${namespaceFile} /var/lib/jenkins/helm/Ced_Devops_Webapp-${name}/templates/namespace.yaml
                     sudo cp ${serviceFile} /var/lib/jenkins/helm/Ced_Devops_Webapp-${name}/templates/service.yaml
                 '''
                 //Change the value of the port for the service yaml

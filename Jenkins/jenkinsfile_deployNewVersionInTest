@@ -81,7 +81,7 @@ pipeline {
                 script {
                     echo '<--------------- Start of Helm Upgrade/Install --------------->'
                     sh '''
-                        helm upgrade --install ced-devops-webapp-${name} /var/lib/jenkins/helm/Ced_Devops_Webapp-${name} \
+                        helm install ced-devops-webapp-${name} /var/lib/jenkins/helm/Ced_Devops_Webapp-${name} \
                         --namespace ced-devops-cicd-test \
                         --kubeconfig=$KUBECONFIG \
                         --wait

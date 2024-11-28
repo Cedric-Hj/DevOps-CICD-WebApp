@@ -11,7 +11,6 @@ pipeline {
         port = "${PortNumber}"
 
         deploymentFile = '/var/lib/jenkins/helm/Ced_Devops_Webapp-test/templates/deployment.yaml'
-        namespaceFile = '/var/lib/jenkins/helm/Ced_Devops_Webapp-test/templates/namespace.yaml'
         serviceFile = '/var/lib/jenkins/helm/Ced_Devops_Webapp-test/templates/service.yaml'
 
         dockerRepo = "cedrichj/devops_cicd"
@@ -68,7 +67,6 @@ pipeline {
                 //Change the value of the port for the service yaml
                 sh '''
                     sudo sed -i "s|image: ${dockerRepo}:.*|image: ${dockerRepo}:v$appVersion|" /var/lib/jenkins/helm/Ced_Devops_Webapp-${name}/templates/deployment.yaml  
-                    sudo sed -i "s|name:.*|name: ced-devops-cicd-${name}|" /var/lib/jenkins/helm/Ced_Devops_Webapp-${name}/templates/namespace.yaml
                     sudo sed -i "s|name:.*|name: ced-devops-cicd-${name}|" /var/lib/jenkins/helm/Ced_Devops_Webapp-${name}/templates/deployment.yaml
                     sudo sed -i "s|name:.*|name: ced-devops-cicd-${name}|" /var/lib/jenkins/helm/Ced_Devops_Webapp-${name}/templates/service.yaml 
                     

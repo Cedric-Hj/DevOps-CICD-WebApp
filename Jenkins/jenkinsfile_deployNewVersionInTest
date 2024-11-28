@@ -57,11 +57,13 @@ pipeline {
                     cd /var/lib/jenkins/helm/Ced_Devops_Webapp-${name}/templates
                     sudo rm -rf *
 
+                    sudo touch /var/lib/jenkins/helm/Ced_Devops_Webapp-${name}/templates/deployment.yaml
+                    sudo touch /var/lib/jenkins/helm/Ced_Devops_Webapp-${name}/templates/service.yaml
                     '''
                 //Copy the content of the source file to the destination file
                 sh '''
-                    sudo cp ${deploymentFile} /var/lib/jenkins/helm/Ced_Devops_Webapp-${name}/templates/deployment.yaml
-                    sudo cp ${serviceFile} /var/lib/jenkins/helm/Ced_Devops_Webapp-${name}/templates/service.yaml
+                    sudo cp ${deploymentsourceFile} /var/lib/jenkins/helm/Ced_Devops_Webapp-${name}/templates/deployment.yaml
+                    sudo cp ${serviceFilesourceFile} /var/lib/jenkins/helm/Ced_Devops_Webapp-${name}/templates/service.yaml
                 '''
                 //Change the value of the port for the service yaml
                 sh '''

@@ -10,9 +10,9 @@ pipeline {
         name = "${VersionName}"
         port = "${PortNumber}"
 
-        deploymentFile = '/var/lib/jenkins/helm/Ced_Devops_Webapp-test-${name}/templates/deployment.yaml'
-        namespaceFile = '/var/lib/jenkins/helm/Ced_Devops_Webapp-test-${name}/templates/namespace.yaml'
-        serviceFile = '/var/lib/jenkins/helm/Ced_Devops_Webapp-test-${name}/templates/service.yaml'
+        deploymentFile = '/var/lib/jenkins/helm/Ced_Devops_Webapp-test/templates/deployment.yaml'
+        namespaceFile = '/var/lib/jenkins/helm/Ced_Devops_Webapp-test/templates/namespace.yaml'
+        serviceFile = '/var/lib/jenkins/helm/Ced_Devops_Webapp-test/templates/service.yaml'
 
         dockerRepo = "cedrichj/devops_cicd"
         KUBECONFIG = '/var/lib/jenkins/.kube/kubeconfig'
@@ -64,9 +64,9 @@ pipeline {
                     '''
                 //Copy the content of the source file to the destination file
                 sh '''
-                    sudo cp ${deploymentsourceFile} /var/lib/jenkins/helm/Ced_Devops_Webapp-test-${name}/templates/deployment.yaml
-                    sudo cp ${namespacesourceFile} /var/lib/jenkins/helm/Ced_Devops_Webapp-test-${name}/templates/namespace.yaml
-                    sudo cp ${serviceFilesourceFile} /var/lib/jenkins/helm/Ced_Devops_Webapp-test-${name}/templates/service.yaml
+                    sudo cp ${deploymentFile} /var/lib/jenkins/helm/Ced_Devops_Webapp-test-${name}/templates/deployment.yaml
+                    sudo cp ${namespaceFile} /var/lib/jenkins/helm/Ced_Devops_Webapp-test-${name}/templates/namespace.yaml
+                    sudo cp ${serviceFile} /var/lib/jenkins/helm/Ced_Devops_Webapp-test-${name}/templates/service.yaml
                 '''
                 //Change the value of the port for the service yaml
                 sh '''
@@ -74,9 +74,9 @@ pipeline {
                     sudo sed -i "s|name:.*|name: ced-devops-cicd-test-${name}|" /var/lib/jenkins/helm/Ced_Devops_Webapp-test-${name}/templates/namespace.yaml
                     sudo sed -i "s|name:.*|name: ced-devops-cicd-test-${name}|" /var/lib/jenkins/helm/Ced_Devops_Webapp-test-${name}/templates/deployment.yaml
                     sudo sed -i "s|name:.*|name: ced-devops-cicd-test-${name}|" /var/lib/jenkins/helm/Ced_Devops_Webapp-test-${name}/templates/service.yaml 
-                    sudo sed -i "s|namespace:.*|namespace: ced-devops-cicd-test|" /var/lib/jenkins/helm/Ced_Devops_Webapp-test-${name}/templates/service.yaml 
+                   /* sudo sed -i "s|namespace:.*|namespace: ced-devops-cicd-test|" /var/lib/jenkins/helm/Ced_Devops_Webapp-test-${name}/templates/service.yaml 
                     sudo sed -i "s|namespace:.*|namespace: ced-devops-cicd-test|" /var/lib/jenkins/helm/Ced_Devops_Webapp-test-${name}/templates/deployment.yaml
-                    sudo sed -i "s|namespace:.*|namespace: ced-devops-cicd-test|" /var/lib/jenkins/helm/Ced_Devops_Webapp-test-${name}/templates/namespace.yaml
+                    sudo sed -i "s|namespace:.*|namespace: ced-devops-cicd-test|" /var/lib/jenkins/helm/Ced_Devops_Webapp-test-${name}/templates/namespace.yaml*/
 
                     sudo sed -i "s|nodePort:.*|nodePort: $port|" /var/lib/jenkins/helm/Ced_Devops_Webapp-test-${name}/templates/service.yaml
                     sudo sed -i "s/^appVersion: .*/appVersion: \"$appVersion\"/" /var/lib/jenkins/helm/Ced_Devops_Webapp-test-${name}/Chart.yaml

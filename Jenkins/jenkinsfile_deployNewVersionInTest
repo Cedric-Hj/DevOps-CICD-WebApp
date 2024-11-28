@@ -58,9 +58,6 @@ pipeline {
                     cd /var/lib/jenkins/helm/Ced_Devops_Webapp-test-${name}/templates
                     sudo rm -rf *
 
-                    sudo touch /var/lib/jenkins/helm/Ced_Devops_Webapp-test-${name}/templates/deployment.yaml
-                    sudo touch /var/lib/jenkins/helm/Ced_Devops_Webapp-test-${name}/templates/namespace.yaml
-                    sudo touch /var/lib/jenkins/helm/Ced_Devops_Webapp-test-${name}/templates/service.yaml
                     '''
                 //Copy the content of the source file to the destination file
                 sh '''

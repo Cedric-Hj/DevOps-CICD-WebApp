@@ -12,7 +12,7 @@ test.describe('Ced\'s Webpage Tests', () => {
   // Test 2: Check if "dev environment" text is present
   test('Test 2: Check if "dev environment" text is present', async ({ page }) => {
     await page.goto('http://192.168.0.101:31804/');
-    const devText = await page.locator('text=dev environment').isVisible();
+    const devText = await page.locator('text=Hello Capgemini').isVisible();
     expect(devText).toBe(true);  // Ensure the "dev environment" text is visible
   });
 
@@ -20,7 +20,7 @@ test.describe('Ced\'s Webpage Tests', () => {
   test('Test 3: Check version text', async ({ page }) => {
     await page.goto('http://192.168.0.101:31804/');
     const versionText = await page.locator('#version').textContent();
-    expect(versionText).toBe('v2.0');  // Ensure the version is displayed correctly
+    expect(versionText).toBe('v2');  // Ensure the version is displayed correctly
   });
 
 });

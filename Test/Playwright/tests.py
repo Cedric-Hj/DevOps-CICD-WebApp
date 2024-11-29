@@ -30,5 +30,5 @@ def test_version_text(browser_context):
     page = browser_context.new_page()
     page.goto('http://192.168.0.101:31804/')
     version_text = page.locator("#version").text_content()
-    assert version_text == 'v2'  # Ensure the version is displayed correctly
+    assert version_text == 'v2.0.0'  # Ensure the version is displayed correctly
     page.close()

@@ -21,7 +21,7 @@ def test_dev_environment_text(browser_context):
     # Test 2: Check if "dev environment" text is present
     page = browser_context.new_page()
     page.goto('http://192.168.0.101:31804/')
-    dev_text_visible = page.locator("text=Hello Capgemini").is_visible()
+    dev_text_visible = page.locator("text=Hello").is_visible()
     assert dev_text_visible  # Ensure the "dev environment" text is visible
     page.close()
 

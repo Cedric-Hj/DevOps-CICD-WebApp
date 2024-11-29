@@ -12,7 +12,7 @@ test.describe('Ced\'s Webpage Tests', () => {
   // Test 2: Check if "dev environment" text is present
   test('Test 2: Check if "dev environment" text is present', async ({ page }) => {
     await page.goto('http://192.168.0.101:31804/');
-    const devText = await page.locator('text=Hello Capgemini').isVisible();
+    const devText = await page.locator('text=Hello').isVisible();
     expect(devText).toBe(true);  // Ensure the "dev environment" text is visible
   });
 

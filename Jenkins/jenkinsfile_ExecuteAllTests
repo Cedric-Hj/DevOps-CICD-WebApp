@@ -3,7 +3,6 @@ pipeline {
     environment {
         FolderName = 'Tests'
         ViewName = '6_Pipelines'
-        
     }
 
     stages {
@@ -22,38 +21,42 @@ pipeline {
         stage('Building jobs') {
             steps {
                 script {
+                    def parallelJobs = [:]
                     for (int i = 0; i < list.size(); i++) {
                         def jobName = "${FolderName}/${list[i]}"
                         def reportDir = "reports/${list[i]}"  // Directory for each job's reports
-                        
-                        stage(jobName) {
-                            echo "Element: ${jobName}"
-                            catchError(buildResult: 'UNSTABLE', message: 'Job has Failed or is Unstable', stageResult: 'UNSTABLE') {
-                                echo "<------------------ started building ${jobName} ------------------>"
-                                echo "${jobName}"
-                                
-                                build job: "${jobName}", wait: true
-                                
-                                // Copy artifacts into job-specific directories
-                                copyArtifacts(
-                                    projectName: "${jobName}",
-                                    filter: 'reports/**/*',
-                                    selector: lastCompleted(),
-                                    target: reportDir
-                                )
-                                
-                                // Publish JUnit test results from the specific directory
-                                junit "${reportDir}/**/*.xml"
-                                
-                                echo "<-------------------- End of build ${jobName} -------------------->"
+
+                        parallelJobs[jobName] = {
+                            stage(jobName) {
+                                echo "Element: ${jobName}"
+                                catchError(buildResult: 'UNSTABLE', message: 'Job has Failed or is Unstable', stageResult: 'UNSTABLE') {
+                                    echo "<------------------ started building ${jobName} ------------------>"
+                                    echo "${jobName}"
+
+                                    build job: "${jobName}", wait: true
+
+                                    // Copy artifacts into job-specific directories
+                                    copyArtifacts(
+                                        projectName: "${jobName}",
+                                        filter: 'reports/**/*',
+                                        selector: lastCompleted(),
+                                        target: reportDir
+                                    )
+
+                                    // Publish JUnit test results from the specific directory
+                                    junit "${reportDir}/**/*.xml"
+
+                                    echo "<-------------------- End of build ${jobName} -------------------->"
+                                }
                             }
                         }
                     }
+                    parallel parallelJobs
                 }
             }
         }
     }
-    
+
     post {
         success {
             echo 'Pipeline completed successfully'
@@ -61,7 +64,7 @@ pipeline {
         }
         failure {
             echo 'Pipeline failed'
-            archiveArtifacts artifacts: 'reports/**/*', allowEmptyArchive: true 
+            archiveArtifacts artifacts: 'reports/**/*', allowEmptyArchive: true
         }
     }
 }

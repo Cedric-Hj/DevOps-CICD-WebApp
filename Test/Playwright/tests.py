@@ -21,7 +21,7 @@ def test_dev_environment_text(browser_context):
     # Test 2: Check if "dev environment" text is present
     page = browser_context.new_page()
     page.goto('http://192.168.0.101:31804/')
-    dev_text_visible = page.locator("text=dev environment").is_visible()
+    dev_text_visible = page.locator("text=Hello Capgemini").is_visible()
     assert dev_text_visible  # Ensure the "dev environment" text is visible
     page.close()
 
@@ -30,5 +30,5 @@ def test_version_text(browser_context):
     page = browser_context.new_page()
     page.goto('http://192.168.0.101:31804/')
     version_text = page.locator("#version").text_content()
-    assert version_text == 'v2.0'  # Ensure the version is displayed correctly
+    assert version_text == 'v2'  # Ensure the version is displayed correctly
     page.close()

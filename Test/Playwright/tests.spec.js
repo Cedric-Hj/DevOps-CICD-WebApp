@@ -20,7 +20,7 @@ test.describe('Ced\'s Webpage Tests', () => {
   test('Test 3: Check version text', async ({ page }) => {
     await page.goto('http://192.168.0.101:31804/');
     const versionText = await page.locator('#version').textContent();
-    expect(versionText).toBe('v2');  // Ensure the version is displayed correctly
+    expect(versionText).toBe('v2.0.0');  // Ensure the version is displayed correctly
   });
 
 });
